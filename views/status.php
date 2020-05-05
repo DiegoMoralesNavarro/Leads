@@ -18,7 +18,7 @@
 
   <div class="row">
     <div class="col s12 form">
-      <form role="form" action="/meuteste/leads/status" method="post" enctype="multipart/form-data">
+      <form role="form" action="/<?php echo pastaPrincipal ?>/leads/status" method="post" enctype="multipart/form-data">
 
 	      <div class="input-field col s12 l6">
 
@@ -65,7 +65,7 @@
 			        <tbody>
 
 			          <?php foreach ($status as $value) { ?>
-						<form id="form" role="form" action="/meuteste/leads/status" method="post">
+						<form id="form" role="form" action="/<?php echo pastaPrincipal ?>/leads/status" method="post">
 							<tr>
 
 								<input type="hidden" id="idstatusEditar" name="idstatusEditar" value="<?php echo $value['idstatus'] ?>">

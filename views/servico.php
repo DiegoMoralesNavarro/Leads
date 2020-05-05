@@ -18,7 +18,7 @@
 
   <div class="row">
     <div class="col s12 form">
-      <form role="form" action="/meuteste/leads/servico" method="post" >
+      <form role="form" action="/<?php echo pastaPrincipal ?>/leads/servico" method="post" >
 
 	      <div class="input-field col s12 l6">
 
@@ -65,7 +65,7 @@
 			        <tbody>
 
 			        	<?php foreach ($servico as $value) { ?>
-						<form role="form" action="/meuteste/leads/servico" method="post">
+						<form role="form" action="/<?php echo pastaPrincipal ?>/leads/servico" method="post">
 							<tr>
 
 								<input type="hidden" id="idservicoEditar" name="idservicoEditar" value="<?php echo $value['idservico'] ?>">

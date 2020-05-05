@@ -208,7 +208,7 @@ public function deleteArquivo($idlead){
          
 
       
-        header("location: /meuteste/leads/editar/$idlead");
+        header("location: /".pastaPrincipal."/leads/editar/$idlead");
         exit; 
 
    }
@@ -238,7 +238,7 @@ public function gravarArquivo($idlead){
           if($file["error"]){
             
             $this->cadastraUser();
-             header("location: /meuteste/leads/editar/$idlead");
+             header("location: /".pastaPrincipal."/leads/editar/$idlead");
             exit;
 
           }
@@ -270,12 +270,12 @@ public function gravarArquivo($idlead){
                       ":idlead"=>$idlead
                     ));
                 //
-                header("location: /meuteste/leads/editar/$idlead");
+                header("location: /".pastaPrincipal."/leads/editar/$idlead");
                 exit;
 
              }else{
               setcookie("uploadErro", "Formato inválido para anexo");
-              header("location: /meuteste/leads/editar/$idlead");
+              header("location: /".pastaPrincipal."/leads/editar/$idlead");
               exit;
              }
 

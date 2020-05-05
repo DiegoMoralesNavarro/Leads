@@ -7,9 +7,9 @@ define("header", "header.php");
 
 define("footer", "footer.php");
 
-define("URLestilo", "http://localhost/meuteste");
+define("URLestilo", "http://localhost/leads");
 
-
+define("pastaPrincipal", "leads");
 
 require_once("vendor/autoload.php");
 
@@ -47,7 +47,7 @@ $app->get('/', function() {
 $app->get('/leads/', function() {
 
 
-	require_once('../meuteste/views/'.header);
+	require_once('../'.pastaPrincipal.'/views/'.header);
 
 
 if (isset($_GET['pesquisa'])) {
@@ -76,10 +76,10 @@ if (isset($_GET['page'])) {
 	$status = VerLeads::status();
 	$totalStatus = VerLeads::totalStatus();
 
-	require_once('../meuteste/views/index.php');
+	require_once('../'.pastaPrincipal.'/views/index.php');
 
 
-	require_once('../meuteste/views/'.footer);
+	require_once('../'.pastaPrincipal.'/views/'.footer);
 
 });
 
@@ -94,7 +94,7 @@ $app->post('/leads/', function() {
 	$user->setData($_POST);
 
 
-	 header("location: /meuteste/leads/");
+	 header("location: /".pastaPrincipal."/leads/");
      exit; 
 
 });
@@ -112,7 +112,7 @@ $app->post('/leads/', function() {
 $app->get('/leads/editar/:idlead', function($idlead) {
 
 
-	require_once('../meuteste/views/'.header);
+	require_once('../'.pastaPrincipal.'/views/'.header);
 
 
 	$userlistId = EditarUser::listId($idlead);
@@ -131,9 +131,9 @@ $app->get('/leads/editar/:idlead', function($idlead) {
 	$nomeArquivo = EditarUser::nomeArquivo($idlead);
 
 
-	require_once('../meuteste/views/lead.php');
+	require_once('../'.pastaPrincipal.'/views/lead.php');
 
-	require_once('../meuteste/views/'.footer);
+	require_once('../'.pastaPrincipal.'/views/'.footer);
 
 });
 
@@ -156,7 +156,7 @@ $app->post('/leads/editar/:idlead', function($idlead) {
 
 	$userId = EditarUser::listAllId($idlead);
 
-	header("location: /meuteste/leads/editar/$idlead");
+	header("location: /".pastaPrincipal."/leads/editar/$idlead");
     exit; 
 
 
@@ -169,7 +169,7 @@ $app->post('/leads/editar/:idlead', function($idlead) {
 $app->get('/leads/follow-up/:idlead', function($idlead){
 
 
-	require_once('../meuteste/views/'.header);
+	require_once('../'.pastaPrincipal.'/views/'.header);
 
 	$idlead = $idlead;
 
@@ -182,10 +182,10 @@ $app->get('/leads/follow-up/:idlead', function($idlead){
 
 
 
-	require_once('../meuteste/views/follow-up.php');
+	require_once('../'.pastaPrincipal.'/views/follow-up.php');
 
 
-	require_once('../meuteste/views/'.footer);
+	require_once('../'.pastaPrincipal.'/views/'.footer);
 
 
 });
@@ -202,7 +202,7 @@ $app->post('/leads/follow-up/:idlead', function($idlead) {
 	$user->salvarStatus($idlead);
 	
 
-	header("location: /meuteste/leads/follow-up/$idlead");
+	header("location: /".pastaPrincipal."/leads/follow-up/$idlead");
   	 exit; 
 
 });
@@ -216,16 +216,16 @@ $app->post('/leads/follow-up/:idlead', function($idlead) {
 $app->get('/leads/cadastro', function() {
 	
 
-	require_once('../meuteste/views/'.header);
+	require_once('../'.pastaPrincipal.'/views/'.header);
 
 	$servico = CriarLeads::listServico();
 	$origem = CriarLeads::origem();
 
 	
-	require_once('../meuteste/views/create.php');
+	require_once('../'.pastaPrincipal.'/views/create.php');
 
 
-	require_once('../meuteste/views/'.footer);
+	require_once('../'.pastaPrincipal.'/views/'.footer);
 
 });
 
@@ -252,14 +252,14 @@ $app->post('/leads/cadastro', function() {
 
 $app->get('/leads/servico', function() {
 
-	require_once('../meuteste/views/'.header);
+	require_once('../'.pastaPrincipal.'/views/'.header);
 
 	$servico = EditarServico::listServico();
 	
 		
-	require_once('../meuteste/views/servico.php');
+	require_once('../'.pastaPrincipal.'/views/servico.php');
 
-	require_once('../meuteste/views/'.footer);
+	require_once('../'.pastaPrincipal.'/views/'.footer);
 
 });
 
@@ -270,7 +270,7 @@ $app->post('/leads/servico', function() {
 	 $user->setData($_POST);
 	 $user->saveServico(); 
 	 $user->saveServicoUpdate();
-	 header("location: /meuteste/leads/servico");
+	 header("location: /".pastaPrincipal."/leads/servico");
   	 exit; 
 
 });
@@ -286,15 +286,15 @@ $app->post('/leads/servico', function() {
 
 $app->get('/leads/status', function() {
 
-	require_once('../meuteste/views/'.header);
+	require_once('../'.pastaPrincipal.'/views/'.header);
 
 	$status = EditarStatus::listStatus();
 	
 
-	require_once('../meuteste/views/status.php');
+	require_once('../'.pastaPrincipal.'/views/status.php');
 
 
-	require_once('../meuteste/views/'.footer);
+	require_once('../'.pastaPrincipal.'/views/'.footer);
 
 });
 
@@ -307,7 +307,7 @@ $app->post('/leads/status', function() {
 	 $user->saveStatus();
 	 var_dump($user);
 	 $user->saveStatusUpdate();
-	header("location: /meuteste/leads/status");
+	header("location: /".pastaPrincipal."/leads/status");
   	exit; 
 
 });
@@ -351,7 +351,7 @@ $app->get('/leads/:idlead/delete', function($idlead) {
 
 	$user = new VerLeads();
 	$user->deleteUser($idlead);
-	header("location: /meuteste/leads");
+	header("location: /".pastaPrincipal."/leads");
   	exit; 
 
 });
@@ -381,7 +381,7 @@ $app->get('/leads/follow-up/:idlead/delete/', function($idlead){
 
 	
 
-	header("location: /meuteste/leads/follow-up/$val");
+	header("location: /".pastaPrincipal."/leads/follow-up/$val");
   	exit; 
 
 	

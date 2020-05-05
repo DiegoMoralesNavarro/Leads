@@ -107,7 +107,7 @@ protected $fields = [
       ));
 
      if(count($verificar) > 0){
-        header("location: /meuteste/leads/status?delete=$idstatus");
+        header("location: /".pastaPrincipal."/leads/status?delete=$idstatus");
         exit; 
 
      }else{
@@ -115,7 +115,7 @@ protected $fields = [
          ":idstatus"=>$idstatus
         ));
 
-        header("location: /meuteste/leads/status");
+        header("location: /".pastaPrincipal."/leads/status");
         exit; 
 
      }

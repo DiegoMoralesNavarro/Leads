@@ -70,7 +70,7 @@ public function save(){
 
     if ($this->getnome() == "") {
       setcookie("uploadErro", "Informe Todos os dados do Lead");
-      header("location: /meuteste/leads/cadastro");
+      header("location: /".pastaPrincipal."/leads/cadastro");
       exit;
 
     }else{
@@ -83,14 +83,14 @@ public function save(){
 
          if ($file['name'] == '') {
            $this->cadastraUserSimples();
-            header("location: /meuteste/leads");
+            header("location: /".pastaPrincipal."/leads");
             exit;
          }
 
           if($file["error"]){
             
             // $this->cadastraUser();
-            // header("location: /meuteste/leads");
+            // header("location: /".pastaPrincipal."/leads");
             // exit;
 
           }
@@ -119,14 +119,14 @@ public function save(){
             $this->cadastraUser($arquivo);
 
 
-            header("location: /meuteste/leads");
+            header("location: /".pastaPrincipal."/leads");
             exit;
           }
 
 
          }else{
           setcookie("uploadErro", "Formato inválido para anexo");
-          header("location: /meuteste/leads/cadastro");
+          header("location: /".pastaPrincipal."/leads/cadastro");
           exit;
          }
 

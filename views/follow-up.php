@@ -24,7 +24,7 @@
 
     	<div class="col s12 l8">
 
-	    	<form role="form1" action="/meuteste/leads/follow-up/<?php echo $idlead; ?>" method="post" enctype="multipart/form-data">
+	    	<form role="form1" action="/<?php echo pastaPrincipal ?>/leads/follow-up/<?php echo $idlead; ?>" method="post" enctype="multipart/form-data">
 
 	    	<div class="input-field col s12 l12">
 
@@ -53,7 +53,7 @@
 
 
 		<div class="input-field col s12 l4">
-			<form role="form" action="/meuteste/leads/follow-up/<?php echo $idlead; ?>" method="post" enctype="multipart/form-data">
+			<form role="form" action="/<?php echo pastaPrincipal ?>/leads/follow-up/<?php echo $idlead; ?>" method="post" enctype="multipart/form-data">
 				<div class="input-field col s12">
 					
 				    <select name="statusLead" >
@@ -90,7 +90,7 @@
 
     	<?php foreach ($followUp as $value) { ?>
 
-    	<form role="form" action="/meuteste/leads/follow-up/<?php echo $idlead; ?>" method="post" enctype="multipart/form-data">
+    	<form role="form" action="/<?php echo pastaPrincipal ?>/leads/follow-up/<?php echo $idlead; ?>" method="post" enctype="multipart/form-data">
 
     		<div class="col s12 linha">
     			<div class="col s5 l3">

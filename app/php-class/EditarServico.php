@@ -110,7 +110,7 @@ public function ServicoDeletar($idservico){
 
 
      if(count($verificar) > 0){
-        header("location: /meuteste/leads/servico?delete=$idservico");
+        header("location: /".pastaPrincipal."/leads/servico?delete=$idservico");
         exit; 
 
      }else{
@@ -118,7 +118,7 @@ public function ServicoDeletar($idservico){
          ":idservico"=>$idservico
         ));
 
-        header("location: /meuteste/leads/servico");
+        header("location: /".pastaPrincipal."/leads/servico");
         exit; 
 
      }
