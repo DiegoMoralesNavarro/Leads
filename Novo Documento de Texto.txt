@@ -1,0 +1,37 @@
+SELECT * FROM tipospagamento;
+INSERT INTO tipospagamento (`codpgamento`, `descricaopagamento`) VALUES ('2', 'Cartão de Débito');
+
+SELECT * FROM cliente;
+INSERT INTO cliente (`codcliente`, `cliente`, `cpf`, `endereco`) VALUES ('1', 'Diego', '43570899802', 'Rua Tiradentes');
+
+SELECT * FROM produto;
+INSERT INTO produto (`codproduto`, `descricaoproduto`, `unidade` , `preco`) VALUES ('1', 'chocolate', '5', '4.5');
+
+SELECT * FROM venda;
+INSERT INTO venda (`nota`, `datavenda`, `valorvenda`, `codcliente`, `codpagamento`) VALUES ('1', '2020-01-19', '4.50', '1', '1');
+
+
+SELECT * FROM itensvenda;
+INSERT INTO itensvenda (`nota`, `datavenda`, `codproduto`, `qtde`) VALUES ('1', '2020-01-19', '1', '1');
+
+
+SELECT * 
+FROM cliente as c
+INNER JOIN venda as v
+ON c.codcliente = v.codcliente
+INNER JOIN itensvenda as iv
+ON v.nota = iv.nota AND v.datavenda = iv.datavenda
+INNER JOIN produto as p
+ON p.codproduto = iv.codproduto;
+
+
+SELECT cliente, cpf, qtde, descricaoproduto, valorvenda, preco 
+FROM cliente as c
+INNER JOIN venda as v
+ON c.codcliente = v.codcliente
+INNER JOIN itensvenda as iv
+ON v.nota = iv.nota AND v.datavenda = iv.datavenda
+INNER JOIN produto as p
+ON p.codproduto = iv.codproduto;
+
+

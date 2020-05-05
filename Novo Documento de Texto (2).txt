@@ -1,0 +1,18 @@
+SELECT * FROM meusite.`tb-lead`;
+
+use meusite;
+
+ALTER TABLE `tb-lead` add column `fktb-status` int;
+
+ALTER TABLE `tb-lead` add foreign key (`fktb-status`) references `tb-status` (`idtb-status`);
+
+SELECT * FROM `tb-lead`;
+describe `tb-lead`;
+
+
+update `tb-lead` set `fktb-status` = '5' WHERE `idtb-lead` = '1';
+
+
+SELECT `tb-lead`.`idtb-lead`, `tb-lead`.`nome`, `tb-status`.`tipostatus`, `tb-status`.`idtb-status` 
+FROM `tb-lead` JOIN `tb-status`
+ON `tb-lead`.`fktb-status` = `tb-status`.`idtb-status`;

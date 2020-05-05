@@ -1,0 +1,20 @@
+associar servico com a pessoa - igual hcode na categoria
+select lista de serviço ativado
+
+select lista de serviço não ativado
+
+
+http://www.hcodecommerce.com.br/admin/categories/3/products
+aplica atualiza
+remove atualiza
+
+
+ver cusro em video do ultimo video
+
+
+SELECT * FROM servico WHERE idservico IN(
+					SELECT a.idservico
+					FROM servico a
+					INNER JOIN categoria b ON a.idservico = b.idservico
+					WHERE b.idlead = 1
+				);
