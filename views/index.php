@@ -48,7 +48,7 @@ foreach ($user as $value){
   	<div class="col s12 form ">
 
 
-<form role="form" action="/<?php echo pastaPrincipal ?>/leads/?pesquisa=$pesquisa&page=$numero" method="get">
+<form role="form" action="/<?php echo pastaPrincipal ?>/dashboard/?pesquisa=$pesquisa&page=$numero" method="get">
 
 	<div class="row">
 		<div class="input-field col s12 l9">

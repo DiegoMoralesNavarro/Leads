@@ -19,7 +19,7 @@
 
   <div class="row">
     <div class="col s12 form">
-      <form role="form" action="/<?php echo pastaPrincipal ?>/leads/cadastro" method="post" enctype="multipart/form-data">
+      <form role="form" action="/<?php echo pastaPrincipal ?>/dashboard/cadastro" method="post" enctype="multipart/form-data">
 
       <div class="input-field col s12 l6">
 

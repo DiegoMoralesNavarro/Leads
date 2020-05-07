@@ -9,7 +9,7 @@
   <div class="footer-copyright">
     <div class="container">
     © 2020 Copyright EU QUE FIZ :)
-    <a class="grey-text text-lighten-4 right" href="/<?php echo pastaPrincipal ?>/leads">Dashboard</a>
+    <a class="grey-text text-lighten-4 right" href="/<?php echo pastaPrincipal ?>/dashboard">Dashboard</a>
     </div>
   </div>
 </footer>

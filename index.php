@@ -44,7 +44,7 @@ $app->get('/', function() {
 
 
 
-$app->get('/leads/', function() {
+$app->get('/dashboard/', function() {
 
 
 	require_once('../'.pastaPrincipal.'/views/'.header);
@@ -87,14 +87,14 @@ if (isset($_GET['page'])) {
 
 
 
-$app->post('/leads/', function() {
+$app->post('/dashboard/', function() {
 
 
 	$user = new VerLeads();
 	$user->setData($_POST);
 
 
-	 header("location: /".pastaPrincipal."/leads/");
+	 header("location: /".pastaPrincipal."/dashboard/");
      exit; 
 
 });
@@ -109,7 +109,7 @@ $app->post('/leads/', function() {
 
 
 
-$app->get('/leads/editar/:idlead', function($idlead) {
+$app->get('/dashboard/editar/:idlead', function($idlead) {
 
 
 	require_once('../'.pastaPrincipal.'/views/'.header);
@@ -138,7 +138,7 @@ $app->get('/leads/editar/:idlead', function($idlead) {
 });
 
 
-$app->post('/leads/editar/:idlead', function($idlead) {
+$app->post('/dashboard/editar/:idlead', function($idlead) {
 
 
 	$user = new EditarUser();
@@ -156,7 +156,7 @@ $app->post('/leads/editar/:idlead', function($idlead) {
 
 	$userId = EditarUser::listAllId($idlead);
 
-	header("location: /".pastaPrincipal."/leads/editar/$idlead");
+	header("location: /".pastaPrincipal."/dashboard/editar/$idlead");
     exit; 
 
 
@@ -166,7 +166,7 @@ $app->post('/leads/editar/:idlead', function($idlead) {
 //
 
 
-$app->get('/leads/follow-up/:idlead', function($idlead){
+$app->get('/dashboard/follow-up/:idlead', function($idlead){
 
 
 	require_once('../'.pastaPrincipal.'/views/'.header);
@@ -192,7 +192,7 @@ $app->get('/leads/follow-up/:idlead', function($idlead){
 
 
 
-$app->post('/leads/follow-up/:idlead', function($idlead) {
+$app->post('/dashboard/follow-up/:idlead', function($idlead) {
 
 	$user = new FollowUp();
 
@@ -202,7 +202,7 @@ $app->post('/leads/follow-up/:idlead', function($idlead) {
 	$user->salvarStatus($idlead);
 	
 
-	header("location: /".pastaPrincipal."/leads/follow-up/$idlead");
+	header("location: /".pastaPrincipal."/dashboard/follow-up/$idlead");
   	 exit; 
 
 });
@@ -213,7 +213,7 @@ $app->post('/leads/follow-up/:idlead', function($idlead) {
 
 
 
-$app->get('/leads/cadastro', function() {
+$app->get('/dashboard/cadastro', function() {
 	
 
 	require_once('../'.pastaPrincipal.'/views/'.header);
@@ -229,7 +229,7 @@ $app->get('/leads/cadastro', function() {
 
 });
 
-$app->post('/leads/cadastro', function() {
+$app->post('/dashboard/cadastro', function() {
 
 	 $user = new CriarLeads();
 
@@ -250,7 +250,7 @@ $app->post('/leads/cadastro', function() {
 
 
 
-$app->get('/leads/servico', function() {
+$app->get('/dashboard/servico', function() {
 
 	require_once('../'.pastaPrincipal.'/views/'.header);
 
@@ -263,14 +263,14 @@ $app->get('/leads/servico', function() {
 
 });
 
-$app->post('/leads/servico', function() {
+$app->post('/dashboard/servico', function() {
 
 	 $user = new EditarServico();
 
 	 $user->setData($_POST);
 	 $user->saveServico(); 
 	 $user->saveServicoUpdate();
-	 header("location: /".pastaPrincipal."/leads/servico");
+	 header("location: /".pastaPrincipal."/dashboard/servico");
   	 exit; 
 
 });
@@ -284,7 +284,7 @@ $app->post('/leads/servico', function() {
 
 
 
-$app->get('/leads/status', function() {
+$app->get('/dashboard/status', function() {
 
 	require_once('../'.pastaPrincipal.'/views/'.header);
 
@@ -298,7 +298,7 @@ $app->get('/leads/status', function() {
 
 });
 
-$app->post('/leads/status', function() {
+$app->post('/dashboard/status', function() {
 
 
 	 $user = new EditarStatus();
@@ -307,7 +307,7 @@ $app->post('/leads/status', function() {
 	 $user->saveStatus();
 	 var_dump($user);
 	 $user->saveStatusUpdate();
-	header("location: /".pastaPrincipal."/leads/status");
+	header("location: /".pastaPrincipal."/dashboard/status");
   	exit; 
 
 });
@@ -322,7 +322,7 @@ $app->post('/leads/status', function() {
 
 
 
-$app->get('/leads/status/:idstatus/delete', function($idstatus) {
+$app->get('/dashboard/status/:idstatus/delete', function($idstatus) {
 
 	$status = EditarStatus::listStatus();
 	
@@ -335,7 +335,7 @@ $app->get('/leads/status/:idstatus/delete', function($idstatus) {
 
 
 
-$app->get('/leads/servico/:idstatus/delete', function($idstatus) {
+$app->get('/dashboard/servico/:idstatus/delete', function($idstatus) {
 
 	$servico = EditarServico::listServico();
 	
@@ -347,11 +347,11 @@ $app->get('/leads/servico/:idstatus/delete', function($idstatus) {
 
 
 
-$app->get('/leads/:idlead/delete', function($idlead) {
+$app->get('/dashboard/:idlead/delete', function($idlead) {
 
 	$user = new VerLeads();
 	$user->deleteUser($idlead);
-	header("location: /".pastaPrincipal."/leads");
+	header("location: /".pastaPrincipal."/dashboard");
   	exit; 
 
 });
@@ -359,7 +359,7 @@ $app->get('/leads/:idlead/delete', function($idlead) {
 
 
 
-$app->get('/leads/editar/:idlead/delete', function($idlead){
+$app->get('/dashboard/editar/:idlead/delete', function($idlead){
 
 	$user = new EditarUser();
 	$user->deleteArquivo($idlead);
@@ -369,7 +369,7 @@ $app->get('/leads/editar/:idlead/delete', function($idlead){
 });
 
 
-$app->get('/leads/follow-up/:idlead/delete/', function($idlead){
+$app->get('/dashboard/follow-up/:idlead/delete/', function($idlead){
 
 
 	if (isset($_GET['id'])) {
@@ -381,7 +381,7 @@ $app->get('/leads/follow-up/:idlead/delete/', function($idlead){
 
 	
 
-	header("location: /".pastaPrincipal."/leads/follow-up/$val");
+	header("location: /".pastaPrincipal."/dashboard/follow-up/$val");
   	exit; 
 
 	

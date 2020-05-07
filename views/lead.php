@@ -30,7 +30,7 @@
       	} ?> </p></div>
 
 
-		 <form role="form1" action="/<?php echo pastaPrincipal ?>/leads/editar/<?php echo $userId[0]['idlead'] ?>" method="post" enctype="multipart/form-data">
+		 <form role="form1" action="/<?php echo pastaPrincipal ?>/dashboard/editar/<?php echo $userId[0]['idlead'] ?>" method="post" enctype="multipart/form-data">
 
 		 <br>
 	  	<h3 class="left-align">Atualizar os dados</h3>
@@ -228,7 +228,7 @@
 						<?php }else{  ?>
 							
 							<?php foreach ($servicoNao as $value) { ?>
-							<form role="form" action="/<?php echo pastaPrincipal ?>/leads/editar/<?php echo $userId[0]['idlead'] ?>#servico" method="post" enctype="multipart/form-data" >
+							<form role="form" action="/<?php echo pastaPrincipal ?>/dashboard/editar/<?php echo $userId[0]['idlead'] ?>#servico" method="post" enctype="multipart/form-data" >
 								<input style="display: none;" type="file" name="fileUpload">
 								<tr>
 									<input type="hidden" id="idservicoadd" name="idservicoadd" value="<?php echo $value['idservico'] ?>"> 
@@ -268,7 +268,7 @@
 						<?php }else{  ?>
 							
 							<?php foreach ($servicoDesejado as $value) { ?>
-							<form role="form" action="/<?php echo pastaPrincipal ?>/leads/editar/<?php echo $userId[0]['idlead'] ?>" method="post" enctype="multipart/form-data">
+							<form role="form" action="/<?php echo pastaPrincipal ?>/dashboard/editar/<?php echo $userId[0]['idlead'] ?>" method="post" enctype="multipart/form-data">
 								<input style="display: none;" type="file" name="fileUpload">
 								<tr> 
 									<input type="hidden" id="idserviconao" name="idserviconao" value="<?php echo $value['idservico'] ?>"> 
@@ -293,7 +293,7 @@
 		</div>
 
 		 <div class="col s12 center-align">
-			<a class="waves-effect light-green btn-small" href="http://localhost/<?php echo pastaPrincipal ?>/leads/follow-up/<?php echo $userId[0]['idlead']?>">Follow up</a>
+			<a class="waves-effect light-green btn-small" href="http://localhost/<?php echo pastaPrincipal ?>/dashboard/follow-up/<?php echo $userId[0]['idlead']?>">Follow up</a>
 
 			<br><br>
 		</div>
