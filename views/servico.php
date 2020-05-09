@@ -1,4 +1,20 @@
+<?php 
 
+if (isset($_COOKIE['Atualizado'])) {
+	?> 
+	<script>
+		window.addEventListener("load", function() {
+	    M.toast({html: 'Atualizado'})
+	  });
+	</script>
+	<?php
+	setcookie("Atualizado", '', time() - 2000);
+}else{
+
+}
+
+
+ ?> 
 
 <div class="container">
 

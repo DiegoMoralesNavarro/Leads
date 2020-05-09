@@ -156,6 +156,8 @@ $app->post('/dashboard/editar/:idlead', function($idlead) {
 
 	$userId = EditarUser::listAllId($idlead);
 
+	setcookie("Atualizado", "Atualizado");
+
 	header("location: /".pastaPrincipal."/dashboard/editar/$idlead");
     exit; 
 
@@ -167,6 +169,7 @@ $app->post('/dashboard/editar/:idlead', function($idlead) {
 
 
 $app->get('/dashboard/follow-up/:idlead', function($idlead){
+
 
 
 	require_once('../'.pastaPrincipal.'/views/'.header);
@@ -200,6 +203,8 @@ $app->post('/dashboard/follow-up/:idlead', function($idlead) {
 	$user->cadastrarFollowUp($idlead);
 	$user->salvarFollowUp($idlead);
 	$user->salvarStatus($idlead);
+
+	setcookie("Atualizado", "Atualizado");
 	
 
 	header("location: /".pastaPrincipal."/dashboard/follow-up/$idlead");
@@ -270,6 +275,9 @@ $app->post('/dashboard/servico', function() {
 	 $user->setData($_POST);
 	 $user->saveServico(); 
 	 $user->saveServicoUpdate();
+
+	 setcookie("Atualizado", "Atualizado");
+
 	 header("location: /".pastaPrincipal."/dashboard/servico");
   	 exit; 
 
@@ -307,6 +315,9 @@ $app->post('/dashboard/status', function() {
 	 $user->saveStatus();
 	 var_dump($user);
 	 $user->saveStatusUpdate();
+
+	 setcookie("Atualizado", "Atualizado");
+	 
 	header("location: /".pastaPrincipal."/dashboard/status");
   	exit; 
 

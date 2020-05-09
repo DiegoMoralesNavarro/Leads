@@ -94,7 +94,7 @@ public function cadastrarFollowUp($idlead){
             ":dataAtualizada"=>date('Y-m-d H:i')
           ));
 
-       setcookie("adicionado", "adicionado");
+       
 
       }
 
@@ -123,8 +123,7 @@ public function salvarFollowUp($idlead){
        ":idfollowup"=>$this->getidfollowup()
       ));
 
-    setcookie("salvo", "salvo");
-
+   
 }
 
 
@@ -138,7 +137,7 @@ public function salvarStatus($idlead){
       ));
 
 
-    setcookie("status", "status");
+
 
 }
 
