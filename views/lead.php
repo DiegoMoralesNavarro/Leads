@@ -268,7 +268,7 @@
 						<?php }else{  ?>
 							
 							<?php foreach ($servicoDesejado as $value) { ?>
-							<form role="form" action="/<?php echo pastaPrincipal ?>/dashboard/editar/<?php echo $userId[0]['idlead'] ?>" method="post" enctype="multipart/form-data">
+							<form role="form" action="/<?php echo pastaPrincipal ?>/dashboard/editar/<?php echo $userId[0]['idlead'] ?>#servico" method="post" enctype="multipart/form-data">
 								<input style="display: none;" type="file" name="fileUpload">
 								<tr> 
 									<input type="hidden" id="idserviconao" name="idserviconao" value="<?php echo $value['idservico'] ?>"> 

@@ -4,7 +4,24 @@
 	<meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>meu site teste</title>
+
+
+<?php 
+$url = $_SERVER['REQUEST_URI'];
+
+$path = parse_url($url, PHP_URL_PATH);
+$pathFragments = explode('/', $path);
+if ($pathFragments[3] == '') {
+  $pathFragments = explode('leads/', $path);
+  $end = end($pathFragments);
+}else{
+  $end = end($pathFragments);
+}
+  
+
+ ?>
+
+	<title><?php echo $end; ?></title>
 
 
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -15,6 +32,8 @@
 
 </head>
 <body>
+
+
 
 
 
