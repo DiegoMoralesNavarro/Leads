@@ -42,7 +42,7 @@ public $values = [];
 
 
 protected $fields = [
-	"idfollowup", "texto", "data", "idlead", "dataAtualizada", "imagem", "textofollow", "statusLead"
+	"idfollowup", "texto", "data", "idlead", "dataAtualizada", "imagem", "textofollow", "statusLead", "fileUpload"
 ];
 
 
@@ -55,7 +55,12 @@ protected $fields = [
 public static function listFolloUp($idlead){
 	$sql = new Sql();
 	return $sql->select("SELECT * FROM tb_followup WHERE idlead = $idlead ORDER BY idfollowup DESC");
+
 }
+
+
+
+
 
 public static function listLead($idlead){
   $sql = new Sql();
@@ -74,6 +79,14 @@ public static function listAll($idlead)
   return $sql->select("SELECT * FROM tb_lead inner join tb_status ON tb_lead.fk_status = tb_status.idstatus WHERE idlead = $idlead");
 }
 
+
+
+public static function selectImg($idlead){
+  $sql = new Sql();
+
+  return $sql->select("SELECT imagem FROM tb_followup where idlead = $idlead");
+  
+}
 
 
 
@@ -116,15 +129,124 @@ public function deletarFollowUp($idlead){
 public function salvarFollowUp($idlead){
 
   $sql = new Sql();
+
+  $tb_followup = $sql->select("SELECT imagem FROM tb_followup where idfollowup = :idfollowup",array(
     
-    $results = $sql->select("UPDATE tb_followup SET texto = :texto, dataAtualizada = :dataAtualizada WHERE idfollowup = :idfollowup", array(
+     ":idfollowup"=>$this->getidfollowup()
+    ));
+ 
+
+
+  if ($tb_followup[0]['imagem'] == null) {
+
+  
+  
+
+     if($_SERVER["REQUEST_METHOD"] === "POST"){
+
+        $file = $_FILES["fileUpload"];
+
+
+        if ($file['name'] == '') {
+
+          $this->salvarFollowUpSimples($idlead);
+
+         }
+
+          if($file["error"]){
+            
+            
+          }
+
+          
+          //criar um diretorio temporario
+          $dirUpload = "uploads";
+
+          if(!is_dir($dirUpload)){
+            mkdir($dirUpload);
+          }
+
+
+
+          //PEGAR o nome do arquivo
+          $extension = explode('.', $file['name']);
+          //pegar a ultima posição
+          $extension = end($extension);
+
+          if ($extension == 'png' || $extension == 'jpg' || $extension == 'jpeg') {
+
+            $numero = rand(1, 15). "-";
+              
+            if(move_uploaded_file($file["tmp_name"], $dirUpload . DIRECTORY_SEPARATOR .$numero . $file["name"])){
+
+              $arquivo = $numero . $file["name"];
+              var_dump( $arquivo);
+
+
+              $results = $sql->select("UPDATE tb_followup SET texto = :texto, dataAtualizada = :dataAtualizada, imagem = :imagem WHERE idfollowup = :idfollowup", array(
+                      ":texto"=>$this->gettexto(),
+                       ":dataAtualizada"=>date('Y-m-d H:i'),
+                       ":imagem"=>$arquivo,
+                       ":idfollowup"=>$this->getidfollowup()
+                      ));
+                  
+
+
+
+               header("location: /".pastaPrincipal."/dashboard/follow-up/$idlead");
+                exit;
+
+              
+            }else{
+
+             header("location: /".pastaPrincipal."/dashboard/follow-up/$idlead");
+              exit;
+             }
+
+              
+
+          }
+
+
+        }
+
+  }else{
+
+
+    $this->salvarFollowUpSimples($idlead);
+
+
+  }
+    
+
+   
+}
+
+
+
+public function salvarFollowUpSimples($idlead){
+
+
+  $sql = new Sql();
+
+
+   $results = $sql->select("UPDATE tb_followup SET texto = :texto, dataAtualizada = :dataAtualizada WHERE idfollowup = :idfollowup", array(
        ":texto"=>$this->gettexto(),
        ":dataAtualizada"=>date('Y-m-d H:i'),
        ":idfollowup"=>$this->getidfollowup()
       ));
 
-   
+
+   header("location: /".pastaPrincipal."/dashboard/follow-up/$idlead");
+  exit;
+
 }
+
+
+
+
+
+
 
 
 public function salvarStatus($idlead){
@@ -140,6 +262,11 @@ public function salvarStatus($idlead){
 
 
 }
+
+
+
+
+
 
 
 

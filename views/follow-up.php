@@ -1,6 +1,27 @@
 
 
+<?php 
 
+
+
+
+// for ($i=0; $i < count($img); $i++) { 
+	
+
+// 	$path = "uploads/";
+//     $diretorio = dir($path);
+
+      
+//     unlink($path.$img[$i]['imagem']);
+
+// }
+
+
+	// deleta os arquivos e depois o followup
+
+
+
+ ?>	
 
 
 <?php 
@@ -110,6 +131,9 @@ if (isset($_COOKIE['Atualizado'])) {
     	
 
 
+
+
+
     	<?php foreach ($followUp as $value) { ?>
 
     	<form role="form" action="/<?php echo pastaPrincipal ?>/dashboard/follow-up/<?php echo $idlead; ?>" method="post" enctype="multipart/form-data">
@@ -122,7 +146,7 @@ if (isset($_COOKIE['Atualizado'])) {
 					 <p>Ultima atualização: <?php echo date('d/m/Y H:i', strtotime($value['dataAtualizada']));  ?></p>
 				</div>
 
-    			<div class="col s9">
+    			<div class="col s12 l9">
 
     				
     				<input type="hidden" id="idfollowup" name="idfollowup" value="<?php echo $value['idfollowup'] ?>">
@@ -131,9 +155,10 @@ if (isset($_COOKIE['Atualizado'])) {
 			          <label for="obs">Follow Up</label>
 			          <textarea id="obs" name="texto" required="" class="materialize-textarea" maxlength="200"><?php echo $value['texto'] ?></textarea>
 			        </div>
+
 				</div>
 
-				<div class="col s3">
+				<div class="col s12 l3">
 
 					<button class="waves-effect waves-light btn-small" type="submit" >Salvar
 					</button>
@@ -143,6 +168,27 @@ if (isset($_COOKIE['Atualizado'])) {
 					 onclick="return confirm('Deseja realmente excluir o Serviço')" >Excluir</a>
 
 				</div>
+
+				<div class="file-field input-field col s12 l9">
+			        	<?php if ($value['imagem'] == null) {
+			        		?>
+			        		
+				            <div class="btn">
+				              <span>File</span>
+				              <input type="file" name="fileUpload">
+				            </div>
+				            <div class="file-path-wrapper">
+				              <input class="file-path validate" type="text" accept=".png, .jpg, .jpeg" placeholder="Carregue sua imagem">
+				            </div>
+					        
+
+			        		<?php
+			        	}else{
+			        		?>
+			        		<p><?php echo $value['imagem']; ?></p>
+			        		<?php
+			        	} ?>
+			        </div>
 
 			</div>
 

@@ -143,7 +143,7 @@ if (isset($_COOKIE['Atualizado'])) {
 				            <input type="file" name="fileUpload">
 				        </div>
 				        <div class="file-path-wrapper">
-				            <input class="file-path validate" type="text" placeholder="Carregue seu PDF">
+				            <input class="file-path validate" type="text" accept=".fdf" placeholder="Carregue seu PDF">
 		            	</div>
 	            	</div>
 

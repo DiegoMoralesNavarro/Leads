@@ -146,6 +146,13 @@ public function deleteUser($idlead){
   }
 
 
+  $tb_followup = $sql->select("SELECT * FROM tb_followup where idlead = $idlead");
+
+  if(count($tb_followup) > 0){
+  $results = $sql->select("DELETE FROM tb_followup WHERE idlead = $idlead");
+  }
+
+
 
 
 

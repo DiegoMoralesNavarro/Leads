@@ -184,6 +184,10 @@ $app->get('/dashboard/follow-up/:idlead', function($idlead){
 	$listStatus = FollowUp::listAll($idlead);
 
 
+///
+	$img = FollowUp::selectImg($idlead);
+
+
 
 	require_once('../'.pastaPrincipal.'/views/follow-up.php');
 
@@ -203,6 +207,9 @@ $app->post('/dashboard/follow-up/:idlead', function($idlead) {
 	$user->cadastrarFollowUp($idlead);
 	$user->salvarFollowUp($idlead);
 	$user->salvarStatus($idlead);
+
+
+
 
 	setcookie("Atualizado", "Atualizado");
 	
