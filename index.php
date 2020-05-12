@@ -407,6 +407,28 @@ $app->get('/dashboard/follow-up/:idlead/delete/', function($idlead){
 });
 
 
+$app->get('/dashboard/follow-up/:idlead/delete-img/', function($idlead){
+
+
+	if (isset($_GET['id'])) {
+		$val = $_GET['id'];
+	}
+
+	$user = new FollowUp();
+	$user->deleteImg($idlead);
+
+	
+
+	header("location: /".pastaPrincipal."/dashboard/follow-up/$val");
+  	exit; 
+
+	
+
+});
+
+
+
+
 $app->run();
 
 

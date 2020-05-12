@@ -169,26 +169,47 @@ if (isset($_COOKIE['Atualizado'])) {
 
 				</div>
 
-				<div class="file-field input-field col s12 l9">
-			        	<?php if ($value['imagem'] == null) {
+				<div class=" input-field col s12 l9" style="margin-top: -1rem;">
+			        	<?php if ($value['imagem'] == null || $value['imagem'] == '') {
 			        		?>
-			        		
-				            <div class="btn">
-				              <span>File</span>
-				              <input type="file" name="fileUpload">
+			        		<div class="file-field input-field ">
+					            <div class="btn">
+					              <span>File</span>
+					              <input type="file" name="fileUpload" accept=".png, .jpg, .jpeg">
+					            </div>
+					            <div class="file-path-wrapper">
+					              <input class="file-path validate" type="text" accept=".png, .jpg, .jpeg" placeholder="Carregue sua imagem">
+					            </div>
 				            </div>
-				            <div class="file-path-wrapper">
-				              <input class="file-path validate" type="text" accept=".png, .jpg, .jpeg" placeholder="Carregue sua imagem">
-				            </div>
-					        
+
 
 			        		<?php
 			        	}else{
 			        		?>
-			        		<p><?php echo $value['imagem']; ?></p>
+
+			        		<table class="highlight ">
+
+			        		<tbody>
+									<tr>
+										<td>
+											<?php echo $value['imagem']; ?>
+										</td>
+
+										<td>
+
+											<a class="waves-effect waves-light btn-small" 
+								 href="http://localhost/<?php echo pastaPrincipal ?>/uploads/<?php echo $value['imagem'] ?>" target="_blank">Ler</a>
+
+								 			<a class=" red accent-4 btn-small" 
+								 href="<?php echo $value['idfollowup'] ?>/delete-img/?id=<?php echo $lead[0]['idlead']; ?>" onclick="return confirm('Deseja realmente excluir este Arquivo?')" >Excluir</a>
+
+										</td>
+									</tr>
+					        </tbody>
+					        </table>
 			        		<?php
 			        	} ?>
-			        </div>
+			    </div>
 
 			</div>
 

@@ -107,6 +107,10 @@ public function cadastrarFollowUp($idlead){
             ":dataAtualizada"=>date('Y-m-d H:i')
           ));
 
+
+       header("location: /".pastaPrincipal."/dashboard/follow-up/$idlead");
+      exit;
+
        
 
       }
@@ -175,7 +179,7 @@ public function salvarFollowUp($idlead){
 
           if ($extension == 'png' || $extension == 'jpg' || $extension == 'jpeg') {
 
-            $numero = rand(1, 15). "-";
+            $numero = rand(1, 200). "-";
               
             if(move_uploaded_file($file["tmp_name"], $dirUpload . DIRECTORY_SEPARATOR .$numero . $file["name"])){
 
@@ -257,6 +261,46 @@ public function salvarStatus($idlead){
        ":statusLead"=>$this->getstatusLead(),
        ":dataAtualizada"=>date('Y-m-d H:i')
       ));
+
+
+
+
+}
+
+
+
+
+
+public function deleteImg($idlead){
+
+
+
+
+$sql = new Sql();
+
+   $tb_arquivo = $sql->select("SELECT imagem FROM tb_followup where idfollowup = $idlead");
+
+
+    if(!$tb_arquivo == '' || !$tb_arquivo == null){
+
+
+      var_dump($tb_arquivo);
+     
+        $path = "uploads/";
+        $diretorio = dir($path);
+         
+           unlink($path.$tb_arquivo[0]['imagem']);
+
+
+         $results = $sql->select("UPDATE tb_followup SET dataAtualizada = :dataAtualizada, imagem = '' WHERE idfollowup = $idlead", array(
+       ":dataAtualizada"=>date('Y-m-d H:i')
+      )); 
+
+   
+        
+
+   }
+
 
 
 

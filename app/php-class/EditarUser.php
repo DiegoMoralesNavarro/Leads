@@ -257,7 +257,7 @@ public function gravarArquivo($idlead){
 
           if ($extension == 'pdf') {
             
-              $numero = rand(1, 15). "-";
+              $numero = rand(1, 200). "-";
               
               //verificar se o upload aconteceu
               if(move_uploaded_file($file["tmp_name"], $dirUpload . DIRECTORY_SEPARATOR .$numero . $file["name"])){
