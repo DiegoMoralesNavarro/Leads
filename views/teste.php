@@ -1,31 +1,13 @@
-  $results = $sql->select("UPDATE tb_followup SET texto = :texto, dataAtualizada = :dataAtualizada, imagem = :imagem WHERE idfollowup = :idfollowup", array(
-                      ":texto"=>$this->gettexto(),
-                       ":dataAtualizada"=>date('Y-m-d H:i'),
-                       ":imagem"=>$arquivo,
-                       ":idfollowup"=>$this->getidfollowup()
-                      ));
-                  
+<!DOCTYPE html>
+<html>
+<head>
+  <title>aaa</title>
+</head>
+<body>
 
 
 
+<h1>aaaaaaaaaaa</h1>
 
-
-
-                  //verificar se o upload aconteceu
-              if(move_uploaded_file($file["tmp_name"], $dirUpload . DIRECTORY_SEPARATOR .$numero . $file["name"])){
-
-                $arquivo = $numero . $file["name"];
-
-                var_dump($arquivo);
-                //
-
-                
-                //
-                header("location: /".pastaPrincipal."/dashboard/follow-up/$idlead");
-                exit;
-
-             }else{
-
-             header("location: /".pastaPrincipal."/dashboard/follow-up/$idlead");
-              exit;
-             }
+</body>
+</html>

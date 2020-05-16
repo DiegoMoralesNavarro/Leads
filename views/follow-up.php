@@ -1,27 +1,6 @@
 
 
-<?php 
 
-
-
-
-// for ($i=0; $i < count($img); $i++) { 
-	
-
-// 	$path = "uploads/";
-//     $diretorio = dir($path);
-
-      
-//     unlink($path.$img[$i]['imagem']);
-
-// }
-
-
-	// deleta os arquivos e depois o followup
-
-
-
- ?>	
 
 
 <?php 
@@ -198,7 +177,7 @@ if (isset($_COOKIE['Atualizado'])) {
 										<td>
 
 											<a class="waves-effect waves-light btn-small" 
-								 href="http://localhost/<?php echo pastaPrincipal ?>/uploads/<?php echo $value['imagem'] ?>" target="_blank">Ler</a>
+								 href="<?php echo URLestilo ?>/uploads/<?php echo $value['imagem'] ?>" target="_blank">Ver</a>
 
 								 			<a class=" red accent-4 btn-small" 
 								 href="<?php echo $value['idfollowup'] ?>/delete-img/?id=<?php echo $lead[0]['idlead']; ?>" onclick="return confirm('Deseja realmente excluir este Arquivo?')" >Excluir</a>

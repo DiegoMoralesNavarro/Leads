@@ -245,9 +245,14 @@ foreach ($status as $value) {
 
 		<div class="col s12 l3">
 	    	<div class="col s12 form ">
-	       	<h3 class="center-align"><?php echo array_count_values(array_column($totalStatus, 'tipostatus'))[$nome]; ?></h3>
 
-	       	<p class="center-align"><?php echo $value['tipostatus']; ?></p>
+	    	<a href="<?php echo URLestilo ?>/dashboard/status-lista/<?php echo $value['idstatus']; ?>">
+	    		
+		       	<h3 class="center-align"><?php echo array_count_values(array_column($totalStatus, 'tipostatus'))[$nome]; ?></h3>
+
+		       	<p class="center-align"><?php echo $value['tipostatus']; ?></p>
+
+	       	</a>
 
 	    	</div>
 	    </div>

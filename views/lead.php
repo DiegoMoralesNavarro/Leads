@@ -173,7 +173,7 @@ if (isset($_COOKIE['Atualizado'])) {
 								<td>
 
 									<a class="waves-effect waves-light btn-small" 
-								 href="http://localhost/<?php echo pastaPrincipal ?>/<?php echo $path . $value['arquivo'] ?>" target="_blank">Ler</a>
+								 href="<?php echo URLestilo ?>/<?php echo $path . $value['arquivo'] ?>" target="_blank">Ler</a>
 
 								 <a class=" red accent-4 btn-small" 
 								 href="<?php echo $value['fk_idlead'] ?>/delete" onclick="return confirm('Deseja realmente excluir este Arquivo?')" >Excluir</a>
@@ -309,7 +309,7 @@ if (isset($_COOKIE['Atualizado'])) {
 		</div>
 
 		 <div class="col s12 center-align">
-			<a class="waves-effect light-green btn-small" href="http://localhost/<?php echo pastaPrincipal ?>/dashboard/follow-up/<?php echo $userId[0]['idlead']?>">Follow up</a>
+			<a class="waves-effect light-green btn-small" href="<?php echo URLestilo ?>/dashboard/follow-up/<?php echo $userId[0]['idlead']?>">Follow up</a>
 
 			<br><br>
 		</div>

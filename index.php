@@ -20,6 +20,7 @@ use \App\EditarServico;
 use \App\CriarLeads;
 use \App\VerLeads;
 use \App\FollowUp;
+use \App\StatusLista;
 
 
 $app = new Slim();
@@ -35,7 +36,15 @@ $app->config('debug', true);
 
 
 $app->get('/', function() {
-	echo "login";
+	
+	echo "
+	<br>
+	<br>
+	login 
+	<br><br>
+	<a href='http://novateste.web7059.uni5.net/leads/dashboard/'>ENTRAR</a>
+	";
+	
 });	
 
 
@@ -144,11 +153,18 @@ $app->post('/dashboard/editar/:idlead', function($idlead) {
 	$user = new EditarUser();
 
 	$user->setData($_POST);
-	$user->saveUpdateLead((int)$idlead);
-	//var_dump($user);
+	
 
-	$user->adicionaServico((int)$idlead);
-	$user->removeServico((int)$idlead);
+
+	if (isset($_POST['nome'])) {
+		$user->saveUpdateLead((int)$idlead);
+	}else{
+		$user->adicionaServico((int)$idlead);
+		$user->removeServico((int)$idlead);
+	}
+
+
+	
 
 	$user->gravarArquivo((int)$idlead);
 
@@ -204,12 +220,25 @@ $app->post('/dashboard/follow-up/:idlead', function($idlead) {
 	$user = new FollowUp();
 
 	$user->setData($_POST);
-	$user->cadastrarFollowUp($idlead);
-	$user->salvarFollowUp($idlead);
-	$user->salvarStatus($idlead);
+
+	if (isset($_POST['textofollow'])) {
+		$user->cadastrarFollowUp($idlead);
+		
+	}
+
+	if (isset($_POST['statusLead'])) {
+		$user->salvarStatus($idlead);
+	}
+
+	if (isset($_POST['texto'])) {
+		$user->salvarFollowUp($idlead);
+	}
 
 
+	
 
+
+	var_dump($user);
 
 	setcookie("Atualizado", "Atualizado");
 	
@@ -320,7 +349,6 @@ $app->post('/dashboard/status', function() {
 
 	 $user->setData($_POST);
 	 $user->saveStatus();
-	 var_dump($user);
 	 $user->saveStatusUpdate();
 
 	 setcookie("Atualizado", "Atualizado");
@@ -329,6 +357,48 @@ $app->post('/dashboard/status', function() {
   	exit; 
 
 });
+
+
+///
+
+
+$app->get('/dashboard/status-lista/:idstatus', function($idstatus) {
+
+	require_once('../'.pastaPrincipal.'/views/'.header);
+
+
+	if (isset($_GET['pesquisa'])) {
+		$val = $_GET['pesquisa'];
+	}else{
+		$val = "";
+	}
+
+	if (isset($_GET['page'])) {
+		$page = $_GET['page'];
+	}else{
+		$page = 1;
+	}
+
+	$itemsPerPage = 20;
+
+	$users = new StatusLista();
+	$users->listAll($val, $page, $itemsPerPage, $idstatus);
+
+	$user = EditarUser::listAll(); ///
+
+	$status = StatusLista::saberStatus($idstatus);
+	
+	
+
+	require_once('../'.pastaPrincipal.'/views/status-lista.php');
+
+
+
+	require_once('../'.pastaPrincipal.'/views/'.footer);
+
+});
+
+
 
 
 
@@ -373,6 +443,10 @@ $app->get('/dashboard/:idlead/delete', function($idlead) {
   	exit; 
 
 });
+
+
+
+
 
 
 
@@ -425,6 +499,24 @@ $app->get('/dashboard/follow-up/:idlead/delete-img/', function($idlead){
 	
 
 });
+
+
+
+$app->get('/dashboard/status-lista/:idlead/delete', function($idlead) {
+
+	if (isset($_GET['idstatus'])) {
+		$val = $_GET['idstatus'];
+	}
+
+
+	$user = new VerLeads();
+	$user->deleteUser($idlead);
+	header("location: /".pastaPrincipal."/dashboard/status-lista/$val");
+  	exit; 
+
+});
+
+
 
 
 
