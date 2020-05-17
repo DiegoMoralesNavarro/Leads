@@ -22,14 +22,17 @@
 
 h1 {
     font-size: 2.1rem;
+    margin: 5px;
 }
 
 h2 {
     font-size: 1.8rem;
+    margin: 5px;
 }
 
 h3 {
     font-size: 1.5rem;
+    margin: 5px;
 }
 
 h4 {
@@ -88,4 +91,39 @@ h4 {
     align-items: center;
 
     }
+}
+
+
+
+.barra-user{
+    margin: 0;
+    background-color: #df696e;
+    display: flex;
+    justify-content: space-between;
+    padding: 0px 9px 8px 9px;
+}
+
+.barra-user div{
+    display: flex;
+    justify-content: space-between;
+}
+
+.barra-user p {
+    color: #fff;
+    margin: 0;
+    padding: 6px 0 0px 0px;
+    font-size: 16px;
+}
+
+.barra-user a{
+    color: #fff;
+    margin: 0;
+    font-size: 12px;
+}
+
+.barra-user .material-icons{
+    padding: 0 4px;
+    position: relative;
+    color: #fff;
+    top: 6px;
 }

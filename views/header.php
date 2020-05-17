@@ -35,7 +35,15 @@ if ($pathFragments[3] == '') {
 
 
 
-
+<dir class="barra-user">
+  <div>
+    <p> Olá <?php echo $_SESSION["user"]; ?></p> <a href="/<?php echo pastaPrincipal ?>/dashboard/logout"><i class="material-icons prefix" >exit_to_app</i></a>
+  </div>
+  <div> 
+    <a href=""><i class="material-icons prefix">folder_shared</i>Configurar</a>
+  </div>
+ 
+</dir>
 
 <nav class="nav-extended" role="navigation">
     <div class="nav-wrapper container">

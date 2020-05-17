@@ -50,7 +50,7 @@ if (isset($_GET['pesquisa'])) {
 				</div>
 				<div class="input-field col s12 l3 center-align">
 					<button class="btn waves-effect waves-light" type="submit">Pesquisar
-						 <i class="material-icons right">search</i>
+						<i class="material-icons right">search</i>
 					</button>
 				</div>
 			</div>

@@ -1,6 +1,10 @@
 
 <?php 
 
+
+session_start();
+
+
 date_default_timezone_set('America/Sao_Paulo');
 
 define("header", "header.php");
@@ -21,6 +25,7 @@ use \App\CriarLeads;
 use \App\VerLeads;
 use \App\FollowUp;
 use \App\StatusLista;
+use \App\LoginUser;
 
 
 $app = new Slim();
@@ -36,16 +41,40 @@ $app->config('debug', true);
 
 
 $app->get('/', function() {
-	
-	echo "
-	<br>
-	<br>
-	login 
-	<br><br>
-	<a href='http://novateste.web7059.uni5.net/leads/dashboard/'>ENTRAR</a>
-	";
+
+	require_once('../'.pastaPrincipal.'/views/login-header.php');
+
+	require_once('../'.pastaPrincipal.'/views/login.php');
+
+	require_once('../'.pastaPrincipal.'/views/login-footer.php');
+
 	
 });	
+
+
+$app->post('/', function() {
+
+
+	LoginUser::login($_POST["user"],$_POST["senha"]);
+
+
+
+	header("Location: /leads/dashboard/");
+	exit;
+	
+});	
+
+
+
+$app->get('/dashboard/logout', function() {
+
+	LoginUser::logout();
+
+	header("Location: /leads/");
+	exit;
+
+});
+
 
 
 
@@ -55,6 +84,7 @@ $app->get('/', function() {
 
 $app->get('/dashboard/', function() {
 
+	LoginUser::verifyLogin();
 
 	require_once('../'.pastaPrincipal.'/views/'.header);
 
