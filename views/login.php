@@ -50,8 +50,8 @@
 
 
     <div class="input-field col s12">
-      <input id="senha" type="password" class="validate" name="senha" required="">
-      <label for="senha">Senha</label>
+      <input id="password" type="password" class="validate" name="senha" required="">
+      <label for="password">Senha</label>
     </div>
 
   

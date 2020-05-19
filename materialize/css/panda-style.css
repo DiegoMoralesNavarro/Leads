@@ -110,7 +110,7 @@ body {
 .body {
   background: #fff;
   position: absolute;
-  top: 200px;
+  top: 215px;
   left: -20px;
   border-radius: 100px 100px 100px 100px/126px 126px 96px 96px;
   width: 250px;
@@ -147,7 +147,7 @@ body {
 }
 
 .foot {
-  top: 360px;
+  top: 380px;
   left: -80px;
   position: absolute;
   background: #000;
