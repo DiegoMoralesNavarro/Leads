@@ -1,5 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `meusite` /*!40100 DEFAULT CHARACTER SET utf8 */;
-USE `meusite`;
 -- MySQL dump 10.13  Distrib 8.0.16, for Win64 (x86_64)
 --
 -- Host: localhost    Database: meusite
@@ -23,7 +21,7 @@ USE `meusite`;
 
 LOCK TABLES `tb_user` WRITE;
 /*!40000 ALTER TABLE `tb_user` DISABLE KEYS */;
-INSERT INTO `tb_user` VALUES (1,'admin','21232f297a57a5a743894a0e4a801fc3',1,'2020-04-21');
+INSERT INTO `tb_user` VALUES (1,'admin','21232f297a57a5a743894a0e4a801fc3',1,'2020-04-21','teste@teste.com');
 /*!40000 ALTER TABLE `tb_user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -36,4 +34,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-05-18 21:18:52
+-- Dump completed on 2020-05-24 15:38:06

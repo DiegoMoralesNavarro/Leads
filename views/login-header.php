@@ -23,4 +23,4 @@
 
 
 
-<div style="width: 100%; background: #df696e; height: 20px;"></div>
+<div style="width: 100%; background: #26a69a; height: 20px;"></div>

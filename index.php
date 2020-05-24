@@ -22,6 +22,7 @@ require_once("vendor/autoload.php");
 
 use \Slim\Slim;
 use \App\LoginUser;
+
 $app = new Slim();
 
 
@@ -75,10 +76,10 @@ $app->get('/dashboard/logout', function() {
 ///
 
 
+require_once("rota-admin.php");
+
+
 require_once("rota-leads.php");
-
-
-
 
 
 

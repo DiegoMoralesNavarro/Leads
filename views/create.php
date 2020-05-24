@@ -31,8 +31,8 @@
 
         <div class="input-field col s12">
           <i class="material-icons prefix">phone_iphone</i>
-          <label for="telefone">Telefone*</label>
-          <input type="tel" id="telefone" name="telefone" required="" class="validate" maxlength="25">
+          <label for="telefone">Telefone* 119000-0000</label>
+          <input type="tel" id="telefone" maxlength="14"  name="telefone" required="" class="validate" >
         </div>
 
         <div class="input-field col s12">

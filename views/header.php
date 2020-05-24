@@ -31,13 +31,11 @@ if ($pathFragments[3] == '') {
 
 
 </head>
-<body>
-
-
+<body >
 
 <dir class="barra-user">
   <div>
-    <p> Olá <?php echo $_SESSION["user"]; ?></p> <a href="/<?php echo pastaPrincipal ?>/dashboard/logout"><i class="material-icons prefix" >exit_to_app</i></a>
+    <p> Olá <?php echo $_SESSION["user"]; ?> - </p> <a href="/<?php echo pastaPrincipal ?>/dashboard/logout"><i class="material-icons prefix" >exit_to_app</i></a>
   </div>
   <div> 
     <a href=""><i class="material-icons prefix">folder_shared</i>Configurar</a>
@@ -45,9 +43,9 @@ if ($pathFragments[3] == '') {
  
 </dir>
 
-<nav class="nav-extended" role="navigation">
+<nav class="nav-extended" role="navigation" style="height: 70px;">
     <div class="nav-wrapper container">
-      <a id="logo-container" href="#" class="brand-logo">Logo</a>
+      <img class="logo-leads" src="<?php echo URLestilo; ?>/materialize/panda.png">
       <ul class="right hide-on-med-and-down">
         <li><a href="/<?php echo pastaPrincipal ?>/dashboard">Dashboard</a></li>
         <li><a href="/<?php echo pastaPrincipal ?>/dashboard/cadastro">Cadastrar Lead</a></li>

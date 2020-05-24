@@ -71,8 +71,8 @@ if (isset($_COOKIE['Atualizado'])) {
 			
 		<div class="col s12 l6">
 			<div class="input-field col s12">
-		        <input id="icon_prefix3" type="tel" class="validate" name="telefone" value="<?php echo $value['telefone'] ?>">
-          		<label for="icon_prefix3">Telefone</label>
+		        <input id="telefone" maxlength="14" type="tel" class="validate" name="telefone" value="<?php echo $value['telefone'] ?>">
+          		<label for="telefone">Telefone</label>
 			</div>
 
 			<div class="input-field col s12">
