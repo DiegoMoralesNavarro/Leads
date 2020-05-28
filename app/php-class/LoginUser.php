@@ -76,6 +76,8 @@ protected $fields = [
 
 			var_dump($data);
 
+			$_SESSION["id_user"] = $data["id_user"];
+
 			$_SESSION["user"] = $data["user"];
 
 			$_SESSION["senha"] = $data["senha"];

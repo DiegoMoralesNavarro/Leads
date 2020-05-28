@@ -38,7 +38,7 @@ if ($pathFragments[3] == '') {
     <p> Olá <?php echo $_SESSION["user"]; ?> - </p> <a href="/<?php echo pastaPrincipal ?>/dashboard/logout"><i class="material-icons prefix" >exit_to_app</i></a>
   </div>
   <div> 
-    <a href=""><i class="material-icons prefix">folder_shared</i>Configurar</a>
+    <a href="/<?php echo pastaPrincipal ?>/dashboard/configurar"><i class="material-icons prefix">folder_shared</i>Configurar</a>
   </div>
  
 </dir>

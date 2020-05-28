@@ -85,6 +85,8 @@ $app->post('/dashboard/', function() {
 
 $app->get('/dashboard/editar/:idlead', function($idlead) {
 
+	LoginUser::verifyLogin();
+
 
 	require_once('../'.pastaPrincipal.'/views/'.header);
 
@@ -150,6 +152,8 @@ $app->post('/dashboard/editar/:idlead', function($idlead) {
 
 
 $app->get('/dashboard/follow-up/:idlead', function($idlead){
+
+	LoginUser::verifyLogin();
 
 
 
@@ -220,6 +224,8 @@ $app->post('/dashboard/follow-up/:idlead', function($idlead) {
 
 
 $app->get('/dashboard/cadastro', function() {
+
+	LoginUser::verifyLogin();
 	
 
 	require_once('../'.pastaPrincipal.'/views/'.header);
@@ -258,6 +264,8 @@ $app->post('/dashboard/cadastro', function() {
 
 $app->get('/dashboard/servico', function() {
 
+	LoginUser::verifyLogin();
+
 	require_once('../'.pastaPrincipal.'/views/'.header);
 
 	$servico = EditarServico::listServico();
@@ -295,6 +303,8 @@ $app->post('/dashboard/servico', function() {
 
 $app->get('/dashboard/status', function() {
 
+	LoginUser::verifyLogin();
+
 	require_once('../'.pastaPrincipal.'/views/'.header);
 
 	$status = EditarStatus::listStatus();
@@ -328,6 +338,8 @@ $app->post('/dashboard/status', function() {
 
 
 $app->get('/dashboard/status-lista/:idstatus', function($idstatus) {
+
+	LoginUser::verifyLogin();
 
 	require_once('../'.pastaPrincipal.'/views/'.header);
 

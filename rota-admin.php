@@ -6,6 +6,9 @@
 
 
 use \App\LoginUser;
+use \App\CriarLeads;
+
+use \App\configurar\AtualizarMeusDados;
 
 
 
@@ -13,11 +16,13 @@ use \App\LoginUser;
 
 
 $app->get('/dashboard/configurar', function() {
+
+	LoginUser::verifyLogin();
 	
 
 	require_once('../'.pastaPrincipal.'/views/'.header);
 
-
+	require_once('../'.pastaPrincipal.'/views/configurar/configurar.php');
 
 	require_once('../'.pastaPrincipal.'/views/'.footer);
 
@@ -41,9 +46,16 @@ $app->post('/dashboard/configurar', function() {
 
 
 $app->get('/dashboard/configurar/atualizar-dados', function() {
+
+	LoginUser::verifyLogin();
 	
 
 	require_once('../'.pastaPrincipal.'/views/'.header);
+
+	$meusDados = AtualizarMeusDados::meusDados($_SESSION["id_user"]);
+	 
+
+	require_once('../'.pastaPrincipal.'/views/configurar/atualizar-dados.php');
 
 
 
@@ -53,10 +65,16 @@ $app->get('/dashboard/configurar/atualizar-dados', function() {
 
 $app->post('/dashboard/configurar/atualizar-dados', function() {
 
-	 $user = new CriarLeads();
+	$user = new AtualizarMeusDados();
 
-	 $user->setData($_POST);
-	 
+	$user->setData($_POST);
+
+
+	if (isset($_POST['user'])) {
+		$user->atualizarDados($_SESSION["id_user"]);
+	}else{
+		$user->atualizarSenha($_SESSION["id_user"]);
+	}
 	
 
 });
@@ -70,8 +88,12 @@ $app->post('/dashboard/configurar/atualizar-dados', function() {
 $app->get('/dashboard/configurar/atualizar-usuario', function() {
 	
 
+//tabela con lista de usuario com botão editar
+
 	require_once('../'.pastaPrincipal.'/views/'.header);
 
+
+	require_once('../'.pastaPrincipal.'/views/configurar/atualizar-usuario.php');
 
 
 	require_once('../'.pastaPrincipal.'/views/'.footer);
