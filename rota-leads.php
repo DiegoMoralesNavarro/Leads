@@ -361,7 +361,7 @@ $app->get('/dashboard/status-lista/:idstatus', function($idstatus) {
 	$users = new StatusLista();
 	$users->listAll($val, $page, $itemsPerPage, $idstatus);
 
-	$user = EditarUser::listAll(); ///
+	//$user = EditarUser::listAll(); ///
 
 	$status = StatusLista::saberStatus($idstatus);
 	

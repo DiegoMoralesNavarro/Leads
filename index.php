@@ -22,6 +22,14 @@ require_once("vendor/autoload.php");
 
 use \Slim\Slim;
 use \App\LoginUser;
+use \App\EditarUser;
+use \App\EditarStatus;
+use \App\EditarServico;
+use \App\CriarLeads;
+use \App\VerLeads;
+use \App\FollowUp;
+use \App\StatusLista;
+
 
 $app = new Slim();
 

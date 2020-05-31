@@ -2,6 +2,8 @@
 
 
 
+
+
 <?php 
 
 if (isset($_COOKIE['Atualizado'])) {
@@ -27,7 +29,7 @@ if (isset($_COOKIE['Atualizado'])) {
 
   <div class="row">
     <div class="col s12">
-      <h1>Atualizar Meus Dados</h1>
+      <h1>Atualizar Dados de Usuário</h1>
       <!-- 
        <blockquote>Crie atualizações sobre o acompanhamento.</blockquote> -->
      </div>
@@ -44,22 +46,21 @@ if (isset($_COOKIE['Atualizado'])) {
   <div class="row">
 	<div class="col s12 form">
 
-		<h4>Meus dados</h4>
-		<blockquote>Ao atualizar os dados você será desconectado.</blockquote>
+		<h4>Dados do usuário</h4>
 
-		<form role="form" action="/<?php echo pastaPrincipal ?>/dashboard/configurar/atualizar-dados" method="post">
+		<form role="form" action="/<?php echo pastaPrincipal ?>/dashboard/configurar/atualizar-usuario/<?php echo $usuarioDados[0]['id_user']; ?>" method="post">
 
 			<div class="input-field col s12 l12">
 
 				<div class="input-field col s6">
 			        <i class="material-icons prefix">assignment_turned_in</i>
-		          	<input id="nomelogin" type="text" class="validate" maxlength="60" name="user" value="<?php echo $meusDados[0]['user'] ?>">
+		          	<input id="nomelogin" type="text" class="validate" name="user" value="<?php echo $usuarioDados[0]['user'] ?>">
 		          	<label for="nomelogin">Nome de login</label>
 				</div>
 
 				<div class="input-field col s6">
 			        <i class="material-icons prefix">email</i>
-		          	<input id="email" type="email" class="validate" name="email" value="<?php echo $meusDados[0]['email'] ?>">
+		          	<input id="email" type="email" class="validate" name="email" value="<?php echo $usuarioDados[0]['email'] ?>">
 		          	<label for="email">E-mail</label>
 				</div>
 
@@ -77,18 +78,11 @@ if (isset($_COOKIE['Atualizado'])) {
 
 
 
-		<h4 id="senha">Minha senha</h4>
-		<blockquote>Ao atualizar a senha você será desconectado.</blockquote>
+		<h4 id="senha">Redefinir senha do usuário</h4>
 
-		<form role="form" action="/<?php echo pastaPrincipal ?>/dashboard/configurar/atualizar-dados" method="post">
+		<form role="form" action="/<?php echo pastaPrincipal ?>/dashboard/configurar/atualizar-usuario/<?php echo $usuarioDados[0]['id_user']; ?>" method="post">
 
 			<div class="input-field col s12 l12">
-
-				<div class="input-field col s6">
-			        <i class="material-icons prefix">lock_open</i>
-		          	<input id="senhaAtual" type="password" class="validate" name="senhaAtual" >
-		          	<label for="senhaAtual">Senha atual</label>
-				</div>
 
 				<div class="input-field col s6">
 			        <i class="material-icons prefix">lock_outline</i>

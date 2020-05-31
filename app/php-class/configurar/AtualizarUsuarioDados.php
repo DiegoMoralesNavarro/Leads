@@ -4,7 +4,7 @@ namespace App\configurar;
 
 use \App\DB\Sql;
 
-class AtualizarMeusDados{
+class AtualizarUsuarioDados{
 
 	public $values = [];
 
@@ -47,7 +47,7 @@ protected $fields = [
 // get
 
 
-public static function meusDados($user){
+public static function usuarioDados($user){
 
   $sql = new Sql();
   return $sql->select("SELECT * FROM tb_user WHERE id_user = $user");
@@ -68,7 +68,7 @@ public function atualizarDados($user){
 
 
   if ($this->getuser() == '' || $this->getuser() == NULL) {
-    header("Location: /leads/dashboard/configurar/atualizar-dados?login=Vazio");
+    header("Location: /".pastaPrincipal."/dashboard/configurar/atualizar-usuario/$user?login=Vazio");
     exit;
   }else{
 
@@ -79,7 +79,7 @@ public function atualizarDados($user){
 
     setcookie("Atualizado", "Atualizado");
 
-   header("Location: /".pastaPrincipal."/dashboard/logout");
+    header("Location: /".pastaPrincipal."/dashboard/configurar/atualizar-usuario/$user");
     exit;
   }
 
@@ -91,41 +91,24 @@ public function atualizarSenha($user){
 
   $sql = new Sql();
 
-  if ($this->getsenhaAtual() == '' || $this->getsenhaAtual() == NULL) {
-    header("Location: /".pastaPrincipal."/dashboard/configurar/atualizar-dados?senha=Vazio#senha");
+  if ($this->getnovaSenha() == '' || $this->getnovaSenha() == NULL) {
+    header("Location: /".pastaPrincipal."/dashboard/configurar/atualizar-usuario/$user?senha=Vazio#senha");
     exit;
+
   }else{
-    //verificar se senha atual está correta
-    $results = $sql->select("SELECT senha FROM tb_user WHERE id_user = $user");
 
-    $md5 = md5($this->getsenhaAtual());
-
-    if ($results[0]['senha'] == $md5) {
-
-      if ($this->getnovaSenha() == '' || $this->getnovaSenha() == NULL) {
-        header("Location: /".pastaPrincipal."/dashboard/configurar/atualizar-dados?senhaAtual=Vazio#senha");
-        exit;
-      }else{
-        $results = $sql->select("UPDATE tb_user SET senha = :senha WHERE (id_user = $user)", array(
+    $results = $sql->select("UPDATE tb_user SET senha = :senha WHERE (id_user = $user)", array(
          ":senha"=>md5($this->getnovaSenha())
-        ));
+        
+         ));
 
-        setcookie("Atualizado", "Atualizado");
+    setcookie("Atualizado", "Atualizado");
 
-       header("Location: /".pastaPrincipal."/dashboard/logout");
+       header("Location: /".pastaPrincipal."/dashboard/configurar/atualizar-usuario/$user");
        exit;
       }
 
-      
-
-    }else{
-      header("Location: /".pastaPrincipal."/dashboard/configurar/atualizar-dados?senha=Errado#senha");
-    exit;
-    }
-
-
-  }
-
+    
 
 
 

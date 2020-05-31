@@ -9,6 +9,8 @@ use \App\LoginUser;
 use \App\CriarLeads;
 
 use \App\configurar\AtualizarMeusDados;
+use \App\configurar\AtualizarUsuario;
+use \App\configurar\AtualizarUsuarioDados;
 
 
 
@@ -70,6 +72,8 @@ $app->post('/dashboard/configurar/atualizar-dados', function() {
 	$user->setData($_POST);
 
 
+
+
 	if (isset($_POST['user'])) {
 		$user->atualizarDados($_SESSION["id_user"]);
 	}else{
@@ -86,11 +90,34 @@ $app->post('/dashboard/configurar/atualizar-dados', function() {
 
 
 $app->get('/dashboard/configurar/atualizar-usuario', function() {
+
+	LoginUser::verifyLogin();
 	
 
 //tabela con lista de usuario com botão editar
 
 	require_once('../'.pastaPrincipal.'/views/'.header);
+
+
+	if (isset($_GET['pesquisa'])) {
+		$val = $_GET['pesquisa'];
+	}else{
+		$val = "";
+	}
+
+	if (isset($_GET['page'])) {
+		$page = $_GET['page'];
+	}else{
+		$page = 1;
+	}
+
+	$itemsPerPage = 20;
+
+	$users = new AtualizarUsuario();
+	$users->listUsuario($val, $page, $itemsPerPage, $_SESSION["nivel"]);
+
+	//$user = AtualizarUsuario::listAll(); ///
+
 
 
 	require_once('../'.pastaPrincipal.'/views/configurar/atualizar-usuario.php');
@@ -100,25 +127,82 @@ $app->get('/dashboard/configurar/atualizar-usuario', function() {
 
 });
 
-$app->post('/dashboard/configurar/atualizar-usuario', function() {
 
-	 $user = new CriarLeads();
 
-	 $user->setData($_POST);
-	 
+
+///
+
+
+
+$app->get('/dashboard/configurar/atualizar-usuario/:id', function($id) {
+
+	LoginUser::verifyLogin();
+
+require_once('../'.pastaPrincipal.'/views/'.header);
+
+	$usuarioDados = AtualizarUsuarioDados::usuarioDados($id);
+
+
 	
+	require_once('../'.pastaPrincipal.'/views/configurar/editandoUsuario.php');
+
+/// fazer DEPOIS o excluir e passar para outro
+
+
+require_once('../'.pastaPrincipal.'/views/'.footer);
+
 
 });
 
+
+
+
+$app->post('/dashboard/configurar/atualizar-usuario/:id', function($id) {
+
+	$user = new AtualizarUsuarioDados();
+
+	$user->setData($_POST);
+
+
+	
+	
+
+	if (isset($_POST['user'])) {
+		$user->atualizarDados($id);
+	}else{
+		$user->atualizarSenha($id);
+	}
+
+
+
+
+});
 
 ////
 
 
 
+
+
+
+
+
+
+
+
 $app->get('/dashboard/configurar/cadastrar-usuario', function() {
+
+	LoginUser::verifyLogin();
+
+
+	/// só pode ser feito por admin
 	
 
 	require_once('../'.pastaPrincipal.'/views/'.header);
+
+
+
+	require_once('../'.pastaPrincipal.'/views/configurar/cadastro-usuario.php');
 
 
 
