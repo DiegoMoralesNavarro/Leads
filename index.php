@@ -30,6 +30,8 @@ use \App\VerLeads;
 use \App\FollowUp;
 use \App\StatusLista;
 
+use \App\configurar\AtualizarUsuarioDados;
+
 
 $app = new Slim();
 
@@ -201,6 +203,21 @@ $app->get('/dashboard/status-lista/:idlead/delete', function($idlead) {
 
 
 
+
+$app->get('/dashboard/configurar/atualizar-usuario/:id/delete/', function($id){
+
+
+	
+	$user = new AtualizarUsuarioDados();
+	$user->deletarUsuario((int)$id);
+
+
+	header("Location: /".pastaPrincipal."/dashboard/configurar/atualizar-usuario");
+ 	exit;
+
+	
+
+});
 
 
 

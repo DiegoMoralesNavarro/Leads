@@ -60,12 +60,12 @@ public function listUsuario($val, $page, $itemsPerPage, $nivel){
 	if ($val  == "") {
      
 		$sql = new Sql();
-	      $results = $sql->select("SELECT SQL_CALC_FOUND_ROWS * FROM tb_user where nivel NOT LIKE '%$nivel%' ORDER BY user LIMIT $start, $itemsPerPage");
+	      $results = $sql->select("SELECT SQL_CALC_FOUND_ROWS * FROM tb_user where nivel NOT LIKE '%$nivel%' AND nivel NOT LIKE '1' ORDER BY user LIMIT $start, $itemsPerPage");
 
 	      $this->setData($results);
 
 
-	       $results2 = $sql->select("SELECT * FROM tb_user where nivel NOT LIKE '%$nivel%' AND user like '%$val%' ");
+	       $results2 = $sql->select("SELECT * FROM tb_user where nivel NOT LIKE '%$nivel%' AND nivel NOT LIKE '1' AND user like '%$val%' ");
 
 	      $_SESSION["paginas"] = count($results2);
 
@@ -74,12 +74,12 @@ public function listUsuario($val, $page, $itemsPerPage, $nivel){
 
 
       	$sql = new Sql();
-	      $results = $sql->select("SELECT SQL_CALC_FOUND_ROWS * FROM tb_user where  nivel NOT LIKE '%$nivel%' AND user like '%$val%' ORDER BY user LIMIT $start, $itemsPerPage");
+	      $results = $sql->select("SELECT SQL_CALC_FOUND_ROWS * FROM tb_user where  nivel NOT LIKE '%$nivel%' AND nivel NOT LIKE '1' AND user like '%$val%' ORDER BY user LIMIT $start, $itemsPerPage");
 
 	      $this->setData($results);
 
 
-	       $results2 = $sql->select("SELECT * FROM tb_user where where  nivel NOT LIKE '%$nivel%' AND user like '%$val%' ");
+	       $results2 = $sql->select("SELECT * FROM tb_user where where nivel NOT LIKE '%$nivel%' AND nivel NOT LIKE '1' AND user like '%$val%' ");
 
 	      $_SESSION["paginas"] = count($results2);
 

@@ -44,7 +44,7 @@ if (isset($_COOKIE['Atualizado'])) {
 
     	<h4>Criar um acompanhamento do lead: <strong><?php echo $lead[0]['nome']; ?> </strong></h4>
 
-    	<div class="col s12 l8">
+    	<div class="col s12 l12">
 
 	    	<form role="form1" action="/<?php echo pastaPrincipal ?>/dashboard/follow-up/<?php echo $idlead; ?>" method="post" enctype="multipart/form-data">
 
@@ -58,7 +58,7 @@ if (isset($_COOKIE['Atualizado'])) {
 
 				<div class="input-field col s12 ">
 
-		          	<button class="btn waves-effect waves-light" type="submit">Cadastrar
+		          	<button class="btn waves-effect light-green" type="submit">Cadastrar
 					    <i class="material-icons right">send</i>
 					</button>
 				</div>
@@ -118,11 +118,17 @@ if (isset($_COOKIE['Atualizado'])) {
     	<form role="form" action="/<?php echo pastaPrincipal ?>/dashboard/follow-up/<?php echo $idlead; ?>" method="post" enctype="multipart/form-data">
 
     		<div class="col s12 linha">
-    			<div class="col s5 l3">
+    			<div class="col s12 l3">
     				<p>Criado em: <?php echo date('d/m/Y', strtotime($value['data'])); ?></p>
 				</div>
-				<div class="col s5 l6">
-					 <p>Ultima atualização: <?php echo date('d/m/Y H:i', strtotime($value['dataAtualizada']));  ?></p>
+				<div class="col s12 l9">
+				<p>Ultima atualização: <?php echo date('d/m/Y H:i', strtotime($value['dataAtualizada']));?>
+				 - <?php if (isset($value['user'])) {
+				 	echo $value['user'];
+				 }else{
+				 	 echo "vazio";
+				 } ?> 
+				</p>
 				</div>
 
     			<div class="col s12 l9">
@@ -196,6 +202,122 @@ if (isset($_COOKIE['Atualizado'])) {
 
 
     	<?php } ?>
+
+
+
+
+<div class="row">
+    <div class="col s12">
+      <blockquote>Quando estiver escrito <strong>VAZIO</strong> significa que o usuário que fez a ultima atualização foi DELETADO </blockquote>
+     </div>
+  </div>
+
+
+
+
+    	<?php foreach ($followUpVazio as $value) { ?>
+
+
+
+		    	<form role="form" action="/<?php echo pastaPrincipal ?>/dashboard/follow-up/<?php echo $idlead; ?>" method="post" enctype="multipart/form-data">
+
+		    		<div class="col s12 linha">
+		    			<div class="col s12 l3">
+		    				<p>Criado em: <?php echo date('d/m/Y', strtotime($value['data'])); ?></p>
+						</div>
+						<div class="col s12 l9">
+						<p>Ultima atualização: <?php echo date('d/m/Y H:i', strtotime($value['dataAtualizada']));?> - <strong><?php echo "vazio";?> </strong>
+						</p>
+						</div>
+
+		    			<div class="col s12 l9">
+
+		    				
+		    				<input type="hidden" id="idfollowup" name="idfollowup" value="<?php echo $value['idfollowup'] ?>">
+		    				<div class="input-field col s12">
+					          <i class="material-icons prefix">mode_edit</i>
+					          <label for="obs">Follow Up</label>
+					          <textarea id="obs" name="texto" required="" class="materialize-textarea" maxlength="200"><?php echo $value['texto'] ?></textarea>
+					        </div>
+
+						</div>
+
+						<div class="col s12 l3">
+
+							<button class="waves-effect waves-light btn-small" type="submit" >Salvar
+							</button>
+
+							<a class=" red accent-4 btn-small"
+							 href="<?php echo $value['idfollowup'] ?>/delete/?id=<?php echo $lead[0]['idlead']; ?>" 
+							 onclick="return confirm('Deseja realmente excluir o Serviço')" >Excluir</a>
+
+						</div>
+
+						<div class=" input-field col s12 l9" style="margin-top: -1rem;">
+					        	<?php if ($value['imagem'] == null || $value['imagem'] == '') {
+					        		?>
+					        		<div class="file-field input-field ">
+							            <div class="btn">
+							              <span>File</span>
+							              <input type="file" name="fileUpload" accept=".png, .jpg, .jpeg">
+							            </div>
+							            <div class="file-path-wrapper">
+							              <input class="file-path validate" type="text" accept=".png, .jpg, .jpeg" placeholder="Carregue sua imagem">
+							            </div>
+						            </div>
+
+
+					        		<?php
+					        	}else{
+					        		?>
+
+					        		<table class="highlight ">
+
+					        		<tbody>
+											<tr>
+												<td>
+													<?php echo $value['imagem']; ?>
+												</td>
+
+												<td>
+
+													<a class="waves-effect waves-light btn-small" 
+										 href="<?php echo URLestilo ?>/uploads/<?php echo $value['imagem'] ?>" target="_blank">Ver</a>
+
+										 			<a class=" red accent-4 btn-small" 
+										 href="<?php echo $value['idfollowup'] ?>/delete-img/?id=<?php echo $lead[0]['idlead']; ?>" onclick="return confirm('Deseja realmente excluir este Arquivo?')" >Excluir</a>
+
+												</td>
+											</tr>
+							        </tbody>
+							        </table>
+					        		<?php
+					        	} ?>
+					    </div>
+
+					</div>
+
+		    	</form>
+
+
+		    	<?php } ?>
+
+
+
+
+
+
+
+
+
+
+
+
+    	<div class="input-field col s12 center-align">
+    		<a class="waves-effect waves-light btn-small" 
+				href="<?php echo URLestilo ?>/dashboard/editar/<?php echo $lead[0]['idlead']?>">Atualizar os dados</a>
+			
+		</div>
       
      </div>
   </div>

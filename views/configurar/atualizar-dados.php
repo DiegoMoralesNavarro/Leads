@@ -108,6 +108,12 @@ if (isset($_COOKIE['Atualizado'])) {
 
 		</form>
 
+		<div class="input-field col s12 center-align">
+    		<a class="waves-effect light-green btn-small" 
+				href="<?php echo URLestilo ?>/dashboard/configurar">Início configurar</a>
+			
+		</div>
+
 	</div>
   </div>
 

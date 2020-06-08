@@ -28,7 +28,7 @@ CREATE TABLE `tb_arquivo` (
   `fk_idlead` int(11) NOT NULL,
   PRIMARY KEY (`idtarquivo`),
   KEY `fk_idlead_idx` (`fk_idlead`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -37,7 +37,7 @@ CREATE TABLE `tb_arquivo` (
 
 LOCK TABLES `tb_arquivo` WRITE;
 /*!40000 ALTER TABLE `tb_arquivo` DISABLE KEYS */;
-INSERT INTO `tb_arquivo` VALUES (12,'6-paymentInstructions.pdf',108),(23,'1-Analytics Todos os dados do website Visão geral 20200401-20200409.pdf',118);
+INSERT INTO `tb_arquivo` VALUES (26,'2-Reymond calendário.pdf',129);
 /*!40000 ALTER TABLE `tb_arquivo` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -50,4 +50,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-05-05 19:43:09
+-- Dump completed on 2020-06-08 10:56:04

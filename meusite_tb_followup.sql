@@ -29,9 +29,11 @@ CREATE TABLE `tb_followup` (
   `idlead` int(11) NOT NULL,
   `dataAtualizada` datetime DEFAULT NULL,
   `imagem` varchar(265) DEFAULT NULL,
+  `fk_id_user` int(11) NOT NULL,
   PRIMARY KEY (`idfollowup`,`idlead`),
-  KEY `idlead_idx` (`idlead`)
-) ENGINE=InnoDB AUTO_INCREMENT=58 DEFAULT CHARSET=utf8;
+  KEY `idlead_idx` (`idlead`),
+  KEY `fk_id_user_idx` (`fk_id_user`)
+) ENGINE=InnoDB AUTO_INCREMENT=78 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -40,7 +42,7 @@ CREATE TABLE `tb_followup` (
 
 LOCK TABLES `tb_followup` WRITE;
 /*!40000 ALTER TABLE `tb_followup` DISABLE KEYS */;
-INSERT INTO `tb_followup` VALUES (1,'aaaaaaaaaaaaaaaaa','2020-04-21',119,'2020-05-02 09:33:00',NULL),(3,'nnnnnnnnnnnnnnnnnzzzzzzzzzzzzzzzzz','2020-04-21',125,'2020-05-02 00:00:00',NULL),(7,'nnnnnnnnnnnnnnnnnzzzzzzzzzzzzzzzzz','2020-05-02',125,'2020-05-02 00:00:00',NULL),(9,'ttttt','2020-05-02',113,'2020-05-02 00:00:00',NULL),(14,'eeeeeeeeeeeeexxrr','2020-05-02',122,'2020-05-02 18:53:00',NULL),(15,'eeeeeeeeeeeeexxrraaaaaaaa','2020-05-02',122,'2020-05-02 19:00:00',NULL),(16,'flw2','2020-05-02',126,'2020-05-02 00:00:00',NULL),(17,'flw1','2020-05-02',126,'2020-05-02 00:00:00',NULL),(18,'outroooooooooooooooooxxx','2020-05-02',122,'2020-05-03 09:13:00',NULL),(19,'ssssssssssssssssssssssssssssssssssssssqq','2020-05-03',127,'2020-05-03 17:39:00',NULL),(52,'aaaaaaaaaaaaaaaaeuuuuu222','2020-05-03',127,'2020-05-03 17:52:00',NULL),(56,'nnnn','2020-05-03',127,'2020-05-03 18:06:00',NULL),(57,'Não saber se quer o contrato de SEO','2020-05-05',129,'2020-05-05 19:32:00',NULL);
+INSERT INTO `tb_followup` VALUES (66,'rrrrrrrrrrrrrrreeetttttrrrrrrrttt0 PPPPPPPPPP','2020-05-10',61,'2020-06-07 20:05:00',NULL,1),(67,'tttttttyyyooouuuu','2020-05-10',61,'2020-06-07 19:15:00','',0),(74,'eseeccccccxxxxxxxxxxxxxxxxxx','2020-05-14',129,'2020-06-07 17:57:00',NULL,0),(75,'eeeeee','2020-05-07',61,'2020-06-07 19:14:00',NULL,1),(76,'outro testeuuuuu','2020-05-07',61,'2020-06-07 19:28:00',NULL,0),(77,'oooooooo','2020-06-07',61,'2020-06-07 19:28:00',NULL,0);
 /*!40000 ALTER TABLE `tb_followup` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -53,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-05-05 19:43:10
+-- Dump completed on 2020-06-08 10:56:05

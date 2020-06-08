@@ -32,9 +32,12 @@ CREATE TABLE `tb_lead` (
   `site` varchar(45) DEFAULT NULL,
   `dataAtualizada` datetime DEFAULT NULL,
   `fk_origem_lead` int(11) NOT NULL,
-  PRIMARY KEY (`idlead`,`fk_status`,`fk_origem_lead`),
+  `fk_id_user` int(11) NOT NULL,
+  PRIMARY KEY (`idlead`,`fk_status`,`fk_origem_lead`,`fk_id_user`),
   KEY `fk_status_idx` (`fk_status`),
-  KEY `fk_origem_lead_idx` (`fk_origem_lead`)
+  KEY `fk_origem_lead_idx` (`fk_origem_lead`),
+  KEY `fk_id_user_idx` (`fk_id_user`),
+  KEY `fk_id_user` (`fk_id_user`)
 ) ENGINE=InnoDB AUTO_INCREMENT=130 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -44,7 +47,7 @@ CREATE TABLE `tb_lead` (
 
 LOCK TABLES `tb_lead` WRITE;
 /*!40000 ALTER TABLE `tb_lead` DISABLE KEYS */;
-INSERT INTO `tb_lead` VALUES (1,'Leo','11 88888',2,'2020-04-01 00:00:00',NULL,NULL,NULL,1),(3,'Diego','11 984290978',2,'2020-04-01 00:00:00',NULL,NULL,NULL,1),(6,'José Pereira','11 900000',2,'2020-04-02 00:00:00',NULL,NULL,NULL,1),(7,'Maria da Silva','11 331111',5,'2020-04-02 00:00:00','','','2020-04-21 00:00:00',1),(9,'Jo Pereira','11 900000',2,'2020-04-02 00:00:00',NULL,NULL,NULL,1),(49,'gugu','888888888',2,'2020-04-04 00:00:00',NULL,NULL,NULL,1),(50,'zezeca','123 444444444',2,'2020-04-04 00:00:00',NULL,NULL,NULL,1),(60,'mister','3333 222',20,'2020-04-04 00:00:00',NULL,NULL,NULL,1),(61,'bobddddsxxxx','225544422',2,'2020-04-06 00:00:00',NULL,NULL,NULL,1),(80,'teste ok','77799999922',2,'2020-04-06 00:00:00',NULL,NULL,NULL,1),(108,'teste ar','1222',2,'2020-04-06 00:00:00',NULL,NULL,NULL,1),(118,'diego','4443333222',5,'2020-04-12 00:00:00','teste@teste.com',NULL,NULL,1),(122,'Clis b','2222222555543',20,'2020-04-15 00:00:00','teste@teste.com','www.google.com.br','2020-05-02 19:10:00',2),(127,'novo cara','1111111111111111',2,'2020-05-02 00:00:00','teste@teste.com','','2020-05-03 18:03:00',2),(129,'Diego M Navarro','11 90000000',29,'2020-05-05 19:29:33','diego@agencianovaacao.com.br','https://agencianovaacao.com.br/','2020-05-05 19:32:00',2);
+INSERT INTO `tb_lead` VALUES (1,'Leo','11 88888',2,'2020-04-01 00:00:00',NULL,NULL,NULL,1,3),(3,'Diego','11 984290978',2,'2020-04-01 00:00:00',NULL,NULL,NULL,1,3),(7,'Maria da Silva','11 331111',5,'2020-04-02 00:00:00','','','2020-04-21 00:00:00',1,0),(9,'Jo Pereira','11 900000',2,'2020-04-02 00:00:00',NULL,NULL,NULL,1,0),(50,'zezeca','123 444444444',2,'2020-04-04 00:00:00',NULL,NULL,NULL,1,0),(60,'mister','3333 222',30,'2020-04-04 00:00:00','','','2020-05-15 19:40:00',1,0),(61,'bobddddsxxxx','225544422',2,'2020-04-06 00:00:00',NULL,NULL,'2020-05-16 19:48:00',1,0),(118,'diego','4443333222',5,'2020-04-12 00:00:00','teste@teste.com','','2020-05-10 11:17:00',1,3),(122,'Clis b','2222222555543',20,'2020-04-15 00:00:00','teste@teste.com','www.google.com.br','2020-05-09 18:50:00',2,0),(129,'Diego M Navarro','(11)11111-1111',29,'2020-05-05 19:29:33','diego@agencianovaacao.com.br','https://agencianovaacao.com.br/','2020-06-05 19:10:00',2,0);
 /*!40000 ALTER TABLE `tb_lead` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -57,4 +60,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-05-05 19:43:10
+-- Dump completed on 2020-06-08 10:56:04

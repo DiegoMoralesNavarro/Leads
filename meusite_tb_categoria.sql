@@ -35,7 +35,7 @@ CREATE TABLE `tb_categoria` (
 
 LOCK TABLES `tb_categoria` WRITE;
 /*!40000 ALTER TABLE `tb_categoria` DISABLE KEYS */;
-INSERT INTO `tb_categoria` VALUES (1,1),(1,3),(7,2),(9,2),(9,4),(49,1),(49,2),(50,4),(51,1),(51,2),(55,1),(60,3),(61,3),(61,8),(67,1),(80,4),(80,8),(108,4),(108,8),(118,1),(118,3),(127,1),(127,2),(127,3),(129,1),(129,3),(129,8);
+INSERT INTO `tb_categoria` VALUES (1,1),(1,3),(7,2),(9,2),(9,4),(50,4),(51,1),(51,2),(55,1),(60,3),(61,3),(61,4),(61,8),(67,1),(118,2),(118,4),(118,8),(129,2),(129,3),(129,4);
 /*!40000 ALTER TABLE `tb_categoria` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -48,4 +48,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-05-05 19:43:12
+-- Dump completed on 2020-06-08 10:56:06

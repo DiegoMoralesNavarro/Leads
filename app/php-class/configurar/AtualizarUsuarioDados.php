@@ -119,7 +119,27 @@ public function atualizarSenha($user){
 
 
 
+public function deletarUsuario($id){
 
+  $sql = new Sql();
+
+  echo "string".$id;
+
+  $results = $sql->select("UPDATE tb_lead SET fk_id_user = 0 WHERE (fk_id_user = $id)");
+
+  $results2 = $sql->select("UPDATE tb_followup SET fk_id_user = 0 WHERE (fk_id_user = $id)");
+
+  $results3 = $sql->select("UPDATE tb_obs SET fk_id_user = 0 WHERE (fk_id_user = $id)");
+
+
+  $results4 = $sql->select("DELETE FROM tb_user WHERE (id_user = $id)");
+
+  setcookie("Atualizado", "Atualizado");
+
+
+
+
+}
 
 
 

@@ -1,24 +1,6 @@
 
 
 
-<?php 
-
-if (isset($_COOKIE['Atualizado'])) {
-	?> 
-	<script>
-		window.addEventListener("load", function() {
-	    M.toast({html: 'Deletado'})
-	  });
-	</script>
-	<?php
-	setcookie("Atualizado", '', time() - 2000);
-}else{
-
-}
-
-
- ?> 
-
 
 <?php 
 
@@ -35,9 +17,21 @@ if (isset($_GET['pesquisa'])) {
 
 
 
+if (isset($_GET['responsavel'])) {
+	$_SESSION["responsavel"] = $_GET['responsavel'];
+
+	$responsavel = $_SESSION["responsavel"];
+}else{
+	$_SESSION["responsavel"] = 0;
+
+	$responsavel = $_SESSION["responsavel"];
+}
+
 
 
 ?>
+
+
 
 
 
@@ -45,9 +39,9 @@ if (isset($_GET['pesquisa'])) {
 
   <div class="row">
     <div class="col s12">
-      <h1>Editar dados de usuário</h1>
+      <h1>Reponsável pelo lead</h1>
       
-       <blockquote>Pesquisa e atualização de usuário</blockquote>
+       <blockquote>Realize um pesquisa por responsável.</blockquote>
      </div>
   </div>
 
@@ -61,29 +55,59 @@ if (isset($_GET['pesquisa'])) {
   <div class="row">
     <div class="col s12 form">
 
-    	<form role="form" action="/<?php echo pastaPrincipal ?>/dashboard/configurar/atualizar-usuario?pesquisa=$pesquisa&page=$numero" method="get">
+    	<form role="form" action="/<?php echo pastaPrincipal ?>/dashboard/configurar/responsavel-lead?pesquisa=$pesquisa&page=$numero&responsavel=$numero" method="get">
 
     		<div class="row">
-				<div class="input-field col s12 l9">
+				<div class="input-field col s12 l5">
 					<i class="material-icons prefix">textsms</i>
 			          <input type="text" id="autocomplete-input" class="autocomplete" name="pesquisa" value="<?php echo $valor; ?>">
 			          <label for="autocomplete-input">Nome do Usuario</label>
 				</div>
+
+
+
+				<div class="col s12 l4">
+					<div class="input-field col s12">
+						
+					    <select name="responsavel" >
+
+					    	<option  value="0" > Todos </option>
+					    	
+					      <?php foreach ($user as $value){ ?>
+
+					      		<option  value="<?php echo $value['id_user'] ?>" >  <?php echo $value['user'] ?> </option>
+
+						    	
+
+						    <?php } ?>
+					    </select>
+					    <label>Responsável</label>
+					</div>
+				</div>
+
+
 				<div class="input-field col s12 l3 center-align">
 					<button class="btn waves-effect waves-light" type="submit">Pesquisar
 						<i class="material-icons right">search</i>
 					</button>
 				</div>
 			</div>
+
+
+
+			
+
+
 	
 
 
     		<table class="striped centered responsive-table">
 				<thead>
 					<tr>
-						<th>ID</th>
 						<th>Nome</th>
+						<th>Telefone</th>
 						<th>E-mail</th>
+						<th>Responsável</th>
 						<th>Editar</th>
 					</tr>
 				</thead>
@@ -100,17 +124,15 @@ if (isset($_GET['pesquisa'])) {
 					  	?>
 
 						<tr>
-							
-							<td><?php echo $value[$i]['id_user']; ?></td>
-							<td><?php echo $value[$i]['user']; ?></td>
+
+							<td><?php echo $value[$i]['nome']; ?></td>
+							<td><?php echo $value[$i]['telefone']; ?></td>
 							<td><?php echo $value[$i]['email']; ?></td>
+							<td><?php echo $value[$i]['user']; ?></td>
 
 							<td class="edite-form"> 
 								<a class="waves-effect waves-light btn-small" 
-								href="<?php echo URLestilo ?>/dashboard/configurar/atualizar-usuario/<?php echo $value[$i]['id_user'] ?>">Editar</a>
-
-								<a class=" red accent-4 btn-small" 
-					href="<?php echo URLestilo ?>/dashboard/configurar/atualizar-usuario/<?php echo $value[$i]['id_user']?>/delete" onclick="return confirm('Deseja realmente excluir este registro?')" >Excluir</a>
+								href="<?php echo URLestilo ?>/dashboard/configurar/atribuir-lead/existente/<?php echo $value[$i]['idlead'] ?>">Novo responsável</a>
 
 							</td>
 						</tr>
@@ -124,6 +146,7 @@ if (isset($_GET['pesquisa'])) {
 							<tr>
 								<td>xx</td>
 								<td>vazio</td>
+								<td></td>
 								<td></td>
 								<td></td>
 							</tr>
@@ -220,6 +243,7 @@ function selected( $value, $selected ){
 
 
     	</form>
+
 
     	<div class="input-field col s12 center-align">
     		<a class="waves-effect light-green btn-small" 

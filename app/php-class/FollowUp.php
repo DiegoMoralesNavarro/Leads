@@ -54,7 +54,29 @@ protected $fields = [
 
 public static function listFolloUp($idlead){
 	$sql = new Sql();
-	return $sql->select("SELECT * FROM tb_followup WHERE idlead = $idlead ORDER BY idfollowup DESC");
+
+
+  $results = $sql->select("SELECT * FROM tb_followup inner join tb_user on tb_followup.fk_id_user = tb_user.id_user WHERE idlead = $idlead ORDER BY idfollowup DESC");
+
+  if (count($results) == 0 || count($results) == null) {
+      return $sql->select("SELECT * FROM tb_followup WHERE idlead = $idlead ORDER BY idfollowup DESC");
+  }else{
+      return $sql->select("SELECT * FROM tb_followup inner join tb_user on tb_followup.fk_id_user = tb_user.id_user WHERE idlead = $idlead ORDER BY idfollowup DESC");
+  }
+
+
+
+}
+
+
+
+public static function listFolloUpVazio($idlead){
+  $sql = new Sql();
+
+      return $sql->select("SELECT * FROM tb_followup WHERE idlead = $idlead and fk_id_user = 0 ORDER BY idfollowup DESC");
+  
+
+
 
 }
 
@@ -101,10 +123,11 @@ public function cadastrarFollowUp($idlead){
   if ($this->gettextofollow() == "") {
       //vazio
     }else{
-       $results = $sql->select("INSERT INTO tb_followup (texto, data, idlead, dataAtualizada) VALUES (:texto, :data, $idlead, :dataAtualizada)", array(
+       $results = $sql->select("INSERT INTO tb_followup (texto, data, idlead, dataAtualizada, fk_id_user) VALUES (:texto, :data, $idlead, :dataAtualizada, :userId)", array(
             ":texto"=>$this->gettextofollow(),
             ":data"=>date('Y-m-d'),
-            ":dataAtualizada"=>date('Y-m-d H:i')
+            ":dataAtualizada"=>date('Y-m-d H:i'),
+            ":userId"=>$_SESSION["id_user"]
           ));
 
 
@@ -187,11 +210,12 @@ public function salvarFollowUp($idlead){
               var_dump( $arquivo);
 
 
-              $results = $sql->select("UPDATE tb_followup SET texto = :texto, dataAtualizada = :dataAtualizada, imagem = :imagem WHERE idfollowup = :idfollowup", array(
+              $results = $sql->select("UPDATE tb_followup SET texto = :texto, dataAtualizada = :dataAtualizada, imagem = :imagem, fk_id_user = :userId WHERE idfollowup = :idfollowup", array(
                       ":texto"=>$this->gettexto(),
                        ":dataAtualizada"=>date('Y-m-d H:i'),
                        ":imagem"=>$arquivo,
-                       ":idfollowup"=>$this->getidfollowup()
+                       ":idfollowup"=>$this->getidfollowup(),
+                       ":userId"=>$_SESSION["id_user"]
                       ));
                   
 
@@ -234,11 +258,14 @@ public function salvarFollowUpSimples($idlead){
   $sql = new Sql();
 
 
-   $results = $sql->select("UPDATE tb_followup SET texto = :texto, dataAtualizada = :dataAtualizada WHERE idfollowup = :idfollowup", array(
+   $results = $sql->select("UPDATE tb_followup SET texto = :texto, dataAtualizada = :dataAtualizada, fk_id_user = :userId WHERE idfollowup = :idfollowup", array(
        ":texto"=>$this->gettexto(),
        ":dataAtualizada"=>date('Y-m-d H:i'),
+       ":userId"=>$_SESSION["id_user"],
        ":idfollowup"=>$this->getidfollowup()
       ));
+
+
 
 
    header("location: /".pastaPrincipal."/dashboard/follow-up/$idlead");

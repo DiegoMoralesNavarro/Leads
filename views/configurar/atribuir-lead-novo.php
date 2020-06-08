@@ -3,25 +3,6 @@
 
 <?php 
 
-if (isset($_COOKIE['Atualizado'])) {
-	?> 
-	<script>
-		window.addEventListener("load", function() {
-	    M.toast({html: 'Deletado'})
-	  });
-	</script>
-	<?php
-	setcookie("Atualizado", '', time() - 2000);
-}else{
-
-}
-
-
- ?> 
-
-
-<?php 
-
 
 if (isset($_GET['pesquisa'])) {
 	$_SESSION["pesquisa"] = $_GET['pesquisa'];
@@ -45,9 +26,9 @@ if (isset($_GET['pesquisa'])) {
 
   <div class="row">
     <div class="col s12">
-      <h1>Editar dados de usuário</h1>
+      <h1>Leads que não tem um responsável</h1>
       
-       <blockquote>Pesquisa e atualização de usuário</blockquote>
+       <blockquote>Atribua um lead a um funcionário.</blockquote>
      </div>
   </div>
 
@@ -61,7 +42,7 @@ if (isset($_GET['pesquisa'])) {
   <div class="row">
     <div class="col s12 form">
 
-    	<form role="form" action="/<?php echo pastaPrincipal ?>/dashboard/configurar/atualizar-usuario?pesquisa=$pesquisa&page=$numero" method="get">
+    	<form role="form" action="/<?php echo pastaPrincipal ?>/dashboard/configurar/atribuir-lead/novo?pesquisa=$pesquisa&page=$numero" method="get">
 
     		<div class="row">
 				<div class="input-field col s12 l9">
@@ -81,8 +62,8 @@ if (isset($_GET['pesquisa'])) {
     		<table class="striped centered responsive-table">
 				<thead>
 					<tr>
-						<th>ID</th>
 						<th>Nome</th>
+						<th>Telefone</th>
 						<th>E-mail</th>
 						<th>Editar</th>
 					</tr>
@@ -100,17 +81,17 @@ if (isset($_GET['pesquisa'])) {
 					  	?>
 
 						<tr>
-							
-							<td><?php echo $value[$i]['id_user']; ?></td>
-							<td><?php echo $value[$i]['user']; ?></td>
+
+							<td><?php echo $value[$i]['nome']; ?></td>
+							<td><?php echo $value[$i]['telefone']; ?></td>
 							<td><?php echo $value[$i]['email']; ?></td>
 
 							<td class="edite-form"> 
 								<a class="waves-effect waves-light btn-small" 
-								href="<?php echo URLestilo ?>/dashboard/configurar/atualizar-usuario/<?php echo $value[$i]['id_user'] ?>">Editar</a>
+								href="<?php echo URLestilo ?>/dashboard/configurar/atribuir-lead/novo/<?php echo $value[$i]['idlead'] ?>">Atribuir</a>
 
-								<a class=" red accent-4 btn-small" 
-					href="<?php echo URLestilo ?>/dashboard/configurar/atualizar-usuario/<?php echo $value[$i]['id_user']?>/delete" onclick="return confirm('Deseja realmente excluir este registro?')" >Excluir</a>
+								<a class="waves-effect light-green btn-small" 
+								href="<?php echo URLestilo ?>/dashboard/follow-up/<?php echo $value[$i]['idlead']?>">Follow up</a>
 
 							</td>
 						</tr>

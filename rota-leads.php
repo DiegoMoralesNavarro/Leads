@@ -162,6 +162,9 @@ $app->get('/dashboard/follow-up/:idlead', function($idlead){
 	$idlead = $idlead;
 
 	$followUp = FollowUp::listFolloUp($idlead);
+
+	$followUpVazio = FollowUp::listFolloUpVazio($idlead);
+
 	$lead = FollowUp::listLead($idlead);
 
 	$userStatus = FollowUp::listStatus();
@@ -171,6 +174,8 @@ $app->get('/dashboard/follow-up/:idlead', function($idlead){
 
 ///
 	$img = FollowUp::selectImg($idlead);
+
+
 
 
 
@@ -198,6 +203,7 @@ $app->post('/dashboard/follow-up/:idlead', function($idlead) {
 	if (isset($_POST['statusLead'])) {
 		$user->salvarStatus($idlead);
 	}
+	
 
 	if (isset($_POST['texto'])) {
 		$user->salvarFollowUp($idlead);
@@ -207,7 +213,7 @@ $app->post('/dashboard/follow-up/:idlead', function($idlead) {
 	
 
 
-	var_dump($user);
+	
 
 	setcookie("Atualizado", "Atualizado");
 	

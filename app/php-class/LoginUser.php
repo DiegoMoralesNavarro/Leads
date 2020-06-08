@@ -114,8 +114,9 @@ protected $fields = [
 
 		$_SESSION["nivel"] = NULL;
 
-		//session_destroy();
+		$_SESSION["id_user"] = NULL;
 
+		session_destroy();
 	}
 
 

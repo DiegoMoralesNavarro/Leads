@@ -26,9 +26,11 @@ CREATE TABLE `tb_obs` (
   `idobs` int(11) NOT NULL AUTO_INCREMENT,
   `obs` varchar(100) NOT NULL,
   `fk_idlead` int(11) NOT NULL,
+  `fk_id_user` int(11) NOT NULL,
   PRIMARY KEY (`idobs`),
-  KEY `fk_idlead_idx` (`fk_idlead`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
+  KEY `fk_idlead_idx` (`fk_idlead`),
+  KEY `fk_id_user` (`fk_id_user`)
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -37,7 +39,7 @@ CREATE TABLE `tb_obs` (
 
 LOCK TABLES `tb_obs` WRITE;
 /*!40000 ALTER TABLE `tb_obs` DISABLE KEYS */;
-INSERT INTO `tb_obs` VALUES (1,'este é um d',61),(2,'eu ...eeew',80),(6,'aaaavvv',108),(9,'vaziosss',118),(13,'não sei oqueeeeeeee	aaa',122),(16,'sss',7),(19,'Ele que um teste',127),(21,'não quero nada',129);
+INSERT INTO `tb_obs` VALUES (1,'este é um d',61,0),(9,'vaziosss',118,0),(13,'não sei oqueeeeeeee	aaa',122,0),(16,'sss',7,0),(21,'não quero nada',129,0),(22,'aaaa',60,0);
 /*!40000 ALTER TABLE `tb_obs` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -50,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-05-05 19:43:11
+-- Dump completed on 2020-06-08 10:56:05

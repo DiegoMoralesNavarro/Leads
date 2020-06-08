@@ -26,7 +26,7 @@ CREATE TABLE `tb_servico` (
   `idservico` int(11) NOT NULL AUTO_INCREMENT,
   `tiposervico` varchar(45) NOT NULL,
   PRIMARY KEY (`idservico`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -35,7 +35,7 @@ CREATE TABLE `tb_servico` (
 
 LOCK TABLES `tb_servico` WRITE;
 /*!40000 ALTER TABLE `tb_servico` DISABLE KEYS */;
-INSERT INTO `tb_servico` VALUES (1,'seo'),(2,'site'),(3,'mkt'),(4,'ads'),(8,'Outros');
+INSERT INTO `tb_servico` VALUES (1,'seo'),(2,'site'),(3,'mkt'),(4,'ads'),(8,'Outro');
 /*!40000 ALTER TABLE `tb_servico` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -48,4 +48,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-05-05 19:43:09
+-- Dump completed on 2020-06-08 10:56:04

@@ -75,15 +75,16 @@ if (isset($_COOKIE['Atualizado'])) {
 
 				<div class="input-field col s12 l6">
 					<i class="material-icons prefix">lock_outline</i>
-			          <input type="password" id="senhaconfirmar" class="autocomplete" name="senhaconfirmar" class="validate" required="">
+			          <input type="password" id="senhaconfirmar" class="autocomplete" name="senhaconfirmar" class="validate" maxlength="60" required="">
 			          <label for="senhaconfirmar">Confirmar a senha</label>
 				</div>
 
 		    </div> <!-- coluna 1 -->
+		    <br>
 
-
-		    <div class="input-field col s12 l6">
-			    <select placeholder="Selecione um cargo">
+		    <div class="input-field col s12 l6" style="margin-left: 13px;">
+		    	<i class="material-icons prefix">business_center</i>
+			    <select name="nivel">
 			      <option value="1">Administrador</option>
 			      <option value="2">Gerente</option>
 			      <option value="3" selected="">Atendente</option>
@@ -103,6 +104,13 @@ if (isset($_COOKIE['Atualizado'])) {
 
 			</form>
 
+		</div>
+
+
+		<div class="input-field col s12 center-align">
+    		<a class="waves-effect light-green btn-small" 
+				href="<?php echo URLestilo ?>/dashboard/configurar">Início configurar</a>
+			
 		</div>
 
 
