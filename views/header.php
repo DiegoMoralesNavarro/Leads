@@ -5,6 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <meta name="robots" content="noindex">
+    <meta name="googlebot" content="noindex">
+
 
 <?php 
 $url = $_SERVER['REQUEST_URI'];
@@ -49,15 +52,19 @@ if ($pathFragments[3] == '') {
       <ul class="right hide-on-med-and-down">
         <li><a href="/<?php echo pastaPrincipal ?>/dashboard">Dashboard</a></li>
         <li><a href="/<?php echo pastaPrincipal ?>/dashboard/cadastro">Cadastrar Lead</a></li>
+        <?php if($_SESSION["nivel"] <= 2) { ?>
         <li><a href="/<?php echo pastaPrincipal ?>/dashboard/servico">Criar Serviço</a></li>
         <li><a href="/<?php echo pastaPrincipal ?>/dashboard/status">Criar Status</a></li>
+         <?php }else{ } ?>
       </ul>
 
       <ul id="nav-mobile" class="sidenav">
         <li><a href="/<?php echo pastaPrincipal ?>/dashboard">Dashboard</a></li>
         <li><a href="/<?php echo pastaPrincipal ?>/dashboard/cadastro">Cadastrar Lead</a></li>
+        <?php if($_SESSION["nivel"] <= 2) { ?>
         <li><a href="/<?php echo pastaPrincipal ?>/dashboard/servico">Criar Serviço</a></li>
         <li><a href="/<?php echo pastaPrincipal ?>/dashboard/status">Criar Status</a></li>
+        <?php }else{ } ?>
       </ul>
 
       <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>

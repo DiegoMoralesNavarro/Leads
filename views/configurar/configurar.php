@@ -19,6 +19,7 @@
 
   <div class="row">
 
+
     <div class="col s12 m4 ">
       <div class="card form">
         <div class="card-content center-align">
@@ -33,6 +34,7 @@
       </div>
     </div>
 
+    <?php if($_SESSION["nivel"] <= 1) { ?>
 
     <div class="col s12 m4 ">
       <div class="card form">
@@ -48,6 +50,10 @@
       </div>
     </div>
 
+    <?php }else{ } ?>
+
+
+    <?php if($_SESSION["nivel"] <= 1) { ?>
 
     <div class="col s12 m4 ">
       <div class="card form">
@@ -63,6 +69,10 @@
       </div>
     </div>
 
+    <?php }else{ } ?>
+
+
+    <?php if($_SESSION["nivel"] <= 2) { ?>
 
     <div class="col s12 m4 ">
       <div class="card form">
@@ -80,7 +90,9 @@
       </div>
     </div>
 
+    <?php }else{ } ?>
 
+    <?php if($_SESSION["nivel"] <= 2) { ?>
 
     <div class="col s12 m4 ">
       <div class="card form">
@@ -96,7 +108,7 @@
       </div>
     </div>
 
-
+    <?php }else{ } ?>
    
 
 

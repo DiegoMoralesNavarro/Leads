@@ -23,6 +23,10 @@ if (isset($_COOKIE['Atualizado'])) {
  ?> 
 
 
+
+
+
+COLOCAR SÓ PARA ADM poder mudar o cargo
  
 
 <div class="container">

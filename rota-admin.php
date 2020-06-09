@@ -96,6 +96,8 @@ $app->post('/dashboard/configurar/atualizar-dados', function() {
 $app->get('/dashboard/configurar/atualizar-usuario', function() {
 
 	LoginUser::verifyLogin();
+
+	LoginUser::verifyNivel1();
 	
 
 //tabela con lista de usuario com botão editar
@@ -141,6 +143,8 @@ $app->get('/dashboard/configurar/atualizar-usuario', function() {
 $app->get('/dashboard/configurar/atualizar-usuario/:id', function($id) {
 
 	LoginUser::verifyLogin();
+
+	LoginUser::verifyNivel1();
 
 require_once('../'.pastaPrincipal.'/views/'.header);
 
@@ -242,6 +246,8 @@ $app->get('/dashboard/configurar/cadastrar-usuario', function() {
 
 	LoginUser::verifyLogin();
 
+	LoginUser::verifyNivel1();
+
 
 	/// só pode ser feito por admin
 	
@@ -287,6 +293,8 @@ $app->post('/dashboard/configurar/cadastrar-usuario', function() {
 $app->get('/dashboard/configurar/atribuir-lead/novo', function() {
 
 	LoginUser::verifyLogin();
+
+	LoginUser::verifyNivel2();
 
 	//filtro dos lisd sem responsavel ou vazio  BOTÃO ATRIBUIR
 
@@ -343,6 +351,8 @@ $app->get('/dashboard/configurar/atribuir-lead/novo/:id', function($id) {
 
 	LoginUser::verifyLogin();
 
+	LoginUser::verifyNivel2();
+
 
 	$lead = AtribuirLead::lead($id);
 	$responsavel = AtribuirLead::responsavel($id);
@@ -395,6 +405,8 @@ $app->get('/dashboard/configurar/atribuir-lead/existente', function() {
 
 	LoginUser::verifyLogin();
 
+	LoginUser::verifyNivel2();
+
 	if (isset($_GET['pesquisa'])) {
 		$val = $_GET['pesquisa'];
 	}else{
@@ -445,6 +457,8 @@ $app->get('/dashboard/configurar/atribuir-lead/existente/:id', function($id) {
 
 	LoginUser::verifyLogin();
 
+	LoginUser::verifyNivel2();
+
 
 	$lead = AtribuirLead::lead($id);
 	$responsavel = AtribuirLead::responsavel($id);
@@ -492,6 +506,8 @@ $app->get('/dashboard/configurar/responsavel-lead', function() {
 
 
 	LoginUser::verifyLogin();
+
+	LoginUser::verifyNivel2();
 
 	if (isset($_GET['pesquisa'])) {
 		$val = $_GET['pesquisa'];

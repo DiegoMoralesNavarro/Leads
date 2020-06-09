@@ -59,7 +59,7 @@ protected $fields = [
  public static function listStatus()
   {
     $sql = new Sql();
-    return $sql->select("SELECT * FROM tb_status");
+    return $sql->select("SELECT * FROM tb_status WHERE idstatus not LIKE '%5%'");
   }
 
 

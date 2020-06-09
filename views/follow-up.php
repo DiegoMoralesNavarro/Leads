@@ -206,12 +206,13 @@ if (isset($_COOKIE['Atualizado'])) {
 
 
 
-<div class="row">
+<!-- <div class="row">
     <div class="col s12">
-      <blockquote>Quando estiver escrito <strong>VAZIO</strong> significa que o usuário que fez a ultima atualização foi DELETADO </blockquote>
+      <blockquote>Quando estiver escrito <strong>VAZIO</strong> significa que o usuário que fez a última atualização foi DELETADO </blockquote>
      </div>
-  </div>
+  </div> -->
 
+<!-- CRIAR UMA REGRA PARA ESCONDER O STATUS NOVO -->
 
 
 

@@ -272,6 +272,8 @@ $app->get('/dashboard/servico', function() {
 
 	LoginUser::verifyLogin();
 
+	LoginUser::verifyNivel2();
+
 	require_once('../'.pastaPrincipal.'/views/'.header);
 
 	$servico = EditarServico::listServico();
@@ -310,6 +312,8 @@ $app->post('/dashboard/servico', function() {
 $app->get('/dashboard/status', function() {
 
 	LoginUser::verifyLogin();
+
+	LoginUser::verifyNivel2();
 
 	require_once('../'.pastaPrincipal.'/views/'.header);
 

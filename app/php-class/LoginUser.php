@@ -106,6 +106,32 @@ protected $fields = [
 	}
 
 
+	public static function verifyNivel1()
+	{
+
+		//$inadmin é uma verificação se o user poder entra por ser adm
+		if($_SESSION["nivel"] == 1) {
+
+		}else{
+			header("Location: /leads/dashboard");
+			exit;
+		}
+	}
+
+
+	public static function verifyNivel2()
+	{
+
+		//$inadmin é uma verificação se o user poder entra por ser adm
+		if($_SESSION["nivel"] <= 2) {
+
+		}else{
+			header("Location: /leads/dashboard");
+			exit;
+		}
+	}
+
+
 	public static function logout()
 	{
 		$_SESSION["user"] = NULL;
