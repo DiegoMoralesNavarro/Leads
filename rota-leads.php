@@ -97,6 +97,9 @@ $app->get('/dashboard/editar/:idlead', function($idlead) {
 	$user = EditarUser::listAll();
 	$origem = EditarUser::origem();
 	$userId = EditarUser::listAllId($idlead);
+	$responsavel = EditarUser::responsavel($idlead);
+
+
 	$servicoNao = EditarUser::servicoNaoDesejado($idlead);
 	$servicoDesejado = EditarUser::servicoDesejado($idlead);
 

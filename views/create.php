@@ -53,11 +53,8 @@
           <textarea id="obs" name="obs" required="" class="materialize-textarea" maxlength="100"></textarea>
         </div>
 
-      </div> <!-- coluna 1 -->
-
-      <div class="input-field col s12 l6">
-
         <div class="input-field col s12">
+          <i class="material-icons prefix">explore</i>
           <select name="origemLead" >
       
             <?php foreach ($origem as $value){ ?>
@@ -68,6 +65,12 @@
           </select>
           <label>Origem do Lead</label>
       </div>
+
+      </div> <!-- coluna 1 -->
+
+      <div class="input-field col s12 l6">
+
+        
 
         <div class="input-field col s12">
           <div class="file-field input-field">

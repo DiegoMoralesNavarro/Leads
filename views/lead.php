@@ -37,19 +37,31 @@ if (isset($_COOKIE['Atualizado'])) {
 
   <div class="row">
   	<div class="col s12 form">
-  		<div class="col s12 l5 "></div>
-      	<div class="col s5 l3"><p>Cadastrado em: <?php echo date('d/m/Y', strtotime($userId[0]['data'])); ?> </p></div>
-      	<div class="col s5 l4"><p>Ultima atualização: <?php if ($userId[0]['dataAtualizada'] == null) {
+  		
+      	<div class="col s12 l3"><p>Cadastrado em: <?php echo date('d/m/Y', strtotime($userId[0]['data'])); ?> </p></div>
+
+      	<div class="col s12 l8"><p>Ultima atualização: <?php if ($userId[0]['dataAtualizada'] == null) {
       		echo date('d/m/Y', strtotime($userId[0]['data']));
       	}else{
       		echo date('d/m/Y  H:i', strtotime($userId[0]['dataAtualizada']));
-      	} ?> </p></div>
+      	} ?> -
+
+      	<?php 
+      	if (isset($responsavel[0]['user'])) {
+		 	echo $responsavel[0]['user'];
+		 }else{
+		 	 echo "Ninguém como responsável";
+		 } ?> 
+
+      </p></div>
 
 
 		 <form role="form1" action="/<?php echo pastaPrincipal ?>/dashboard/editar/<?php echo $userId[0]['idlead'] ?>" method="post" enctype="multipart/form-data">
 
 		 <br>
-	  	<h3 class="left-align">Atualizar os dados</h3>
+
+		 <div class="col s12 l12 "> <h3 class="left-align"> <br> Atualizar os dados</h3> </div>
+	  	
 
 	  	<?php foreach ($userId as $value) { ?>
 

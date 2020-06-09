@@ -77,6 +77,11 @@ public static function listAllId($idlead){
     return $sql->select("SELECT * FROM tb_lead WHERE idlead = $idlead");
   }
 
+  public static function responsavel($idlead){
+    $sql = new Sql();
+    return $sql->select("SELECT * FROM tb_lead inner join tb_user on tb_user.id_user = tb_lead.fk_id_user WHERE idlead = $idlead");
+  }
+
 
  public static function listObs($idlead)
   {
