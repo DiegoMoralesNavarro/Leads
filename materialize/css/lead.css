@@ -1,6 +1,13 @@
 
 
 
+@media only screen and (min-width: 992px){
+    html {
+        font-size: 13.3px!important;
+    }
+
+}
+
 
 .pagination li button{
     background: none!important;
@@ -169,3 +176,6 @@ blockquote {
         align-items: center;
     }
 }
+
+
+

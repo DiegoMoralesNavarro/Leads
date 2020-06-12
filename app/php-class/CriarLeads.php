@@ -6,7 +6,7 @@ use \App\DB\Sql;
 
 class CriarLeads{
 
-	public $values = [];
+  public $values = [];
 
     public function __call($name, $args)
     {
@@ -40,7 +40,7 @@ class CriarLeads{
 
 
 protected $fields = [
-	"tiposervico", "idservicoEditar", "tiposervicoEditar", "chkl", "email", "site", "origemLead"
+  "tiposervico", "idservicoEditar", "tiposervicoEditar", "chkl", "email", "site", "origemLead", "empresa", "telefone", "obs"
 ];
 
 
@@ -146,8 +146,9 @@ public function cadastraUser($arquivo){
 
   $sql = new Sql();
 
-    $results = $sql->select("CALL insert_lead(:nome, :telefone, :fk_status, :email, :site, :origemLead)", array(
+    $results = $sql->select("CALL insert_lead(:nome, :empresa, :telefone, :fk_status, :email, :site, :origemLead)", array(
       ":nome"=>$this->getnome(),
+      ":empresa"=>$this->getempresa(),
       ":telefone"=>$this->gettelefone(),
       ":fk_status"=>"5",
       ":email"=>$this->getemail(),
@@ -183,11 +184,11 @@ public function cadastraUser($arquivo){
 
 
 ///
-     if ($this->getobs() == null){
+     if ($this->getobs() == null || $this->getobs() == ""){
    
      }else{
 
-       $results = $sql->select("INSERT INTO tb_obs (obs, fk_idlead) VALUES (:idobs, :idlead)", array(
+       $results = $sql->select("INSERT INTO tb_obs (obs, fk_idlead, fk_id_user) VALUES (:idobs, :idlead, 0)", array(
           ":idobs"=>$this->getobs(),
           ":idlead"=>$idlead
         ));
@@ -202,14 +203,17 @@ public function cadastraUserSimples(){
 
   $sql = new Sql();
 
-    $results = $sql->select("CALL insert_lead(:nome, :telefone, :fk_status, :email, :site, :origemLead)", array(
+    $results = $sql->select("CALL insert_lead(:nome, :empresa, :telefone, :fk_status, :email, :site, :origemLead)", array(
       ":nome"=>$this->getnome(),
+      ":empresa"=>$this->getempresa(),
       ":telefone"=>$this->gettelefone(),
       ":fk_status"=>"5",
       ":email"=>$this->getemail(),
       ":site"=>$this->getsite(),
       ":origemLead"=>$this->getorigemLead()
     ));
+
+
 
     $results2 =  $sql->select("SELECT LAST_INSERT_ID()");
     $idlead = $results2[0]['LAST_INSERT_ID()'];
@@ -238,7 +242,7 @@ public function cadastraUserSimples(){
    
      }else{
 
-       $results = $sql->select("INSERT INTO tb_obs (obs, fk_idlead) VALUES (:idobs, :idlead)", array(
+       $results = $sql->select("INSERT INTO tb_obs (obs, fk_idlead, fk_id_user) VALUES (:idobs, :idlead, 0)", array(
           ":idobs"=>$this->getobs(),
           ":idlead"=>$idlead
         ));

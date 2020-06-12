@@ -37,6 +37,25 @@ if (isset($_COOKIE['Atualizado'])) {
 
   <div class="row">
   	<div class="col s12 form">
+
+  		<form role="form" action="/<?php echo pastaPrincipal ?>/dashboard/editar/<?php echo $userId[0]['idlead'] ?>" method="post" enctype="multipart/form-data">
+
+  		<div class="col s12 l12"><p> Responsável pelo lead: 
+  		<?php 
+      	if (isset($responsavel[0]['user'])) {
+		 	echo "<strong>".$responsavel[0]['user']."</strong>";
+		 }else{
+		 	?> 
+		 	 <strong> Ninguém como responsável </strong>
+		 	 <button class="waves-effect light-green btn-small" style="height: 20.4px; line-height: 20.4px;" type="submit" name="posse">Tomar posse</button>
+		 	<?php
+		 } ?> 
+
+		 </p></div>
+
+
+
+		</form>
   		
       	<div class="col s12 l3"><p>Cadastrado em: <?php echo date('d/m/Y', strtotime($userId[0]['data'])); ?> </p></div>
 
@@ -45,12 +64,11 @@ if (isset($_COOKIE['Atualizado'])) {
       	}else{
       		echo date('d/m/Y  H:i', strtotime($userId[0]['dataAtualizada']));
       	} ?> -
-
       	<?php 
-      	if (isset($responsavel[0]['user'])) {
-		 	echo $responsavel[0]['user'];
+      	if (isset($responsavelAtualizou[0]['user'])) {
+		 	echo "<strong>".$responsavelAtualizou[0]['user']."</strong>";
 		 }else{
-		 	 echo "Ninguém como responsável";
+		 	 echo "<strong> </strong>";
 		 } ?> 
 
       </p></div>
@@ -74,8 +92,8 @@ if (isset($_COOKIE['Atualizado'])) {
 			</div>
 
 			<div class="input-field col s12">
-		        <input id="icon_prefix2" type="text" class="validate" name="email" value="<?php if ($value['email'] == null){echo "";} else{echo $value['email']; }?>" >
-          		<label for="icon_prefix2">E-mail</label>
+		        <input id="empresa" type="text" class="validate" name="empresa" value="<?php echo $value['empresa'] ?>">
+          		<label for="empresa">Empresa</label>
 			</div>
 		</div>
 
@@ -86,6 +104,17 @@ if (isset($_COOKIE['Atualizado'])) {
 		        <input id="telefone" maxlength="14" type="tel" class="validate" name="telefone" value="<?php echo $value['telefone'] ?>">
           		<label for="telefone">Telefone</label>
 			</div>
+
+			<div class="input-field col s12">
+		        <input id="icon_prefix2" type="text" class="validate" name="email" value="<?php if ($value['email'] == null){echo "";} else{echo $value['email']; }?>" >
+          		<label for="icon_prefix2">E-mail</label>
+			</div>
+
+		</div>
+
+
+
+		<div class="col s12 l6">
 
 			<div class="input-field col s12">
 		        <input id="icon_prefix4" type="text" class="validate" name="site" value="<?php if ($value['site'] == null){echo "";} else{echo $value['site'];}?>" >
@@ -134,7 +163,7 @@ if (isset($_COOKIE['Atualizado'])) {
 
 				    <?php } ?> 
 			    </select>
-			    <label>Origem do Lead: <?php echo $userlistIdOrigem[0]['tipo_origem']; ?></label>
+			    <label>Meio de Contato: <?php echo $userlistIdOrigem[0]['tipo_origem']; ?></label>
 			</div>
 		</div>
 
@@ -208,7 +237,7 @@ if (isset($_COOKIE['Atualizado'])) {
 		<div class="col s12 l12">
 			<div class="input-field col s12">
 		         <label for="obs">OBS</label>
-      			<textarea id="obs" name="obs" required="" class="materialize-textarea" maxlength="100"><?php if ($userObs == null) {echo "";} else{echo $userObs[0]['obs'];}?></textarea>
+      			<textarea id="obs" name="obs" required="" class="materialize-textarea" maxlength="299"><?php if ($userObs == null) {echo "";} else{echo $userObs[0]['obs'];}?></textarea>
 			</div>
 		</div>
 	        

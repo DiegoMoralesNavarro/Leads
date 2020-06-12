@@ -30,6 +30,12 @@
         </div>
 
         <div class="input-field col s12">
+          <i class="material-icons prefix">business</i>
+          <input type="text" id="empresa" name="empresa" class="validate" maxlength="45">
+          <label for="empresa">Empresa*</label>
+        </div>
+
+        <div class="input-field col s12">
           <i class="material-icons prefix">phone_iphone</i>
           <label for="telefone">Telefone* 119000-0000</label>
           <input type="tel" id="telefone" maxlength="14"  name="telefone" required="" class="validate" >
@@ -50,7 +56,7 @@
         <div class="input-field col s12">
           <i class="material-icons prefix">mode_edit</i>
           <label for="obs">OBS</label>
-          <textarea id="obs" name="obs" required="" class="materialize-textarea" maxlength="100"></textarea>
+          <textarea id="obs" name="obs" required="" class="materialize-textarea" maxlength="299"></textarea>
         </div>
 
         <div class="input-field col s12">
@@ -63,7 +69,7 @@
 
             <?php } ?> 
           </select>
-          <label>Origem do Lead</label>
+          <label>Meio de Contato</label>
       </div>
 
       </div> <!-- coluna 1 -->
@@ -84,7 +90,7 @@
           </div>
         </div>
 
-        <div class="input-field col s12">
+        <div class="input-field col s12" style="margin-top: 0;">
           <label for="servico">Serviço desejado</label>
         </div>
 

@@ -1,8 +1,0 @@
-CREATE DEFINER=`root`@`localhost` PROCEDURE `insert_lead`(pnome varchar(45), ptelefone varchar(45), fk_status int, pemail varchar(45), psite varchar(45), porigemLead int)
-BEGIN
-
-insert into tb_lead (nome,telefone,fk_status,data,email,site,dataAtualizada,fk_origem_lead) VALUES (pnome, ptelefone, fk_status, CURRENT_TIMESTAMP(), pemail, psite, CURRENT_TIMESTAMP(), porigemLead);
-
-
-
-END

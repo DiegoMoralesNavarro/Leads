@@ -48,7 +48,7 @@ class EditarUser{
 
 
 protected $fields = [
-	"nome", "telefone", "statusLead", "obs", "fileUpload","email", "site", "origemLead"
+	"nome", "telefone", "statusLead", "obs", "fileUpload","email", "site", "origemLead", "empresa", "tomarposse"
 ];
 
 
@@ -80,6 +80,11 @@ public static function listAllId($idlead){
   public static function responsavel($idlead){
     $sql = new Sql();
     return $sql->select("SELECT * FROM tb_lead inner join tb_user on tb_user.id_user = tb_lead.fk_id_user WHERE idlead = $idlead");
+  }
+
+  public static function responsavelAtualizou($idlead){
+    $sql = new Sql();
+    return $sql->select("SELECT * FROM tb_lead inner join tb_user on tb_lead.fk_id_user_atualiza = tb_user.id_user WHERE idlead = $idlead");
   }
 
 
@@ -126,14 +131,16 @@ public static function origem(){
 public function saveUpdateLead($idlead){
     $sql = new Sql();
     
-    $results = $sql->select("UPDATE tb_lead SET nome = :nome, telefone = :telefone, email = :email, site = :site, fk_status = :statusLead, dataAtualizada = :dataAtualizada, fk_origem_lead = :origemLead WHERE idlead = $idlead", array(
+    $results = $sql->select("UPDATE tb_lead SET nome = :nome, empresa = :empresa, telefone = :telefone, email = :email, site = :site, fk_status = :statusLead, dataAtualizada = :dataAtualizada, fk_origem_lead = :origemLead, fk_id_user_atualiza = :quemAtualizou WHERE idlead = $idlead", array(
        ":nome"=>$this->getnome(),
+       ":empresa"=>$this->getempresa(),
         ":telefone"=>$this->gettelefone(),
         ":email"=>$this->getemail(),
         ":site"=>$this->getsite(),
         ":statusLead"=>$this->getstatusLead(),
         ":dataAtualizada"=>date('Y-m-d H:i'),
-        ":origemLead"=>$this->getorigemLead()
+        ":origemLead"=>$this->getorigemLead(),
+        ":quemAtualizou"=>$_SESSION["id_user"]
 
       ));
 
@@ -147,7 +154,7 @@ public function saveUpdateLead($idlead){
 
     }else{
 
-      $results3 = $sql->select("INSERT INTO tb_obs (obs, fk_idlead) VALUES (:obs, $idlead)", array(
+      $results3 = $sql->select("INSERT INTO tb_obs (obs, fk_idlead, fk_id_user) VALUES (:obs, $idlead, 0)", array(
            ":obs"=>$this->getobs()
       ));
 
@@ -174,6 +181,11 @@ public function adicionaServico($idlead){
         ":dataAtualizada"=>date('Y-m-d H:i'),
       ));
 
+   $results3 = $sql->select("UPDATE tb_lead SET fk_id_user_atualiza = :quemAtualizou WHERE idlead = $idlead", array(
+        ":quemAtualizou"=>$_SESSION["id_user"]
+
+      ));
+
 }
 
 public function removeServico($idlead){
@@ -187,6 +199,11 @@ public function removeServico($idlead){
 
     $results2 = $sql->select("UPDATE tb_lead SET dataAtualizada = :dataAtualizada WHERE idlead = $idlead", array(
         ":dataAtualizada"=>date('Y-m-d H:i'),
+      ));
+
+    $results3 = $sql->select("UPDATE tb_lead SET fk_id_user_atualiza = :quemAtualizou WHERE idlead = $idlead", array(
+        ":quemAtualizou"=>$_SESSION["id_user"]
+
       ));
 
 
@@ -291,6 +308,25 @@ public function gravarArquivo($idlead){
   }//count
 
 
+
+}
+
+
+
+
+
+public function tomarPosseLead($idlead){
+
+  $sql = new Sql();
+
+  $id = $_SESSION["id_user"];
+
+
+  $reuslt = $sql->select("UPDATE tb_lead SET fk_id_user = $id WHERE idlead = $idlead");
+
+
+  header("location: /".pastaPrincipal."/dashboard/editar/$idlead");
+  exit; 
 
 }
 

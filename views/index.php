@@ -67,10 +67,10 @@ foreach ($user as $value){
 <table class="striped centered responsive-table">
 	<thead>
 		<tr>
-			<th>ID</th>
 			<th>Nome</th>
+			<th>Empresa</th>
 			<th>Telefone</th>
-			<th>Origem</th>
+			<th>Contato</th>
 			<th>Status</th>
 			<th>Editar</th>
 		</tr>
@@ -88,8 +88,9 @@ foreach ($user as $value){
 		  	?>
 
 			<tr>
-				<td><?php echo $value[$i]['idlead']; ?></td>
-				<td><?php echo $value[$i]['nome']; ?></td>
+				
+				<td style="overflow: hidden; max-width: 150px;" ><?php echo $value[$i]['nome']; ?></td>
+				<td style="overflow: hidden; max-width: 150px;" ><?php echo $value[$i]['empresa']; ?></td>
 				<td><?php echo $value[$i]['telefone']; ?></td>
 				<td><?php echo $value[$i]['tipo_origem']; ?></td>
 				<td><?php echo $value[$i]['tipostatus']; ?></td>

@@ -138,7 +138,7 @@ if (isset($_COOKIE['Atualizado'])) {
     				<div class="input-field col s12">
 			          <i class="material-icons prefix">mode_edit</i>
 			          <label for="obs">Follow Up</label>
-			          <textarea id="obs" name="texto" required="" class="materialize-textarea" maxlength="200"><?php echo $value['texto'] ?></textarea>
+			          <textarea id="obs" name="texto" required="" class="materialize-textarea" maxlength="299"><?php echo $value['texto'] ?></textarea>
 			        </div>
 
 				</div>

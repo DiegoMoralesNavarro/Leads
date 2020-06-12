@@ -94,6 +94,37 @@ require_once("rota-leads.php");
 
 
 
+$app->get('/dashboard/dinamico', function() {
+
+	require_once('../'.pastaPrincipal.'/views/'.header);
+
+	require_once('../'.pastaPrincipal.'/views/dinamico.php');
+
+	$user = EditarUser::listAll(); ///
+
+	//var_dump($user);
+
+
+	require_once('../'.pastaPrincipal.'/views/'.footer);
+	
+});	
+
+
+$app->post('/dashboard/dinamico', function() {
+
+
+	
+	
+});	
+
+
+
+
+
+
+
+
+
 
 $app->get('/dashboard/status/:idstatus/delete', function($idstatus) {
 

@@ -98,6 +98,7 @@ $app->get('/dashboard/editar/:idlead', function($idlead) {
 	$origem = EditarUser::origem();
 	$userId = EditarUser::listAllId($idlead);
 	$responsavel = EditarUser::responsavel($idlead);
+	$responsavelAtualizou = EditarUser::responsavelAtualizou($idlead);
 
 
 	$servicoNao = EditarUser::servicoNaoDesejado($idlead);
@@ -125,9 +126,14 @@ $app->post('/dashboard/editar/:idlead', function($idlead) {
 	$user->setData($_POST);
 	
 
+	//var_dump($user);
+
 
 	if (isset($_POST['nome'])) {
 		$user->saveUpdateLead((int)$idlead);
+		$user->gravarArquivo((int)$idlead);
+	}else if (isset($_POST['posse'])) {
+		$user->tomarPosseLead($idlead);
 	}else{
 		$user->adicionaServico((int)$idlead);
 		$user->removeServico((int)$idlead);
@@ -136,7 +142,7 @@ $app->post('/dashboard/editar/:idlead', function($idlead) {
 
 	
 
-	$user->gravarArquivo((int)$idlead);
+	
 
 
 
