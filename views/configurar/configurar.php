@@ -84,8 +84,6 @@
 
           <a class="waves-effect light-green btn-small" 
                  href="/<?php echo pastaPrincipal ?>/dashboard/configurar/atribuir-lead/novo">Novo responsável</a>
-                <!--  <a class="waves-effect light-green btn-small" 
-                 href="/<?php echo pastaPrincipal ?>/dashboard/configurar/atribuir-lead/existente">Existente</a> -->
         </div>
       </div>
     </div>
@@ -103,7 +101,7 @@
         <div class="card-action center-align">
 
           <a class="waves-effect light-green btn-small" 
-                 href="/<?php echo pastaPrincipal ?>/dashboard/configurar/responsavel-lead">Visualiza</a>
+                 href="/<?php echo pastaPrincipal ?>/dashboard/configurar/responsavel-lead">Visualizar</a>
         </div>
       </div>
     </div>

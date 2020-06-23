@@ -218,6 +218,7 @@ public function atribuirResponsavel($val, $page, $itemsPerPage, $responsavel){
 	      $this->setData($results);
 
 
+
 	       $results2 = $sql->select("SELECT * FROM tb_lead inner join tb_user on tb_lead.fk_id_user = tb_user.id_user where $valorResp AND nome like '%$val%' ");
 
 	      $_SESSION["paginas"] = count($results2);

@@ -14,10 +14,13 @@
   </div>
 </footer>
 
-	<script src="<?php echo URLestilo; ?>/materialize/js/formulario.js"></script>
+
+
+<script src="<?php echo URLestilo; ?>/materialize/js/formulario.js"></script>
   <script src="<?php echo URLestilo; ?>/materialize/js/jquery-3.5.0.min.js"></script>
   <script src="<?php echo URLestilo; ?>/materialize/js/materialize.js"></script>
   <script src="<?php echo URLestilo; ?>/materialize/js/init.js"></script>
+
 
 
 

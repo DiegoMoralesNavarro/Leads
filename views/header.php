@@ -31,6 +31,8 @@ if ($pathFragments[3] == '') {
  
   <link rel="stylesheet" type="text/css" href="<?php echo URLestilo; ?>/materialize/css/materialize.css" > 
   <link rel="stylesheet" type="text/css" href="<?php echo URLestilo; ?>/materialize/css/lead.css">
+  
+ 
 
 
 </head>
@@ -46,31 +48,41 @@ if ($pathFragments[3] == '') {
  
 </dir>
 
-<nav class="nav-extended" role="navigation" style="height: 70px;">
-    <div class="nav-wrapper container">
+
+<nav id="masthead">
+  <div class="container">
+    <div class="masthead-inner">
       <img class="logo-leads" src="<?php echo URLestilo; ?>/materialize/panda.png">
-      <ul class="right hide-on-med-and-down">
-        <li><a href="/<?php echo pastaPrincipal ?>/dashboard">Dashboard</a></li>
-        <li><a href="/<?php echo pastaPrincipal ?>/dashboard/cadastro">Cadastrar Lead</a></li>
-        <?php if($_SESSION["nivel"] <= 2) { ?>
-        <li><a href="/<?php echo pastaPrincipal ?>/dashboard/servico">Criar Serviço</a></li>
-        <li><a href="/<?php echo pastaPrincipal ?>/dashboard/status">Criar Status</a></li>
-         <?php }else{ } ?>
-      </ul>
+      <div class="main-nav">
+        <ul>
+          <li><a href="/<?php echo pastaPrincipal ?>/dashboard" class="menu-link">Dashboard</a></li>
+          <li><a href="/<?php echo pastaPrincipal ?>/dashboard/cadastro" class="menu-link">Cadastrar Lead</a></li>
+          <?php if($_SESSION["nivel"] <= 2) { ?>
+          <li><a href="/<?php echo pastaPrincipal ?>/dashboard/servico" class="menu-link">Criar Serviço</a></li>
+          <li><a href="/<?php echo pastaPrincipal ?>/dashboard/status" class="menu-link">Criar Status</a></li>
+           <?php }else{ } ?>
 
-      <ul id="nav-mobile" class="sidenav">
-        <li><a href="/<?php echo pastaPrincipal ?>/dashboard">Dashboard</a></li>
-        <li><a href="/<?php echo pastaPrincipal ?>/dashboard/cadastro">Cadastrar Lead</a></li>
-        <?php if($_SESSION["nivel"] <= 2) { ?>
-        <li><a href="/<?php echo pastaPrincipal ?>/dashboard/servico">Criar Serviço</a></li>
-        <li><a href="/<?php echo pastaPrincipal ?>/dashboard/status">Criar Status</a></li>
-        <?php }else{ } ?>
-      </ul>
-
-      <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
-
+           <li class="menu-trigger"> <i class="material-icons">menu</i></li>
+        </ul>
+      </dvi>
     </div>
   </nav>
+  <aside class="menu">
+    <div class="menu-inner">
+      <p class="menu-close">  x </p>
+      <ul class="menu-pages">
+          <li><a href="/<?php echo pastaPrincipal ?>/dashboard">Dashboard</a></li>
+          <li><a href="/<?php echo pastaPrincipal ?>/dashboard/cadastro">Cadastrar Lead</a></li>
+          <?php if($_SESSION["nivel"] <= 2) { ?>
+          <li><a href="/<?php echo pastaPrincipal ?>/dashboard/servico">Criar Serviço</a></li>
+          <li><a href="/<?php echo pastaPrincipal ?>/dashboard/status">Criar Status</a></li>
+          <?php }else{ } ?>
 
+      </ul>
+    </div>
+  </div>
+</aside>
 
-<br>
+<div class="overlay hide"></div>
+
+<br><br>

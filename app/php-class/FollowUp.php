@@ -130,6 +130,10 @@ public function cadastrarFollowUp($idlead){
             ":userId"=>$_SESSION["id_user"]
           ));
 
+       $results2 = $sql->select("UPDATE tb_lead SET ultimo_followup = :dataAtualizada WHERE (idlead = '$idlead')", array(
+         ":dataAtualizada"=>date('Y-m-d H:i')
+        ));
+
 
        header("location: /".pastaPrincipal."/dashboard/follow-up/$idlead");
       exit;
@@ -143,11 +147,57 @@ public function cadastrarFollowUp($idlead){
 
 
 
-public function deletarFollowUp($idlead){
+public function deletarFollowUp($idlead, $val){
+
+
+$sql = new Sql();
+
+$imagemverifica = $sql->select("SELECT imagem FROM tb_followup WHERE idfollowup = $idlead");
+ 
+
+
+ if ($imagemverifica[0]['imagem'] == '' || $imagemverifica == null){
+     
+ }else{
+   //$this->deleteImg($idlead);
+   
+ }
+
+
+
+$results = $sql->select("DELETE FROM tb_followup WHERE idfollowup = $idlead");
+
+
+
+$valor = $sql->select("SELECT * FROM tb_followup WHERE idlead = $val order by dataAtualizada desc limit 1");
+
+
+if (count($valor) == 0 ) {
 
   $sql = new Sql();
-  $results = $sql->select("DELETE FROM tb_followup WHERE idfollowup = $idlead");
- 
+  
+  $results2 = $sql->select("UPDATE tb_lead SET ultimo_followup = :dataAtualizada WHERE (idlead = '$val')", array(
+       ":dataAtualizada"=>"vazio"
+      ));
+
+
+  header("location: /".pastaPrincipal."/dashboard/follow-up/$val");
+   exit; 
+
+}else{
+
+  $sql = new Sql();
+  $results3 = $sql->select("UPDATE tb_lead SET ultimo_followup = :dataAtualizada WHERE (idlead = '$val')", array(
+       ":dataAtualizada"=>$valor[0]['dataAtualizada']
+      ));
+
+  header("location: /".pastaPrincipal."/dashboard/follow-up/$val");
+   exit; 
+   
+}
+
+
+
 
 }
 
@@ -217,6 +267,10 @@ public function salvarFollowUp($idlead){
                        ":idfollowup"=>$this->getidfollowup(),
                        ":userId"=>$_SESSION["id_user"]
                       ));
+
+              $results2 = $sql->select("UPDATE tb_lead SET ultimo_followup = :dataAtualizada WHERE (idlead = '$idlead')", array(
+               ":dataAtualizada"=>date('Y-m-d H:i')
+              ));
                   
 
 
@@ -266,6 +320,11 @@ public function salvarFollowUpSimples($idlead){
       ));
 
 
+    $results2 = $sql->select("UPDATE tb_lead SET ultimo_followup = :dataAtualizada WHERE (idlead = '$idlead')", array(
+       ":dataAtualizada"=>date('Y-m-d H:i')
+      ));
+
+
 
 
    header("location: /".pastaPrincipal."/dashboard/follow-up/$idlead");
@@ -284,9 +343,10 @@ public function salvarStatus($idlead){
 
   $sql = new Sql();
     
-    $results = $sql->select("UPDATE tb_lead SET fk_status = :statusLead, dataAtualizada = :dataAtualizada WHERE idlead = $idlead", array(
+    $results = $sql->select("UPDATE tb_lead SET fk_status = :statusLead, dataAtualizada = :dataAtualizada, fk_id_user_atualiza = :quemAtualizou WHERE idlead = $idlead", array(
        ":statusLead"=>$this->getstatusLead(),
-       ":dataAtualizada"=>date('Y-m-d H:i')
+       ":dataAtualizada"=>date('Y-m-d H:i'),
+       ":quemAtualizou"=>$_SESSION["id_user"]
       ));
 
 

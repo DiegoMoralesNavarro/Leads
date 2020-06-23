@@ -10,6 +10,7 @@ use \App\VerLeads;
 use \App\FollowUp;
 use \App\StatusLista;
 use \App\LoginUser;
+use \App\AjaxNomes2;
 
 
 
@@ -38,12 +39,16 @@ if (isset($_GET['page'])) {
 
 
 	
-	$itemsPerPage = 4;
+	$itemsPerPage = 20;
 
 	$users = new VerLeads();
 	$users->listAll($val, $page, $itemsPerPage);
 
-	$user = EditarUser::listAll(); ///
+
+
+
+
+	//$user = EditarUser::listAll(); ///
 	
 	
 
@@ -66,6 +71,8 @@ $app->post('/dashboard/', function() {
 
 	$user = new VerLeads();
 	$user->setData($_POST);
+
+
 
 
 	 header("location: /".pastaPrincipal."/dashboard/");

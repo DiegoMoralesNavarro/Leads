@@ -44,6 +44,10 @@ if (isset($_COOKIE['Atualizado'])) {
   <div class="row">
 	<div class="col s12 form">
 
+		<a href="<?php echo URLestilo ?>/dashboard/configurar" 
+  			class="btn-floating btn-small waves-effect teal accent-4 " style="padding: 0 0px!important;">
+  			<i class="material-icons" >arrow_back</i></a>
+
 		<h4>Meus dados</h4>
 		<blockquote>Ao atualizar os dados você será desconectado.</blockquote>
 
@@ -108,11 +112,7 @@ if (isset($_COOKIE['Atualizado'])) {
 
 		</form>
 
-		<div class="input-field col s12 center-align">
-    		<a class="waves-effect light-green btn-small" 
-				href="<?php echo URLestilo ?>/dashboard/configurar">Início configurar</a>
-			
-		</div>
+		
 
 	</div>
   </div>

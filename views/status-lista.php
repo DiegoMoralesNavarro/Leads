@@ -40,6 +40,8 @@ if (isset($_GET['pesquisa'])) {
   <div class="row">
     <div class="col s12 form">
 
+    	
+
     	<form role="form" action="/<?php echo pastaPrincipal ?>/dashboard/status-lista/<?php echo $status[0]['idstatus'] ?>?pesquisa=$pesquisa&page=$numero" method="get">
 
     		<div class="row">
@@ -63,8 +65,8 @@ if (isset($_GET['pesquisa'])) {
 						<th>Nome</th>
 						<th>Empresa</th>
 						<th>Telefone</th>
-						<th>Contato</th>
-						<th>Status</th>
+						<th>E-mail</th>
+						<th>Último <br>Follow UP</th>
 						<th>Editar</th>
 					</tr>
 				</thead>
@@ -83,15 +85,39 @@ if (isset($_GET['pesquisa'])) {
 						<tr>
 							<td style="overflow: hidden; max-width: 150px;" ><?php echo $value[$i]['nome']; ?></td>
 							<td style="overflow: hidden; max-width: 150px;" ><?php echo $value[$i]['empresa']; ?></td>
-							<td><?php echo $value[$i]['telefone']; ?></td>
-							<td><?php echo $value[$i]['tipo_origem']; ?></td>
-							<td><?php echo $value[$i]['tipostatus']; ?></td>
-							<td class="edite-form"> 
-								<a class="waves-effect waves-light btn-small" 
-								href="<?php echo URLestilo ?>/dashboard/editar/<?php echo $value[$i]['idlead']?>">Editar</a>
+							
+							<td><?php
+								$numero = preg_replace("/[^0-9]/", "", $value[$i]['telefone']);
+								if (strlen($value[$i]['telefone']) == 14) {
 
-								<a class=" red accent-4 btn-small" 
-								href="<?php echo URLestilo ?>/dashboard/status-lista/<?php echo $value[$i]['idlead']?>/delete?idstatus=<?php echo $status[0]['idstatus'] ?>" onclick="return confirm('Deseja realmente excluir este registro?')" >Excluir</a>
+									?>	<a href="https://api.whatsapp.com/send?phone=55<?php echo $numero ?>" target="_blank"><?php echo $value[$i]['telefone']; ?></a> <?php
+								}else{ ?>
+									<a href="tel:+55<?php echo $value[$i]['telefone']; ?>" target="_blank"><?php echo $value[$i]['telefone']; ?></a>
+									<?php
+								}
+
+								?> </td>
+
+							<td ><a href="mailto:<?php echo $value[$i]['email']; ?>"><?php echo $value[$i]['email']; ?></a></td>
+
+
+							<td><?php if ($value[$i]['ultimo_followup'] == "vazio" || $value[$i]['ultimo_followup'] == null) {
+								echo "Não existe <br> Follow UP";
+							}else{
+								echo date('d/m/Y', strtotime($value[$i]['ultimo_followup']));
+							} ?>
+								
+							</td>
+
+				
+							<td class="edite-form"> 
+
+								<a href="<?php echo URLestilo ?>/dashboard/editar/<?php echo $value[$i]['idlead']?>" 
+					  			class="btn-floating btn-small waves-effect waves-light " style="padding: 0 0px!important;">
+					  			<i class="material-icons" >edit</i></a>
+
+					  				<a href="<?php echo URLestilo ?>/dashboard/status-lista/<?php echo $value[$i]['idlead']?>/delete?idstatus=<?php echo $status[0]['idstatus'] ?>" onclick="return confirm('Deseja realmente excluir este registro?')" class="btn-floating btn-small waves-effect red accent-4 " style="padding: 0 0px!important;">
+					  			<i class="material-icons" >delete_forever</i></a>
 
 								<a class="waves-effect light-green btn-small" 
 								href="<?php echo URLestilo ?>/dashboard/follow-up/<?php echo $value[$i]['idlead']?>">Follow up</a>

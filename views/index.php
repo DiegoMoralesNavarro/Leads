@@ -34,10 +34,7 @@ if (isset($_GET['pesquisa'])) {
 
 
 
-foreach ($user as $value){
-	
- 
-}
+
 
 
 ?>
@@ -52,10 +49,18 @@ foreach ($user as $value){
 
 	<div class="row">
 		<div class="input-field col s12 l9">
-			<i class="material-icons prefix">textsms</i>
-	          <input type="text" id="autocomplete-input" class="autocomplete" name="pesquisa" value="<?php echo $valor; ?>">
-	          <label for="autocomplete-input">Nome do Lead</label>
-		</div>
+		<table>
+            <tr>
+
+                <div class="input-field col s12 l12">
+					<i class="material-icons prefix">textsms</i>
+			          <input type="text" id="autocomplete-input" class="autocomplete" name="pesquisa" value="<?php echo $valor; ?>">
+			          <label for="autocomplete-input">Nome do Lead</label>
+				</div>
+            </tr>
+        </table>
+        </div>
+		
 		<div class="input-field col s12 l3 center-align">
 			<button class="btn waves-effect waves-light" type="submit">Pesquisar
 				 <i class="material-icons right">search</i>
@@ -70,7 +75,8 @@ foreach ($user as $value){
 			<th>Nome</th>
 			<th>Empresa</th>
 			<th>Telefone</th>
-			<th>Contato</th>
+			<th>E-mail</th>
+			<th>Último <br>Follow UP</th>
 			<th>Status</th>
 			<th>Editar</th>
 		</tr>
@@ -91,15 +97,42 @@ foreach ($user as $value){
 				
 				<td style="overflow: hidden; max-width: 150px;" ><?php echo $value[$i]['nome']; ?></td>
 				<td style="overflow: hidden; max-width: 150px;" ><?php echo $value[$i]['empresa']; ?></td>
-				<td><?php echo $value[$i]['telefone']; ?></td>
-				<td><?php echo $value[$i]['tipo_origem']; ?></td>
+
+				<td><?php
+				$numero = preg_replace("/[^0-9]/", "", $value[$i]['telefone']);
+				if (strlen($value[$i]['telefone']) == 14) {
+
+					?>	<a href="https://api.whatsapp.com/send?phone=55<?php echo $numero ?>" target="_blank"><?php echo $value[$i]['telefone']; ?></a> <?php
+				}else{ ?>
+					<a href="tel:+55<?php echo $value[$i]['telefone']; ?>" target="_blank"><?php echo $value[$i]['telefone']; ?></a>
+					<?php
+				}
+
+				?> </td>
+
+
+				<td ><a href="mailto:<?php echo $value[$i]['email']; ?>"><?php echo $value[$i]['email']; ?></a></td>
+
+
+				<td><?php if ($value[$i]['ultimo_followup'] == "vazio" || $value[$i]['ultimo_followup'] == null) {
+					echo "Não existe <br> Follow UP";
+				}else{
+					echo date('d/m/Y', strtotime($value[$i]['ultimo_followup']));
+				} ?>
+					
+				</td>
+
+				
+
 				<td><?php echo $value[$i]['tipostatus']; ?></td>
 				<td class="edite-form"> 
-					<a class="waves-effect waves-light btn-small" 
-					href="editar/<?php echo $value[$i]['idlead']?>">Editar</a>
 
-					<a class=" red accent-4 btn-small" 
-					href="<?php echo $value[$i]['idlead']?>/delete" onclick="return confirm('Deseja realmente excluir este registro?')" >Excluir</a>
+				<a href="editar/<?php echo $value[$i]['idlead']?>" 
+  			class="btn-floating btn-small waves-effect waves-light " style="padding: 0 0px!important;">
+  			<i class="material-icons" >edit</i></a>
+
+  				<a href="<?php echo $value[$i]['idlead']?>/delete" onclick="return confirm('Deseja realmente excluir este registro?')" class="btn-floating btn-small waves-effect red accent-4 " style="padding: 0 0px!important;">
+  			<i class="material-icons" >delete_forever</i></a>
 
 					<a class="waves-effect light-green btn-small" 
 					href="follow-up/<?php echo $value[$i]['idlead']?>">Follow up</a>
@@ -116,6 +149,8 @@ foreach ($user as $value){
 				<tr>
 					<td>xx</td>
 					<td>vazio</td>
+					<td></td>
+					<td></td>
 					<td></td>
 					<td></td>
 					<td></td>

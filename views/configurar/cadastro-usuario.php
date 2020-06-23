@@ -43,6 +43,22 @@ if (isset($_COOKIE['Atualizado'])) {
   <div class="row">
     <div class="col s12 form">
 
+    	<a href="<?php echo URLestilo ?>/dashboard/configurar" 
+  			class="btn-floating btn-small waves-effect teal accent-4 " style="padding: 0 0px!important;">
+  			<i class="material-icons" >arrow_back</i></a>
+
+    	<?php 
+
+    	if (isset($_GET['senha'])) {
+			echo "<p style='color: red; font-weight: bold;'>Senha não confere</p>";
+		}else if (isset($_GET['login'])) {
+			echo "<p style='color: red; font-weight: bold;'>Este nome de Login já está em uso</p>";
+		}else{
+			echo "";
+		}
+
+    	 ?>
+
 
     	<div class="col s12 l12">
 
@@ -107,11 +123,6 @@ if (isset($_COOKIE['Atualizado'])) {
 		</div>
 
 
-		<div class="input-field col s12 center-align">
-    		<a class="waves-effect light-green btn-small" 
-				href="<?php echo URLestilo ?>/dashboard/configurar">Início configurar</a>
-			
-		</div>
 
 
 	</div>

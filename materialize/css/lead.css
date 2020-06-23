@@ -6,7 +6,25 @@
         font-size: 13.3px!important;
     }
 
+    .container {
+        width: 80%!important;
+    }
+
 }
+
+
+.ui-menu .ui-menu-item:hover, .ui-menu .ui-menu-item div:hover, .ui-menu-item-wrapper:hover{
+    background-color: #26a69a!important;
+    color: #fff!important;
+    border: none!important;
+}
+
+.ui-helper-hidden-accessible:hover, .ui-helper-hidden-accessible:active{
+    background-color: #26a69a!important;
+    color: #fff!important;
+    border: none!important;
+}
+
 
 
 .pagination li button{
@@ -79,7 +97,7 @@ h4 {
 
 
 .btn-small {
-    padding: 0 10px!important;
+    padding: 0 7px!important;
     font-size: 0.8em!important;
     margin: 3px;
 }
@@ -165,7 +183,7 @@ blockquote {
 
 
 .logo-leads{
-    width: 55px; margin-top: 7px;
+    width: 55px; margin-top: 1px;
 }
 
 
@@ -177,5 +195,123 @@ blockquote {
     }
 }
 
+
+/**/
+
+
+.masthead-inner {
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+          align-items: center;
+}
+
+.site-title {
+  margin: 0;
+}
+
+.main-nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: -webkit-box;
+  display: flex;
+}
+.main-nav ul li {
+  margin-left: 1rem;
+}
+
+.menu-link {
+  display: none;
+}
+
+@media (min-width: 550px) {
+  .menu-link {
+    display: block;
+  }
+}
+.menu-trigger {
+}
+
+@media (min-width: 550px) {
+  .menu-trigger {
+    display: none;
+  }
+}
+.hide {
+  display: none;
+}
+
+.menu {
+  background-color: #26a69a;
+  width: 65vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  -webkit-transform: translateX(-100vw);
+          transform: translateX(-100vw);
+  -webkit-transition: all 600ms ease;
+  transition: all 600ms ease;
+  z-index: 100;
+}
+
+@media (min-width: 550px) {
+  .menu {
+    display: none;
+  }
+}
+.slide-in {
+  -webkit-transform: translateX(0);
+          transform: translateX(0);
+
+}
+
+.menu-close {
+  text-align: right;
+  padding: 0 1.3rem;
+  margin: 0;
+  font-size: 2rem;
+  color: #fff;
+  background-color: #16736a;
+}
+
+.menu-close a {
+  color: #fff;
+}
+
+.menu-pages {
+  list-style: none;
+  color: #fff;
+}
+.menu-pages li {
+  margin: 1rem 0;
+  font-size: 2rem;
+  color: #fff;
+  padding-left: 10px;
+  transition: 0.3s;
+}
+.menu-pages li a {
+  text-decoration: none;
+  color: #fff;
+  font-size: 1.3rem;
+  transition: 0.3s;
+}
+.menu-pages li:hover {
+  text-decoration: underline;
+  background-color: #16736a;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 50;
+}
 
 

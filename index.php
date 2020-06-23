@@ -30,6 +30,8 @@ use \App\VerLeads;
 use \App\FollowUp;
 use \App\StatusLista;
 
+
+
 use \App\configurar\AtualizarUsuarioDados;
 
 
@@ -94,23 +96,26 @@ require_once("rota-leads.php");
 
 
 
-$app->get('/dashboard/dinamico', function() {
+$app->get('/dashboard/buscar', function() {
 
-	require_once('../'.pastaPrincipal.'/views/'.header);
+require_once('../'.pastaPrincipal.'/views/'.header);
 
-	require_once('../'.pastaPrincipal.'/views/dinamico.php');
 
-	$user = EditarUser::listAll(); ///
+
+
+	require_once('../'.pastaPrincipal.'/index2.php');
+
+		require_once('../'.pastaPrincipal.'/views/'.footer);
+
+	//$user = EditarUser::listAll(); ///
 
 	//var_dump($user);
 
-
-	require_once('../'.pastaPrincipal.'/views/'.footer);
 	
 });	
 
 
-$app->post('/dashboard/dinamico', function() {
+$app->post('/dashboard/buscar', function() {
 
 
 	
@@ -185,12 +190,12 @@ $app->get('/dashboard/follow-up/:idlead/delete/', function($idlead){
 	}
 
 	$user = new FollowUp();
-	$user->deletarFollowUp((int)$idlead);
+	$user->deletarFollowUp((int)$idlead, $val);
 
 	
 
-	header("location: /".pastaPrincipal."/dashboard/follow-up/$val");
-  	exit; 
+	// header("location: /".pastaPrincipal."/dashboard/follow-up/$val");
+ //  	exit; 
 
 	
 

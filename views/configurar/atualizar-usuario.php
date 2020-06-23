@@ -61,6 +61,12 @@ if (isset($_GET['pesquisa'])) {
   <div class="row">
     <div class="col s12 form">
 
+    	<a href="<?php echo URLestilo ?>/dashboard/configurar" 
+  			class="btn-floating btn-small waves-effect teal accent-4 " style="padding: 0 0px!important;">
+  			<i class="material-icons" >arrow_back</i></a>
+
+  			<br><br>
+
     	<form role="form" action="/<?php echo pastaPrincipal ?>/dashboard/configurar/atualizar-usuario?pesquisa=$pesquisa&page=$numero" method="get">
 
     		<div class="row">
@@ -221,11 +227,7 @@ function selected( $value, $selected ){
 
     	</form>
 
-    	<div class="input-field col s12 center-align">
-    		<a class="waves-effect light-green btn-small" 
-				href="<?php echo URLestilo ?>/dashboard/configurar">Início configurar</a>
-			
-		</div>
+    	
 
 	</div>
   </div>

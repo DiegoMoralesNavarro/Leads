@@ -32,11 +32,13 @@ if (isset($_COOKIE['Atualizado'])) {
 
 
 
-
 <div class="container">
 
   <div class="row">
   	<div class="col s12 form">
+  		<a href="<?php echo URLestilo ?>/dashboard" 
+  			class="btn-floating btn-small waves-effect teal accent-4 " style="padding: 0 0px!important;">
+  			<i class="material-icons" >arrow_back</i></a>
 
   		<form role="form" action="/<?php echo pastaPrincipal ?>/dashboard/editar/<?php echo $userId[0]['idlead'] ?>" method="post" enctype="multipart/form-data">
 
@@ -101,7 +103,7 @@ if (isset($_COOKIE['Atualizado'])) {
 			
 		<div class="col s12 l6">
 			<div class="input-field col s12">
-		        <input id="telefone" maxlength="14" type="tel" class="validate" name="telefone" value="<?php echo $value['telefone'] ?>">
+		        <input id="telefone" maxlength="14" type="tel" class="validate" name="telefone" value="<?php echo $value['telefone'] ?>" data-js="phone">
           		<label for="telefone">Telefone</label>
 			</div>
 
@@ -184,7 +186,7 @@ if (isset($_COOKIE['Atualizado'])) {
 				            <input type="file" name="fileUpload" accept=".pdf">
 				        </div>
 				        <div class="file-path-wrapper">
-				            <input class="file-path validate" type="text" accept=".pdf" placeholder="Carregue seu PDF">
+				            <input class="file-path validate" type="text" placeholder="Carregue seu PDF" >
 		            	</div>
 	            	</div>
 

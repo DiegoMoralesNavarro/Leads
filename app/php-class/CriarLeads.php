@@ -78,7 +78,7 @@ public function save(){
       if($_SERVER["REQUEST_METHOD"] === "POST"){
 
          $file = $_FILES["fileUpload"];
-         var_dump($this->getchkl());
+        
 
 
          if ($file['name'] == '') {

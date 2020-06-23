@@ -5,6 +5,7 @@ namespace App;
 use \App\DB\Sql;
 
 
+
 class VerLeads{
 
 
@@ -47,6 +48,33 @@ protected $fields = [
 
 
 // get
+
+
+
+// public static function teste(){
+
+
+
+
+//       $sql = new Sql();
+//       $nome = $sql->select("SELECT * FROM tb_lead WHERE nome like'%a%' limit 3");
+
+
+//       foreach ($nome as $value) {
+//         // array_push($valornomes, $value['nome']);
+//         $response[] = array("label"=>$value['nome']);
+//       }
+
+//       var_dump($response);
+
+//       echo json_encode($response);
+
+
+
+// }
+
+
+
 
 
 public function listAll($val, $page, $itemsPerPage)

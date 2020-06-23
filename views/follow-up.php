@@ -41,10 +41,15 @@ if (isset($_COOKIE['Atualizado'])) {
 
   <div class="row">
     <div class="col s12 form">
+    	<a href="<?php echo URLestilo ?>/dashboard/editar/<?php echo $idlead; ?>" 
+  			class="btn-floating btn-small waves-effect teal accent-4 " style="padding: 0 0px!important;">
+  			<i class="material-icons" >arrow_back</i></a>
 
-    	<h4>Criar um acompanhamento do lead: <strong><?php echo $lead[0]['nome']; ?> </strong></h4>
+    	
 
-    	<div class="col s12 l12">
+    	<h4>Lead: <strong><?php echo $lead[0]['nome']; ?> </strong></h4>
+
+    	<div class="col s12 l6">
 
 	    	<form role="form1" action="/<?php echo pastaPrincipal ?>/dashboard/follow-up/<?php echo $idlead; ?>" method="post" enctype="multipart/form-data">
 
@@ -74,9 +79,9 @@ if (isset($_COOKIE['Atualizado'])) {
 
 
 
-		<div class="input-field col s12 l4">
+		<div class="input-field col s12 l6">
 			<form role="form" action="/<?php echo pastaPrincipal ?>/dashboard/follow-up/<?php echo $idlead; ?>" method="post" enctype="multipart/form-data">
-				<div class="input-field col s12">
+				<div class="input-field col s7">
 					
 				    <select name="statusLead" >
 				    	<?php
@@ -94,8 +99,8 @@ if (isset($_COOKIE['Atualizado'])) {
 				    
 				</div>
 
-				<div class="input-field col s12 ">
-					<button class="btn waves-effect waves-light" type="submit">Atualizar Status
+				<div class="input-field col s5 ">
+					<button class="btn waves-effect waves-light" style="font-size: 10px!important;" type="submit">Atualizar Status
 					    <i class="material-icons right">send</i>
 					</button>
 				</div>

@@ -41,6 +41,12 @@ if (isset($_COOKIE['Atualizado'])) {
   <div class="row">
 	<div class="col s12 form">
 
+		<a href="<?php echo URLestilo ?>/dashboard/configurar" 
+  			class="btn-floating btn-small waves-effect teal accent-4 " style="padding: 0 0px!important;">
+  			<i class="material-icons" >arrow_back</i></a>
+
+  			
+
 		<form role="form" action="/<?php echo pastaPrincipal ?>/dashboard/configurar/atribuir-lead/novo/<?php echo $id ?>" method="post">
 
 			
@@ -114,7 +120,7 @@ if (isset($_COOKIE['Atualizado'])) {
 	          		<?php
 	          	}else{
 	          		?>
-	          		<p>Reponsável: <strong>Ninguém</strong></p>
+	          		<p>Reponsável atual: <strong>Ninguém</strong></p>
 	          		<?php
 	          	}
 
@@ -133,9 +139,7 @@ if (isset($_COOKIE['Atualizado'])) {
 
 		</form>
 
-		<div class="input-field col s12 center-align">
-    		<a class="waves-effect light-green btn-small" 
-				href="<?php echo URLestilo ?>/dashboard/configurar">Início configurar</a>
+		
 			
 		</div>
 

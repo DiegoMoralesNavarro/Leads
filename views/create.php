@@ -19,6 +19,11 @@
 
   <div class="row">
     <div class="col s12 form">
+      
+      <a href="<?php echo URLestilo ?>/dashboard" 
+        class="btn-floating btn-small waves-effect teal accent-4 " style="padding: 0 0px!important;">
+        <i class="material-icons" >arrow_back</i></a>
+
       <form role="form" action="/<?php echo pastaPrincipal ?>/dashboard/cadastro" method="post" enctype="multipart/form-data">
 
       <div class="input-field col s12 l6">
@@ -38,7 +43,7 @@
         <div class="input-field col s12">
           <i class="material-icons prefix">phone_iphone</i>
           <label for="telefone">Telefone* 119000-0000</label>
-          <input type="tel" id="telefone" maxlength="14"  name="telefone" required="" class="validate" >
+          <input type="tel" id="telefone" maxlength="14"  name="telefone" required="" class="validate" data-js="phone">
         </div>
 
         <div class="input-field col s12">
@@ -82,7 +87,7 @@
           <div class="file-field input-field">
             <div class="btn">
               <span>File</span>
-              <input type="file" name="fileUpload">
+              <input type="file" name="fileUpload" accept=".pdf">
             </div>
             <div class="file-path-wrapper">
               <input class="file-path validate" type="text" placeholder="Carregue seu PDF">

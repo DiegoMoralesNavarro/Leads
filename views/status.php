@@ -34,6 +34,11 @@ if (isset($_COOKIE['Atualizado'])) {
 
   <div class="row">
     <div class="col s12 form">
+
+    	<a href="<?php echo URLestilo ?>/dashboard" 
+  			class="btn-floating btn-small waves-effect teal accent-4 " style="padding: 0 0px!important;">
+  			<i class="material-icons" >arrow_back</i></a>
+  			
       <form role="form" action="/<?php echo pastaPrincipal ?>/dashboard/status" method="post" enctype="multipart/form-data">
 
 	      <div class="input-field col s12 l6">

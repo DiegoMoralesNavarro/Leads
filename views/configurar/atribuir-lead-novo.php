@@ -42,6 +42,12 @@ if (isset($_GET['pesquisa'])) {
   <div class="row">
     <div class="col s12 form">
 
+    	<a href="<?php echo URLestilo ?>/dashboard/configurar" 
+  			class="btn-floating btn-small waves-effect teal accent-4 " style="padding: 0 0px!important;">
+  			<i class="material-icons" >arrow_back</i></a>
+
+  			<br><br>
+
     	<form role="form" action="/<?php echo pastaPrincipal ?>/dashboard/configurar/atribuir-lead/novo?pesquisa=$pesquisa&page=$numero" method="get">
 
     		<div class="row">
@@ -83,7 +89,19 @@ if (isset($_GET['pesquisa'])) {
 						<tr>
 
 							<td><?php echo $value[$i]['nome']; ?></td>
-							<td><?php echo $value[$i]['telefone']; ?></td>
+							
+							<td><?php
+							$numero = preg_replace("/[^0-9]/", "", $value[$i]['telefone']);
+							if (strlen($value[$i]['telefone']) == 14) {
+
+								?>	<a href="https://api.whatsapp.com/send?phone=55<?php echo $numero ?>" target="_blank"><?php echo $value[$i]['telefone']; ?></a> <?php
+							}else{ ?>
+								<a href="tel:+55<?php echo $value[$i]['telefone']; ?>" target="_blank"><?php echo $value[$i]['telefone']; ?></a>
+								<?php
+							}
+
+							?> </td>
+							
 							<td><?php echo $value[$i]['email']; ?></td>
 
 							<td class="edite-form"> 

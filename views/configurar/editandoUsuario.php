@@ -25,10 +25,6 @@ if (isset($_COOKIE['Atualizado'])) {
 
 
 
-
-COLOCAR SÓ PARA ADM poder mudar o cargo
- 
-
 <div class="container">
 
   <div class="row">
@@ -50,7 +46,24 @@ COLOCAR SÓ PARA ADM poder mudar o cargo
   <div class="row">
 	<div class="col s12 form">
 
+		<a href="<?php echo URLestilo ?>/dashboard/configurar/atualizar-usuario" 
+  			class="btn-floating btn-small waves-effect teal accent-4 " style="padding: 0 0px!important;">
+  			<i class="material-icons" >arrow_back</i></a>
+
+
 		<h4>Dados do usuário</h4>
+
+		<?php 
+
+    	if (isset($_GET['login'])) {
+			echo "<p style='color: red; font-weight: bold;'>Login não pode ser vazio</p>";
+		}else if (isset($_GET['senha'])) {
+			echo "<p style='color: red; font-weight: bold;'>Senha não pode ser vazio</p>";
+		}else{
+			echo "";
+		}
+
+    	 ?>
 
 		<form role="form" action="/<?php echo pastaPrincipal ?>/dashboard/configurar/atualizar-usuario/<?php echo $usuarioDados[0]['id_user']; ?>" method="post">
 

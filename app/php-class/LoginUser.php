@@ -95,7 +95,7 @@ protected $fields = [
 	{
 
 		//$inadmin é uma verificação se o user poder entra por ser adm
-		if(!isset($_SESSION["senha"]) || !$_SESSION["senha"]) {
+		if(!isset($_SESSION["user"]) || !isset($_SESSION["senha"]) || !$_SESSION["senha"]) {
 
 			header("Location: /leads/");
 			exit;
