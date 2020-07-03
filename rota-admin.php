@@ -13,7 +13,7 @@ use \App\configurar\AtualizarUsuario;
 use \App\configurar\AtualizarUsuarioDados;
 use \App\configurar\CadastrarUsuario;
 use \App\configurar\AtribuirLead;
-
+use \App\configurar\MostrarLogs;
 
 
 ////
@@ -250,6 +250,10 @@ $app->get('/dashboard/configurar/cadastrar-usuario', function() {
 
 
 	/// só pode ser feito por admin
+
+	$logs = CadastrarUsuario::listlog();
+
+	
 	
 
 	require_once('../'.pastaPrincipal.'/views/'.header);
@@ -587,10 +591,46 @@ $app->post('/dashboard/configurar/responsavel-lead', function() {
 $app->get('/dashboard/configurar/log', function() {
 
 
-	// user - data - pagina - açao "editar dodos, exluir, posse, editar obs, logar" - id lead
+	LoginUser::verifyLogin();
+
+	LoginUser::verifyNivel2();
+
+
+
+
+	if (isset($_GET['page'])) {
+		$page = $_GET['page'];
+	}else{
+		$page = 1;
+	}
+
+
+	if (isset($_GET['responsavel'])) {
+		$responsavel = $_GET['responsavel'];
+	}else{
+		$responsavel = 0;
+	}
+
+
+
+
+	$itemsPerPage = 20;
+
+	$users = new MostrarLogs();
+	$users->atribuirResponsavel($page, $itemsPerPage, $responsavel);
+
+
+
+
+	$user = MostrarLogs::user();
+
+
 	
 
 	require_once('../'.pastaPrincipal.'/views/'.header);
+
+
+	require_once('../'.pastaPrincipal.'/views/configurar/log.php');
 
 
 
@@ -600,9 +640,7 @@ $app->get('/dashboard/configurar/log', function() {
 
 $app->post('/dashboard/configurar/log', function() {
 
-	 $user = new CriarLeads();
-
-	 $user->setData($_POST);
+	
 	 
 	
 

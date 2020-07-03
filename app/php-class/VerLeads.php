@@ -3,7 +3,7 @@
 namespace App;
 
 use \App\DB\Sql;
-
+use \App\DB\Logs;
 
 
 class VerLeads{
@@ -48,31 +48,6 @@ protected $fields = [
 
 
 // get
-
-
-
-// public static function teste(){
-
-
-
-
-//       $sql = new Sql();
-//       $nome = $sql->select("SELECT * FROM tb_lead WHERE nome like'%a%' limit 3");
-
-
-//       foreach ($nome as $value) {
-//         // array_push($valornomes, $value['nome']);
-//         $response[] = array("label"=>$value['nome']);
-//       }
-
-//       var_dump($response);
-
-//       echo json_encode($response);
-
-
-
-// }
-
 
 
 
@@ -141,6 +116,16 @@ public function deleteUser($idlead){
 
   $sql = new Sql();
 
+
+
+    $tb_lead = $sql->select("SELECT * FROM tb_lead where idlead = $idlead");
+
+    $acao = "Deletado o lead <br> Nome: ". $tb_lead[0]['nome'] ."<br> E-mail: ". $tb_lead[0]['email'] ."<br> Telefone: ". $tb_lead[0]['telefone'];
+
+    $log = new Logs($_SESSION["id_user"], date('Y-m-d H:i'), $acao);
+
+
+
   $results = $sql->select("DELETE FROM tb_lead WHERE idlead = $idlead");
 
 
@@ -173,12 +158,36 @@ public function deleteUser($idlead){
 
   }
 
+  
+
+
+  $arquivosTotal = $sql->select("SELECT * FROM tb_followup where imagem NOT LIKE '' and idlead = $idlead");
+
+  if(count($arquivosTotal) > 0){
+
+       for ($i=0; $i < count($arquivosTotal) ; $i++) { 
+
+           $path = "uploads/";
+            $diretorio = dir($path);
+             
+            unlink($path.$arquivosTotal[$i]['imagem']); 
+
+       }
+       
+  }
+
 
   $tb_followup = $sql->select("SELECT * FROM tb_followup where idlead = $idlead");
 
   if(count($tb_followup) > 0){
   $results = $sql->select("DELETE FROM tb_followup WHERE idlead = $idlead");
+
   }
+
+ 
+  
+
+  
 
 
 

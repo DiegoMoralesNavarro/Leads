@@ -3,6 +3,8 @@
 namespace App;
 
 use \App\DB\Sql;
+use \App\DB\Logs;
+
 
 class CriarLeads{
 
@@ -159,6 +161,9 @@ public function cadastraUser($arquivo){
     $results2 =  $sql->select("SELECT LAST_INSERT_ID()");
     $idlead = $results2[0]['LAST_INSERT_ID()'];
 
+
+  
+
 //arquivo $arquivo, $idlead
     $resultsArquivo = $sql->select("INSERT INTO tb_arquivo (arquivo, fk_idlead) VALUES (:arquivo, :idlead)", array(
           ":arquivo"=>$arquivo,
@@ -217,6 +222,16 @@ public function cadastraUserSimples(){
 
     $results2 =  $sql->select("SELECT LAST_INSERT_ID()");
     $idlead = $results2[0]['LAST_INSERT_ID()'];
+
+
+
+    $nomeLead = $sql->select("SELECT nome FROM tb_lead where idlead = :idlead", array(
+       ":idlead"=>$idlead
+      ));
+
+    $acao = "Cadastrou o lead<br> Nome: ". $nomeLead[0]['nome'];
+
+    $log = new Logs($_SESSION["id_user"], date('Y-m-d H:i'), $acao);
 
 
 //

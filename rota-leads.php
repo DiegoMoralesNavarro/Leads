@@ -118,6 +118,11 @@ $app->get('/dashboard/editar/:idlead', function($idlead) {
 	$nomeArquivo = EditarUser::nomeArquivo($idlead);
 
 
+
+
+	
+
+
 	require_once('../'.pastaPrincipal.'/views/lead.php');
 
 	require_once('../'.pastaPrincipal.'/views/'.footer);
@@ -306,8 +311,18 @@ $app->post('/dashboard/servico', function() {
 	 $user = new EditarServico();
 
 	 $user->setData($_POST);
-	 $user->saveServico(); 
-	 $user->saveServicoUpdate();
+
+	if (isset($_POST['tiposervico'])) {
+		$user->saveServico(); 
+		
+	}
+
+	if (isset($_POST['tiposervicoEditar'])) {
+		$user->saveServicoUpdate();
+		
+	}
+	 
+	 
 
 	 setcookie("Atualizado", "Atualizado");
 
@@ -349,8 +364,18 @@ $app->post('/dashboard/status', function() {
 	 $user = new EditarStatus();
 
 	 $user->setData($_POST);
-	 $user->saveStatus();
-	 $user->saveStatusUpdate();
+
+	if (isset($_POST['tipostatus'])) {
+		$user->saveStatus();
+		
+	}
+
+	if (isset($_POST['tipostatusEditar'])) {
+		$user->saveStatusUpdate();
+		
+	}
+	 
+	 
 
 	 setcookie("Atualizado", "Atualizado");
 	 

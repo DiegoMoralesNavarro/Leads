@@ -4,7 +4,7 @@
 namespace App\configurar;
 
 use \App\DB\Sql;
-
+use \App\DB\Logs;
 
 
 class AtribuirLead{
@@ -128,6 +128,19 @@ public function atribuir($id){
 
 
 	setcookie("Atualizado", "Atualizado");
+
+
+	$nome = $sql->select("SELECT user FROM tb_user where id_user = :responsavel", array(
+       ":responsavel"=>$this->getresponsavel()
+    ));
+
+    $nomeLead = $sql->select("SELECT nome FROM tb_lead where idlead = :lead", array(
+       ":lead"=>$id
+    ));
+
+	$acao = "Atribuiu o lead para o usuário <br>" . "Nome do usuário: " . $nome[0]['user'] ." <br>" . "Nome do lead: " . $nomeLead[0]['nome'];
+
+    $log = new Logs($_SESSION["id_user"], date('Y-m-d H:i'), $acao);
 
 }
 

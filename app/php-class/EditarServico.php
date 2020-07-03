@@ -4,6 +4,7 @@
 namespace App;
 
 use \App\DB\Sql;
+use \App\DB\Logs;
 
 
 class EditarServico{
@@ -77,6 +78,11 @@ protected $fields = [
           
           ":tiposervico"=>$this->gettiposervico()
         ));
+
+      $acao = "Cadastrou um serviço <br> Nome: ". $this->gettiposervico();
+
+      $log = new Logs($_SESSION["id_user"], date('Y-m-d H:i'), $acao);
+
     }
 
   }
@@ -90,6 +96,10 @@ protected $fields = [
        ":idservico"=>$this->getidservicoEditar(),
         ":tiposervico"=>$this->gettiposervicoEditar()
       ));
+
+    $acao = "Atualizou o serviço para o<br> Nome: ". $this->gettiposervicoEditar();
+
+    $log = new Logs($_SESSION["id_user"], date('Y-m-d H:i'), $acao);
 
   }
 
@@ -108,12 +118,22 @@ public function ServicoDeletar($idservico){
        ":idservico"=>$idservico
       ));
 
+     $servico = $sql->select("SELECT tiposervico FROM tb_servico where idservico = :idservico", array(
+       ":idservico"=>$idservico
+      ));
+
 
      if(count($verificar) > 0){
         header("location: /".pastaPrincipal."/dashboard/servico?delete=$idservico");
         exit; 
 
      }else{
+
+        $acao = "Deletou o serviço - ". $servico[0]['tiposervico'];
+
+        $log = new Logs($_SESSION["id_user"], date('Y-m-d H:i'), $acao);
+
+
         $results = $sql->select("DELETE FROM tb_servico WHERE idservico = :idservico", array(
          ":idservico"=>$idservico
         ));

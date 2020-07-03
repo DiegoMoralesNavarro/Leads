@@ -3,7 +3,7 @@
 namespace App\configurar;
 
 use \App\DB\Sql;
-
+use \App\DB\Logs;
 
 
 class CadastrarUsuario{
@@ -38,6 +38,12 @@ class CadastrarUsuario{
 
 
 
+ public static function listlog()
+  {
+    $sql = new Sql();
+    return $sql->select("SELECT * FROM tb_logs");
+  }
+
 
 
 
@@ -70,6 +76,10 @@ public function cadastrar(){
 		       ":data"=>date('Y-m-d'),
 		       ":email"=>$this->getemail()
 		    ));
+
+       $acao = "Cadastrado usuário <br> Nome: ". $this->getuser(). "<br> Nivel: ". $this->getnivel();
+
+      $log = new Logs($_SESSION["id_user"], date('Y-m-d H:i'), $acao);
 
 		    setcookie("Atualizado", "Atualizado");
 			

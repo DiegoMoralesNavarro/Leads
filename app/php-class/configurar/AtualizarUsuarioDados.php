@@ -3,6 +3,7 @@
 namespace App\configurar;
 
 use \App\DB\Sql;
+use \App\DB\Logs;
 
 class AtualizarUsuarioDados{
 
@@ -77,6 +78,16 @@ public function atualizarDados($user){
        ":email"=>$this->getemail()
     ));
 
+
+
+    $tb_user = $sql->select("SELECT * FROM tb_user where id_user = $user");
+
+      $acao = "Atualizado os dados do usuário <br> Nome: ". $tb_user[0]['user'];
+
+      $log = new Logs($_SESSION["id_user"], date('Y-m-d H:i'), $acao);
+
+
+
     setcookie("Atualizado", "Atualizado");
 
     header("Location: /".pastaPrincipal."/dashboard/configurar/atualizar-usuario/$user");
@@ -102,6 +113,12 @@ public function atualizarSenha($user){
         
          ));
 
+    $tb_user = $sql->select("SELECT * FROM tb_user where id_user = $user");
+
+      $acao = "Atualizado a senha do usuário <br> Nome: ". $tb_user[0]['user'];
+
+      $log = new Logs($_SESSION["id_user"], date('Y-m-d H:i'), $acao);
+
     setcookie("Atualizado", "Atualizado");
 
        header("Location: /".pastaPrincipal."/dashboard/configurar/atualizar-usuario/$user");
@@ -123,7 +140,16 @@ public function deletarUsuario($id){
 
   $sql = new Sql();
 
-  echo "string".$id;
+ 
+
+
+  $tb_user = $sql->select("SELECT * FROM tb_user where id_user = $id");
+
+      $acao = "Deletou o usuário <br> Nome: ". $tb_user[0]['user'];
+
+      $log = new Logs($_SESSION["id_user"], date('Y-m-d H:i'), $acao);
+
+
 
   $results = $sql->select("UPDATE tb_lead SET fk_id_user = 0 WHERE (fk_id_user = $id)");
 

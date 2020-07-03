@@ -57,7 +57,7 @@ if (isset($_COOKIE['Atualizado'])) {
 			</div>
 
 	      </div> <!-- coluna 1 -->
-
+	    </form>
 	      <div class="input-field col s12 l6">
 	      	<h3>Editar um Serviço</h3>
 
@@ -114,7 +114,7 @@ if (isset($_COOKIE['Atualizado'])) {
 	        
 	      </div>
 
-      </form>
+      
     </div>
   </div> <!-- row -->
 

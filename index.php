@@ -32,6 +32,8 @@ use \App\StatusLista;
 
 
 
+
+
 use \App\configurar\AtualizarUsuarioDados;
 
 
@@ -64,7 +66,7 @@ $app->post('/', function() {
 
 	LoginUser::login($_POST["user"],$_POST["senha"]);
 
-
+	
 
 	header("Location: /leads/dashboard/");
 	exit;

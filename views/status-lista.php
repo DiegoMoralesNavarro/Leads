@@ -119,8 +119,8 @@ if (isset($_GET['pesquisa'])) {
 					  				<a href="<?php echo URLestilo ?>/dashboard/status-lista/<?php echo $value[$i]['idlead']?>/delete?idstatus=<?php echo $status[0]['idstatus'] ?>" onclick="return confirm('Deseja realmente excluir este registro?')" class="btn-floating btn-small waves-effect red accent-4 " style="padding: 0 0px!important;">
 					  			<i class="material-icons" >delete_forever</i></a>
 
-								<a class="waves-effect light-green btn-small" 
-								href="<?php echo URLestilo ?>/dashboard/follow-up/<?php echo $value[$i]['idlead']?>">Follow up</a>
+					  			<a href="<?php echo URLestilo ?>/dashboard/follow-up/<?php echo $value[$i]['idlead']?>" class="btn-floating btn-small waves-effect light-green " style="padding: 0 0px!important;"><i class="material-icons" >done_all</i></a>
+
 
 							</td>
 						</tr>

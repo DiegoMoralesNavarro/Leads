@@ -107,6 +107,25 @@
     </div>
 
     <?php }else{ } ?>
+
+
+    <?php if($_SESSION["nivel"] <= 1) { ?>
+
+    <div class="col s12 m4 ">
+      <div class="card form">
+        <div class="card-content center-align">
+          <i class="material-icons prefix " style="font-size: 50px;">visibility</i>
+          <h4>Log básico</h4>
+        </div>
+        <div class="card-action center-align">
+
+          <a class="waves-effect light-green btn-small" 
+                 href="/<?php echo pastaPrincipal ?>/dashboard/configurar/log">Ver log</a>
+        </div>
+      </div>
+    </div>
+
+    <?php }else{ } ?>
    
 
 

@@ -5,6 +5,7 @@
 namespace App;
 
 use \App\DB\Sql;
+use \App\DB\Logs;
 
 
 class EditarUser{
@@ -145,6 +146,11 @@ public function saveUpdateLead($idlead){
       ));
 
 
+     $acao = "Atualizado os dados do lead<br> Nome: ". $this->getnome();
+
+    $log = new Logs($_SESSION["id_user"], date('Y-m-d H:i'), $acao);
+
+
     $results2 = $sql->select("SELECT * FROM tb_obs WHERE fk_idlead = $idlead");
 
     if (count($results2) > 0) {
@@ -186,6 +192,8 @@ public function adicionaServico($idlead){
 
       ));
 
+    
+
 }
 
 public function removeServico($idlead){
@@ -206,6 +214,7 @@ public function removeServico($idlead){
 
       ));
 
+   
 
  }
 
@@ -216,6 +225,8 @@ public function deleteArquivo($idlead){
   $sql = new Sql();
 
    $tb_arquivo = $sql->select("SELECT * FROM tb_arquivo where fk_idlead = $idlead");
+
+
 
 
     if(count($tb_arquivo) > 0){
@@ -318,6 +329,17 @@ public function gravarArquivo($idlead){
 public function tomarPosseLead($idlead){
 
   $sql = new Sql();
+
+
+  $tb_lead = $sql->select("SELECT * FROM tb_lead where idlead = $idlead");
+
+
+  $acao = "Tomou posse do lead<br> Nome: ". $tb_lead[0]['nome'];
+
+  $log = new Logs($_SESSION["id_user"], date('Y-m-d H:i'), $acao);
+
+
+
 
   $id = $_SESSION["id_user"];
 

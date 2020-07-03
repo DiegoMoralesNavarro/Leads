@@ -3,6 +3,8 @@
 namespace App\configurar;
 
 use \App\DB\Sql;
+use \App\DB\Logs;
+
 
 class AtualizarMeusDados{
 
@@ -77,6 +79,12 @@ public function atualizarDados($user){
        ":email"=>$this->getemail()
     ));
 
+
+    $acao = "Atualizou os próprios dados";
+
+    $log = new Logs($_SESSION["id_user"], date('Y-m-d H:i'), $acao);
+
+
     setcookie("Atualizado", "Atualizado");
 
    header("Location: /".pastaPrincipal."/dashboard/logout");
@@ -109,6 +117,11 @@ public function atualizarSenha($user){
         $results = $sql->select("UPDATE tb_user SET senha = :senha WHERE (id_user = $user)", array(
          ":senha"=>md5($this->getnovaSenha())
         ));
+
+
+        $acao = "Atualizou a própria senha";
+
+        $log = new Logs($_SESSION["id_user"], date('Y-m-d H:i'), $acao);
 
         setcookie("Atualizado", "Atualizado");
 

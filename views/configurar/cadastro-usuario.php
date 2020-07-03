@@ -20,7 +20,10 @@ if (isset($_COOKIE['Atualizado'])) {
  ?> 
 
 
- 
+
+
+
+
 
 <div class="container">
 

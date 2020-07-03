@@ -5,6 +5,7 @@
 namespace App;
 
 use \App\DB\Sql;
+use \App\DB\Logs;
 
 
 
@@ -79,6 +80,11 @@ protected $fields = [
         
             ":tipostatus"=>$this->gettipostatus()
           ));
+
+      $acao = "Cadastrou um status <br> Nome: ". $this->gettipostatus();
+
+      $log = new Logs($_SESSION["id_user"], date('Y-m-d H:i'), $acao);
+
       }
 
    }
@@ -91,6 +97,11 @@ protected $fields = [
        ":idstatus"=>$this->getidstatusEditar(),
         ":tipostatus"=>$this->gettipostatusEditar()
       ));
+
+    $acao = "Atualizou o status para o<br> Nome: ". $this->gettipostatusEditar();
+
+    $log = new Logs($_SESSION["id_user"], date('Y-m-d H:i'), $acao);
+
 
   }
 
@@ -106,11 +117,22 @@ protected $fields = [
        ":idstatus"=>$idstatus
       ));
 
+     $status = $sql->select("SELECT tipostatus FROM tb_status where idstatus = :idstatus", array(
+       ":idstatus"=>$idstatus
+      ));
+
+
      if(count($verificar) > 0){
         header("location: /".pastaPrincipal."/dashboard/status?delete=$idstatus");
         exit; 
 
      }else{
+
+        $acao = "Deletou o status - ". $status[0]['tipostatus'];
+
+        $log = new Logs($_SESSION["id_user"], date('Y-m-d H:i'), $acao);
+
+
         $results = $sql->select("DELETE FROM tb_status WHERE idstatus = :idstatus", array(
          ":idstatus"=>$idstatus
         ));
