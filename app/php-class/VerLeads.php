@@ -185,18 +185,75 @@ public function deleteUser($idlead){
   }
 
  
-  
-
-  
-
-
-
-
+ 
 
 }
 
 
 
+
+public static function imprimir(){
+
+   $sql = new Sql();
+
+   $result = $sql->select("SELECT idlead,nome,empresa,email,telefone FROM tb_lead");
+
+
+
+
+    // //declaramos uma variavel para monstarmos a tabela
+    // $dadosXls  = "";
+    // $dadosXls .= "  <table border='1' >";
+    // $dadosXls .= "       <tr>";
+    // $dadosXls .= "          <th>id</th>";
+    // $dadosXls .= "          <th>nome</th>";
+    // $dadosXls .= "          <th>empresa</th>";
+    // $dadosXls .= "          <th>telefone</th>";
+    // $dadosXls .= "          <th>email</th>";
+    // $dadosXls .= "      </tr>";
+
+    // foreach($result as $res){
+    //     $dadosXls .= "      <tr>";
+    //     $dadosXls .= "          <td>".$res['idlead']."</td>";
+    //     $dadosXls .= "          <td>".$res['nome']."</td>";
+    //     $dadosXls .= "          <td>".$res['empresa']."</td>";
+    //     $dadosXls .= "          <td>".$res['telefone']."</td>";
+    //     $dadosXls .= "          <td>".$res['email']."</td>";
+    //     $dadosXls .= "      </tr>";
+    // }
+
+
+    // $dadosXls .= "  </table>";
+
+
+    // // Definimos o nome do arquivo que será exportado  
+    // $arquivo = "MinhaPlanilha.xls";  
+    // Configurações header para forçar o download  
+
+    // header('Content-Encoding: UTF-8');
+    // header('Content-Encoding: ISO-8859-1');
+    // header("Content-Type: text/html; charset=utf-8");
+    
+    // header ("Expires: Mon, 28 Oct 2008 05:00:00 GMT");
+    // header ("Last-Modified: " . gmdate("D,d M YH:i:s") . " GMT");
+    // header ("Content-Description: leads" );
+
+    
+    // header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+
+    // header('Content-Disposition: attachment;filename="'.$arquivo.'"');
+    // header ("Cache-Control: no-cache, must-revalidate");
+    // header ("Pragma: no-cache");
+
+
+ 
+// Envia o conteúdo do arquivo  
+    // echo $dadosXls;  
+    // exit;
+
+
+
+}
 
 
 

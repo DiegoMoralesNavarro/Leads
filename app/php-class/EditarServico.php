@@ -74,9 +74,10 @@ protected $fields = [
     if ($this->gettiposervico() == "") {
       //vazio
     }else{
-      $results = $sql->select("INSERT INTO tb_servico (tiposervico) VALUES (:tiposervico)", array(
+      $results = $sql->select("INSERT INTO tb_servico (tiposervico, fk_id_cliente) VALUES (:tiposervico, :idcliente)", array(
           
-          ":tiposervico"=>$this->gettiposervico()
+          ":tiposervico"=>$this->gettiposervico(),
+          ":idcliente"=>$_SESSION["fk_id_cliente"]
         ));
 
       $acao = "Cadastrou um serviço <br> Nome: ". $this->gettiposervico();
@@ -92,9 +93,10 @@ protected $fields = [
  public function saveServicoUpdate(){
     $sql = new Sql();
     
-    $results = $sql->select("UPDATE tb_servico SET tiposervico = :tiposervico WHERE idservico = :idservico", array(
+    $results = $sql->select("UPDATE tb_servico SET tiposervico = :tiposervico, fk_id_cliente = :idcliente WHERE idservico = :idservico and fk_id_cliente = :idcliente", array(
        ":idservico"=>$this->getidservicoEditar(),
-        ":tiposervico"=>$this->gettiposervicoEditar()
+        ":tiposervico"=>$this->gettiposervicoEditar(),
+        ":idcliente"=>$_SESSION["fk_id_cliente"]
       ));
 
     $acao = "Atualizou o serviço para o<br> Nome: ". $this->gettiposervicoEditar();
@@ -134,8 +136,9 @@ public function ServicoDeletar($idservico){
         $log = new Logs($_SESSION["id_user"], date('Y-m-d H:i'), $acao);
 
 
-        $results = $sql->select("DELETE FROM tb_servico WHERE idservico = :idservico", array(
-         ":idservico"=>$idservico
+        $results = $sql->select("DELETE FROM tb_servico WHERE idservico = :idservico and fk_id_cliente = :idcliente", array(
+         ":idservico"=>$idservico,
+         ":idcliente"=>$_SESSION["fk_id_cliente"]
         ));
 
         header("location: /".pastaPrincipal."/dashboard/servico");

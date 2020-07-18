@@ -122,8 +122,9 @@ public function atribuir($id){
 
 	$sql = new Sql();
 
-	 $results = $sql->select("UPDATE tb_lead SET fk_id_user = :responsavel WHERE (idlead = $id)", array(
-       ":responsavel"=>$this->getresponsavel()
+	 $results = $sql->select("UPDATE tb_lead SET fk_id_user = :responsavel WHERE (idlead = $id) and (fk_id_cliente = :idcliente)", array(
+       ":responsavel"=>$this->getresponsavel(),
+       ":idcliente"=>$_SESSION["fk_id_cliente"]
     ));
 
 

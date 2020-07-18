@@ -84,6 +84,8 @@ protected $fields = [
 			$_SESSION["senha"] = $data["senha"];
 
 			$_SESSION["nivel"] = $data["nivel"];
+			
+			$_SESSION["fk_id_cliente"] = $data["fk_id_cliente"];
 
 			$log = new Logs($_SESSION["id_user"], date('Y-m-d H:i'),'Realizou login');
 

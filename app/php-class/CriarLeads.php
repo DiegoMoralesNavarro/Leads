@@ -148,14 +148,15 @@ public function cadastraUser($arquivo){
 
   $sql = new Sql();
 
-    $results = $sql->select("CALL insert_lead(:nome, :empresa, :telefone, :fk_status, :email, :site, :origemLead)", array(
+    $results = $sql->select("CALL insert_lead(:nome, :empresa, :telefone, :fk_status, :email, :site, :origemLead, :idcliente)", array(
       ":nome"=>$this->getnome(),
       ":empresa"=>$this->getempresa(),
       ":telefone"=>$this->gettelefone(),
       ":fk_status"=>"5",
       ":email"=>$this->getemail(),
       ":site"=>$this->getsite(),
-      ":origemLead"=>$this->getorigemLead()
+      ":origemLead"=>$this->getorigemLead(),
+      ":idcliente"=>$_SESSION["fk_id_cliente"]
     ));
 
     $results2 =  $sql->select("SELECT LAST_INSERT_ID()");
@@ -179,9 +180,10 @@ public function cadastraUser($arquivo){
       $checkbox1 = count($this->getchkl());
       for ($i=0; $i<$checkbox1; $i++) {  
 
-       $results = $sql->select("INSERT INTO tb_categoria (idlead, idservico) VALUES (:idlead, :idservico)", array(
+       $results = $sql->select("INSERT INTO tb_categoria (idlead, idservico, id_cliente) VALUES (:idlead, :idservico, :idcliente)", array(
           ":idlead"=>$idlead,
-          ":idservico"=>$this->getchkl()[$i]
+          ":idservico"=>$this->getchkl()[$i],
+          ":idcliente"=>$_SESSION["fk_id_cliente"]
         ));
       } 
 
@@ -193,9 +195,10 @@ public function cadastraUser($arquivo){
    
      }else{
 
-       $results = $sql->select("INSERT INTO tb_obs (obs, fk_idlead, fk_id_user) VALUES (:idobs, :idlead, 0)", array(
+       $results = $sql->select("INSERT INTO tb_obs (obs, fk_idlead, fk_id_user, fk_id_cliente) VALUES (:idobs, :idlead, 0, :idcliente)", array(
           ":idobs"=>$this->getobs(),
-          ":idlead"=>$idlead
+          ":idlead"=>$idlead,
+          ":idcliente"=>$_SESSION["fk_id_cliente"]
         ));
 
      }
@@ -208,14 +211,15 @@ public function cadastraUserSimples(){
 
   $sql = new Sql();
 
-    $results = $sql->select("CALL insert_lead(:nome, :empresa, :telefone, :fk_status, :email, :site, :origemLead)", array(
+    $results = $sql->select("CALL insert_lead(:nome, :empresa, :telefone, :fk_status, :email, :site, :origemLead, :idcliente)", array(
       ":nome"=>$this->getnome(),
       ":empresa"=>$this->getempresa(),
       ":telefone"=>$this->gettelefone(),
       ":fk_status"=>"5",
       ":email"=>$this->getemail(),
       ":site"=>$this->getsite(),
-      ":origemLead"=>$this->getorigemLead()
+      ":origemLead"=>$this->getorigemLead(),
+      ":idcliente"=>$_SESSION["fk_id_cliente"]
     ));
 
 
@@ -243,9 +247,10 @@ public function cadastraUserSimples(){
       $checkbox1 = count($this->getchkl());
       for ($i=0; $i<$checkbox1; $i++) {  
 
-       $results = $sql->select("INSERT INTO tb_categoria (idlead, idservico) VALUES (:idlead, :idservico)", array(
+       $results = $sql->select("INSERT INTO tb_categoria (idlead, idservico, id_cliente) VALUES (:idlead, :idservico, :idcliente)", array(
           ":idlead"=>$idlead,
-          ":idservico"=>$this->getchkl()[$i]
+          ":idservico"=>$this->getchkl()[$i],
+          ":idcliente"=>$_SESSION["fk_id_cliente"]
         ));
       } 
 
@@ -257,9 +262,10 @@ public function cadastraUserSimples(){
    
      }else{
 
-       $results = $sql->select("INSERT INTO tb_obs (obs, fk_idlead, fk_id_user) VALUES (:idobs, :idlead, 0)", array(
+       $results = $sql->select("INSERT INTO tb_obs (obs, fk_idlead, fk_id_user, fk_id_cliente) VALUES (:idobs, :idlead, 0, :idcliente)", array(
           ":idobs"=>$this->getobs(),
-          ":idlead"=>$idlead
+          ":idlead"=>$idlead,
+          ":idcliente"=>$_SESSION["fk_id_cliente"]
         ));
 
      }

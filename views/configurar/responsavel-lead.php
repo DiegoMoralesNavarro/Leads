@@ -187,6 +187,7 @@ if (isset($_GET['responsavel'])) {
 
 $voltar = $page - 1;
 $avancar = $page + 1;
+$numerosPorPagina = 4;
 
 $linhas = $_SESSION["paginas"];
 
@@ -217,16 +218,18 @@ function selected( $value, $selected ){
 
 
 
-	<?php for($i = $page - $itemsPerPage; $i <= $page; $i++ ){
+	<?php for($i = $page - $numerosPorPagina; $i <= $page; $i++ ){
+
 	if($i >= 1){ ?>
 		<li <?php echo selected( $page, $i ); ?> > <button <?php echo selected( $page, $i ); ?> id="paginar" name="page" type="submit" value="<?php echo $i ?>"><?php echo $i ?></button> </li>
 		
 	<?php 	}
+
 	}
 	?> 
 
 
-	<?php for($i = $page + 1; $i <= $page + $itemsPerPage; $i++ ){
+	<?php for($i = $page + 1; $i <= $page + $numerosPorPagina; $i++ ){
 	if($i <= $total_Paginas){ ?>
 		<li class="waves-effect">
 			<button name="page" type="submit" value="<?php echo $i ?>"><?php echo $i ?></button>

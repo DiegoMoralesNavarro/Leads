@@ -73,9 +73,10 @@ public function atualizarDados($user){
     exit;
   }else{
 
-    $results = $sql->select("UPDATE tb_user SET user = :user, email = :email WHERE (id_user = $user)", array(
+    $results = $sql->select("UPDATE tb_user SET user = :user, email = :email WHERE (id_user = $user) and (fk_id_cliente = :idcliente)", array(
        ":user"=>$this->getuser(),
-       ":email"=>$this->getemail()
+       ":email"=>$this->getemail(),
+       ":idcliente"=>$_SESSION["fk_id_cliente"]
     ));
 
 
@@ -108,8 +109,9 @@ public function atualizarSenha($user){
 
   }else{
 
-    $results = $sql->select("UPDATE tb_user SET senha = :senha WHERE (id_user = $user)", array(
-         ":senha"=>md5($this->getnovaSenha())
+    $results = $sql->select("UPDATE tb_user SET senha = :senha WHERE (id_user = $user) and (fk_id_cliente = :idcliente)", array(
+         ":senha"=>md5($this->getnovaSenha()),
+         ":idcliente"=>$_SESSION["fk_id_cliente"]
         
          ));
 
@@ -150,15 +152,20 @@ public function deletarUsuario($id){
       $log = new Logs($_SESSION["id_user"], date('Y-m-d H:i'), $acao);
 
 
-
-  $results = $sql->select("UPDATE tb_lead SET fk_id_user = 0 WHERE (fk_id_user = $id)");
-
-  $results2 = $sql->select("UPDATE tb_followup SET fk_id_user = 0 WHERE (fk_id_user = $id)");
-
-  $results3 = $sql->select("UPDATE tb_obs SET fk_id_user = 0 WHERE (fk_id_user = $id)");
+$id_cliente = $_SESSION["fk_id_cliente"];
 
 
-  $results4 = $sql->select("DELETE FROM tb_user WHERE (id_user = $id)");
+  $results = $sql->select("UPDATE tb_lead SET fk_id_user = 0 WHERE (fk_id_user = $id) and (fk_id_cliente = $id_cliente)");
+
+  $results2 = $sql->select("UPDATE tb_followup SET fk_id_user = 0 WHERE (fk_id_user = $id) and (fk_id_cliente = $id_cliente)");
+
+  $results3 = $sql->select("UPDATE tb_obs SET fk_id_user = 0 WHERE (fk_id_user = $id) and (fk_id_cliente = $id_cliente)");
+
+
+
+
+
+  $results4 = $sql->select("DELETE FROM tb_user WHERE (id_user = $id) and (fk_id_cliente = $id_cliente)");
 
   setcookie("Atualizado", "Atualizado");
 

@@ -74,9 +74,10 @@ public function atualizarDados($user){
     exit;
   }else{
 
-    $results = $sql->select("UPDATE tb_user SET user = :user, email = :email WHERE (id_user = $user)", array(
+    $results = $sql->select("UPDATE tb_user SET user = :user, email = :email WHERE (id_user = $user) and (fk_id_cliente = :idcliente)", array(
        ":user"=>$this->getuser(),
-       ":email"=>$this->getemail()
+       ":email"=>$this->getemail(),
+       ":idcliente"=>$_SESSION["fk_id_cliente"]
     ));
 
 
@@ -114,8 +115,9 @@ public function atualizarSenha($user){
         header("Location: /".pastaPrincipal."/dashboard/configurar/atualizar-dados?senhaAtual=Vazio#senha");
         exit;
       }else{
-        $results = $sql->select("UPDATE tb_user SET senha = :senha WHERE (id_user = $user)", array(
-         ":senha"=>md5($this->getnovaSenha())
+        $results = $sql->select("UPDATE tb_user SET senha = :senha WHERE (id_user = $user) and (fk_id_cliente = :idcliente)", array(
+         ":senha"=>md5($this->getnovaSenha()),
+         ":idcliente"=>$_SESSION["fk_id_cliente"]
         ));
 
 

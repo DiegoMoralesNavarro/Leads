@@ -72,11 +72,13 @@ $app->post('/dashboard/', function() {
 	$user = new VerLeads();
 	$user->setData($_POST);
 
+	$user->imprimir();
 
 
 
-	 header("location: /".pastaPrincipal."/dashboard/");
-     exit; 
+
+	 // header("location: /".pastaPrincipal."/dashboard/");
+  //    exit; 
 
 });
 

@@ -132,7 +132,7 @@ public static function origem(){
 public function saveUpdateLead($idlead){
     $sql = new Sql();
     
-    $results = $sql->select("UPDATE tb_lead SET nome = :nome, empresa = :empresa, telefone = :telefone, email = :email, site = :site, fk_status = :statusLead, dataAtualizada = :dataAtualizada, fk_origem_lead = :origemLead, fk_id_user_atualiza = :quemAtualizou WHERE idlead = $idlead", array(
+    $results = $sql->select("UPDATE tb_lead SET nome = :nome, empresa = :empresa, telefone = :telefone, email = :email, site = :site, fk_status = :statusLead, dataAtualizada = :dataAtualizada, fk_origem_lead = :origemLead, fk_id_user_atualiza = :quemAtualizou WHERE idlead = $idlead and fk_id_cliente = :idcliente", array(
        ":nome"=>$this->getnome(),
        ":empresa"=>$this->getempresa(),
         ":telefone"=>$this->gettelefone(),
@@ -141,7 +141,8 @@ public function saveUpdateLead($idlead){
         ":statusLead"=>$this->getstatusLead(),
         ":dataAtualizada"=>date('Y-m-d H:i'),
         ":origemLead"=>$this->getorigemLead(),
-        ":quemAtualizou"=>$_SESSION["id_user"]
+        ":quemAtualizou"=>$_SESSION["id_user"],
+        ":idcliente"=>$_SESSION["fk_id_cliente"]
 
       ));
 
@@ -176,10 +177,11 @@ public function adicionaServico($idlead){
 
   $sql = new Sql();
 
-  // var_dump($this->getidservicoadd());
+  //var_dump($this->getidservicoadd());
 
-  $results = $sql->select("INSERT INTO tb_categoria (idlead, idservico) VALUES ($idlead, :idservicoadd)", array(
-          ":idservicoadd"=>$this->getidservicoadd()
+  $results = $sql->select("INSERT INTO tb_categoria (idlead, idservico, id_cliente) VALUES ($idlead, :idservicoadd, :idcliente)", array(
+          ":idservicoadd"=>$this->getidservicoadd(),
+          ":idcliente"=>$_SESSION["fk_id_cliente"]
     ));
 
 
@@ -201,8 +203,9 @@ public function removeServico($idlead){
   $sql = new Sql();
   // var_dump($this->getidserviconao());
   
-   $results = $sql->select("DELETE FROM tb_categoria WHERE idlead = $idlead and idservico = :idserviconao", array(
-         ":idserviconao"=>$this->getidserviconao()
+   $results = $sql->select("DELETE FROM tb_categoria WHERE idlead = $idlead and idservico = :idserviconao and id_cliente = :idcliente", array(
+         ":idserviconao"=>$this->getidserviconao(),
+         ":idcliente"=>$_SESSION["fk_id_cliente"]
     ));
 
     $results2 = $sql->select("UPDATE tb_lead SET dataAtualizada = :dataAtualizada WHERE idlead = $idlead", array(

@@ -76,9 +76,10 @@ protected $fields = [
     if ($this->gettipostatus() == "") {
       //vazio
     }else{
-       $results = $sql->select("INSERT INTO tb_status (tipostatus) VALUES (:tipostatus)", array(
+       $results = $sql->select("INSERT INTO tb_status (tipostatus, fk_id_cliente) VALUES (:tipostatus, :idcliente)", array(
         
-            ":tipostatus"=>$this->gettipostatus()
+            ":tipostatus"=>$this->gettipostatus(),
+            ":idcliente"=>$_SESSION["fk_id_cliente"]
           ));
 
       $acao = "Cadastrou um status <br> Nome: ". $this->gettipostatus();
@@ -93,9 +94,10 @@ protected $fields = [
   public function saveStatusUpdate(){
     $sql = new Sql();
     
-    $results = $sql->select("UPDATE tb_status SET tipostatus = :tipostatus WHERE idstatus = :idstatus", array(
+    $results = $sql->select("UPDATE tb_status SET tipostatus = :tipostatus, fk_id_cliente = :idcliente WHERE idstatus = :idstatus and fk_id_cliente = :idcliente", array(
        ":idstatus"=>$this->getidstatusEditar(),
-        ":tipostatus"=>$this->gettipostatusEditar()
+        ":tipostatus"=>$this->gettipostatusEditar(),
+        ":idcliente"=>$_SESSION["fk_id_cliente"]
       ));
 
     $acao = "Atualizou o status para o<br> Nome: ". $this->gettipostatusEditar();
@@ -133,8 +135,9 @@ protected $fields = [
         $log = new Logs($_SESSION["id_user"], date('Y-m-d H:i'), $acao);
 
 
-        $results = $sql->select("DELETE FROM tb_status WHERE idstatus = :idstatus", array(
-         ":idstatus"=>$idstatus
+        $results = $sql->select("DELETE FROM tb_status WHERE idstatus = :idstatus and fk_id_cliente = :idcliente", array(
+         ":idstatus"=>$idstatus,
+         ":idcliente"=>$_SESSION["fk_id_cliente"]
         ));
 
         header("location: /".pastaPrincipal."/dashboard/status");

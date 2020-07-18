@@ -614,7 +614,7 @@ $app->get('/dashboard/configurar/log', function() {
 
 
 
-	$itemsPerPage = 20;
+	$itemsPerPage = 22;
 
 	$users = new MostrarLogs();
 	$users->atribuirResponsavel($page, $itemsPerPage, $responsavel);
