@@ -47,8 +47,7 @@ if (isset($_GET['page'])) {
 
 
 
-
-	//$user = EditarUser::listAll(); ///
+	$user = EditarUser::listAll(); ///
 	
 	
 
@@ -66,6 +65,7 @@ if (isset($_GET['page'])) {
 
 
 
+
 $app->post('/dashboard/', function() {
 
 
@@ -77,8 +77,8 @@ $app->post('/dashboard/', function() {
 
 
 
-	 // header("location: /".pastaPrincipal."/dashboard/");
-  //    exit; 
+     header("location: /".pastaPrincipal."/dashboard/");
+     exit;
 
 });
 
@@ -414,7 +414,6 @@ $app->get('/dashboard/status-lista/:idstatus', function($idstatus) {
 	$users = new StatusLista();
 	$users->listAll($val, $page, $itemsPerPage, $idstatus);
 
-	//$user = EditarUser::listAll(); ///
 
 	$status = StatusLista::saberStatus($idstatus);
 	
@@ -427,6 +426,40 @@ $app->get('/dashboard/status-lista/:idstatus', function($idstatus) {
 	require_once('../'.pastaPrincipal.'/views/'.footer);
 
 });
+
+
+
+
+
+$app->post('/dashboard/status-lista/:idstatus', function($idstatus) {
+
+
+	$user = new StatusLista();
+	$user->setData($_POST);
+
+	$page = $_SESSION["page"];
+	$val = $_SESSION["pesquisa"];
+
+	$itemsPerPage = 20;
+
+	if (isset($_POST['imprimirsimples'])) {
+		$user->imprimirSimples($idstatus);
+		
+	}
+
+	if (isset($_POST['imprimir'])) {
+		$user->imprimir($val, $page, $itemsPerPage, $idstatus);
+		
+	}
+	
+
+
+ //     header("location: /".pastaPrincipal."/dashboard/status-lista/:idstatus");
+ //     exit;
+
+});
+
+
 
 
 

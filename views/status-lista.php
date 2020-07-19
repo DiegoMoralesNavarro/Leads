@@ -16,9 +16,23 @@ if (isset($_GET['pesquisa'])) {
 
 
 
+if (isset($_GET['page'])) {
+	$_SESSION["page"] = $_GET['page'];
+
+	
+}else{
+	$_SESSION["page"] = "1";
+
+}
+
+
 
 
 ?>
+
+
+
+
 
 
 <div class="container">
@@ -236,11 +250,37 @@ function selected( $value, $selected ){
     	</form>
 
 
+
+<form role="form" action="/<?php echo pastaPrincipal ?>/dashboard/status-lista/<?php echo $status[0]['idstatus'] ?>" method="post">
+
+	<div class="col s12 linha ">
+		
+	</div>
+
+	<div class="row">
+
+		<div class="col s12 l12">
+      	<h4>Baixar para excel os dados</h4>
+      </div>
+
+      <div class="col s12 l2">
+      	<p><button class="btn-floating btn-small waves-effect orange darken-1 " type="submit" name="imprimirsimples" style="padding: 0 0px!important;"><i class="material-icons ">description</i></button>
+      	Todos</p>
+      </div>
+
+      <div class="col s12 l2">
+      	<p><button class="btn-floating btn-small waves-effect orange darken-1 " type="submit" name="imprimir" style="padding: 0 0px!important;"><i class="material-icons ">description</i></button>
+      	Esta páginação</p>
+      </div>
+
+    </div>
+	
+
+</form>
     	
 
 	</div>
   </div>
-
 </div>    	
 
 
