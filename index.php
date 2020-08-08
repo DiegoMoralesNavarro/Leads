@@ -240,6 +240,20 @@ $app->get('/dashboard/status-lista/:idlead/delete', function($idlead) {
 });
 
 
+$app->get('/dashboard/lead-espera/:idlead/delete', function($idlead) {
+
+
+	$val = $_SESSION["tempo"];
+
+
+	$user = new VerLeads();
+	$user->deleteUser($idlead);
+	header("location: /".pastaPrincipal."/dashboard/lead-espera/?tempo=$val");
+  	exit; 
+
+});
+
+
 
 
 $app->get('/dashboard/configurar/atualizar-usuario/:id/delete/', function($id){

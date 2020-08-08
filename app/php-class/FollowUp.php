@@ -258,14 +258,17 @@ public function salvarFollowUp($idlead){
             
           }
 
+
+          $idcliente = $_SESSION["fk_id_cliente"];
+        $nomePasta = $sql->select("SELECT * FROM tb_cliente where id_cliente = $idcliente");
           
           //criar um diretorio temporario
-          $dirUpload = "uploads";
+          //criar um diretorio temporario
+             $dirUpload = $nomePasta[0]['nome_pasta'];
 
-          if(!is_dir($dirUpload)){
-            mkdir($dirUpload);
+          if(!is_dir('uploads/'.$dirUpload)){
+            mkdir('uploads/'.$dirUpload);
           }
-
 
 
           //PEGAR o nome do arquivo
@@ -275,9 +278,9 @@ public function salvarFollowUp($idlead){
 
           if ($extension == 'png' || $extension == 'jpg' || $extension == 'jpeg') {
 
-            $numero = rand(1, 200). "-";
+            $numero = rand(1, 900). "-";
               
-            if(move_uploaded_file($file["tmp_name"], $dirUpload . DIRECTORY_SEPARATOR .$numero . $file["name"])){
+            if(move_uploaded_file($file["tmp_name"], 'uploads/'. $dirUpload. DIRECTORY_SEPARATOR .$numero . $file["name"])){
 
               $arquivo = $numero . $file["name"];
               var_dump( $arquivo);
@@ -429,18 +432,17 @@ $sql = new Sql();
 
    $tb_arquivo = $sql->select("SELECT imagem FROM tb_followup where idfollowup = $idlead");
 
+     $idcliente = $_SESSION["fk_id_cliente"];
+  $nomePasta = $sql->select("SELECT * FROM tb_cliente where id_cliente = $idcliente");
+
 
     if(!$tb_arquivo == '' || !$tb_arquivo == null){
 
 
-
-
-
-
-      var_dump($tb_arquivo);
      
-        $path = "uploads/";
+        $path = 'uploads/'.$nomePasta[0]['nome_pasta'].'/';
         $diretorio = dir($path);
+
          
            unlink($path.$tb_arquivo[0]['imagem']);
 

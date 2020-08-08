@@ -44,7 +44,7 @@ public $values = [];
 
 
 protected $fields = [
-	"pesquisa", "page"
+	"pesquisa", "page", "ordemFollow"
 ];
 
 
@@ -53,22 +53,32 @@ protected $fields = [
 
 
 
-public function listAll($val, $page, $itemsPerPage)
+public function listAll($val, $page, $itemsPerPage, $FollowUP)
 	{
 
     $start = ($page - 1) * $itemsPerPage;
+
+    if ($FollowUP == 1) {
+      $Follow = "idlead desc";
+    }else if ($FollowUP == 2){
+      $Follow = "ultimo_followup asc";
+    }else if ($FollowUP == 3){
+      $Follow = "ultimo_followup desc";
+    }else{
+      $Follow = "idlead desc";
+    }
 
 
 
    if ($val  == "") {
      
       $sql = new Sql();
-      $results = $sql->select("SELECT SQL_CALC_FOUND_ROWS * FROM tb_lead inner join tb_status ON tb_lead.fk_status = tb_status.idstatus inner join tb_origem_lead ON tb_lead.fk_origem_lead = tb_origem_lead.id_origem_lead ORDER BY idlead desc LIMIT $start, $itemsPerPage");
+      $results = $sql->select("SELECT SQL_CALC_FOUND_ROWS * FROM tb_lead inner join tb_status ON tb_lead.fk_status = tb_status.idstatus inner join tb_origem_lead ON tb_lead.fk_origem_lead = tb_origem_lead.id_origem_lead and idstatus not LIKE '2' ORDER BY $Follow LIMIT $start, $itemsPerPage");
 
       $this->setData($results);
 
 
-       $results2 = $sql->select("SELECT * FROM tb_lead inner join tb_status ON tb_lead.fk_status = tb_status.idstatus inner join tb_origem_lead ON tb_lead.fk_origem_lead = tb_origem_lead.id_origem_lead where nome like '%$val%' ");
+       $results2 = $sql->select("SELECT * FROM tb_lead inner join tb_status ON tb_lead.fk_status = tb_status.idstatus inner join tb_origem_lead ON tb_lead.fk_origem_lead = tb_origem_lead.id_origem_lead where nome like '%$val%' and idstatus not LIKE '2' ");
 
       $_SESSION["paginas"] = count($results2);
 
@@ -76,12 +86,12 @@ public function listAll($val, $page, $itemsPerPage)
    }else{
     
     $sql = new Sql();
-      $results = $sql->select("SELECT SQL_CALC_FOUND_ROWS * FROM tb_lead inner join tb_status ON tb_lead.fk_status = tb_status.idstatus inner join tb_origem_lead ON tb_lead.fk_origem_lead = tb_origem_lead.id_origem_lead where nome like '%$val%' ORDER BY idlead desc LIMIT $start, $itemsPerPage");
+      $results = $sql->select("SELECT SQL_CALC_FOUND_ROWS * FROM tb_lead inner join tb_status ON tb_lead.fk_status = tb_status.idstatus inner join tb_origem_lead ON tb_lead.fk_origem_lead = tb_origem_lead.id_origem_lead where nome like '%$val%' and idstatus not LIKE '2' ORDER BY $Follow LIMIT $start, $itemsPerPage");
 
       $this->setData($results);
 
 
-       $results2 = $sql->select("SELECT * FROM tb_lead inner join tb_status ON tb_lead.fk_status = tb_status.idstatus inner join tb_origem_lead ON tb_lead.fk_origem_lead = tb_origem_lead.id_origem_lead where nome like '%$val%' ");
+       $results2 = $sql->select("SELECT * FROM tb_lead inner join tb_status ON tb_lead.fk_status = tb_status.idstatus inner join tb_origem_lead ON tb_lead.fk_origem_lead = tb_origem_lead.id_origem_lead where nome like '%$val%' and idstatus not LIKE '2' ");
 
       $_SESSION["paginas"] = count($results2);
 
@@ -107,6 +117,68 @@ public static function totalStatus(){
   return $sql->select("SELECT fk_status, tipostatus FROM tb_lead inner join tb_status ON tb_lead.fk_status = tb_status.idstatus;");
 
 }
+
+
+public static function novoLeadsQuatroH($dataA, $dataB){
+
+
+  $horas = $dataA;        
+  $horas->modify( '-5 hours' );
+
+  $datahoras = $horas->format( 'Y-m-d H:i:s' );
+
+  $dataAtual = $dataB->format('Y-m-d H:i:s');
+
+
+
+  $sql = new Sql();
+  return $sql->select("SELECT data FROM tb_lead WHERE fk_status = 1 and data between '$datahoras' and '$dataAtual' ");
+
+}
+
+
+public static function novoLeadsUmDia($dataC, $dataB){
+
+
+ 
+  $horasA = $dataC;        
+  $horasA->modify( '-5 hours' );
+  $horasA->modify( '-2 seconds' );
+
+  $datahorasA = $horasA->format( 'Y-m-d H:i:s' );
+
+  $horasB = $dataB;        
+  $horasB->modify( '-24 hours' );
+
+  $datahorasB = $horasB->format( 'Y-m-d H:i:s' );
+
+
+  
+$sql = new Sql();
+  return $sql->select("SELECT data FROM tb_lead WHERE fk_status = 1 and data between '$datahorasB' and '$datahorasA' ");
+
+
+
+}
+
+
+public static function novoLeadsDoisDias($dataD){
+
+ $horasA = $dataD;        
+  $horasA->modify( '-24 hours' );
+  $horasA->modify( '-3 seconds' );
+
+  $datahorasA = $horasA->format( 'Y-m-d H:i:s' );
+
+
+
+$sql = new Sql();
+  return $sql->select("SELECT data FROM tb_lead WHERE fk_status = 1 and data <= '$datahorasA'");
+
+
+}
+
+
 
 
 // post
@@ -146,16 +218,19 @@ public function deleteUser($idlead){
 
 
   $tb_arquivo = $sql->select("SELECT * FROM tb_arquivo where fk_idlead = $idlead");
+  
+  $idcliente = $_SESSION["fk_id_cliente"];
+  $nomePasta = $sql->select("SELECT * FROM tb_cliente where id_cliente = $idcliente");
 
 
   if(count($tb_arquivo) > 0){
       $results = $sql->select("DELETE FROM tb_arquivo WHERE fk_idlead = $idlead");
 
-      $path = "uploads/";
+      $path = 'uploads/'.$nomePasta[0]['nome_pasta'].'/';
       $diretorio = dir($path);
 
       
-      unlink($path.$tb_arquivo[0]['arquivo']);
+       unlink($path.$tb_arquivo[0]['arquivo']);
 
   }
 
@@ -168,7 +243,7 @@ public function deleteUser($idlead){
 
        for ($i=0; $i < count($arquivosTotal) ; $i++) { 
 
-           $path = "uploads/";
+           $path = 'uploads/'.$nomePasta[0]['nome_pasta'].'/';
             $diretorio = dir($path);
              
             unlink($path.$arquivosTotal[$i]['imagem']); 

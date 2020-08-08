@@ -38,16 +38,42 @@ if (isset($_GET['page'])) {
 }
 
 
+if (isset($_GET['followup'])) {
+	$FollowUP = $_GET['followup'];
+}else{
+	$FollowUP = 1;
+}
+
+
 	
 	$itemsPerPage = 20;
 
 	$users = new VerLeads();
-	$users->listAll($val, $page, $itemsPerPage);
+	$users->listAll($val, $page, $itemsPerPage, $FollowUP);
 
 
 
 
 	$user = EditarUser::listAll(); ///
+
+	$dataA = new DateTime();
+
+	$dataB = new DateTime();
+
+	$dataC = new DateTime();
+
+
+	$dataD = new DateTime();
+
+	$tempoum = VerLeads::novoLeadsQuatroH($dataA, $dataB);
+
+	$tempodois = VerLeads::novoLeadsUmDia($dataC, $dataB);
+
+	$tempotres = VerLeads::novoLeadsDoisDias($dataD);
+
+	
+
+
 	
 	
 
@@ -82,9 +108,61 @@ $app->post('/dashboard/', function() {
 
 });
 
+//
+
+
+$app->get('/dashboard/lead-espera/', function() {
+
+	LoginUser::verifyLogin();
+
+	require_once('../'.pastaPrincipal.'/views/'.header);
+
+
+	if (isset($_GET['pesquisa'])) {
+		$val = $_GET['pesquisa'];
+	}else{
+		$val = "";
+	}
+
+	if (isset($_GET['page'])) {
+		$page = $_GET['page'];
+	}else{
+		$page = 1;
+	}
+
+
+	if (isset($_GET['tempo'])) {
+		$tempo = $_GET['tempo'];
+		$_SESSION["tempo"] = $_GET['tempo'];
+	}else{
+		$tempo = 1;
+		$_SESSION["tempo"] = "1";
+	}
 
 
 
+
+
+	$itemsPerPage = 20;
+
+	$dataA = new DateTime();
+	$dataB = new DateTime();
+	$dataC = new DateTime();
+	$dataD = new DateTime();
+
+	$users = new StatusLista();
+	$users->listAllStatus($val, $page, $itemsPerPage, $dataA, $dataB, $dataC, $dataD, $tempo);
+
+	$status = StatusLista::saberStatus(1);
+
+
+	require_once('../'.pastaPrincipal.'/views/lead-espera.php');
+
+	require_once('../'.pastaPrincipal.'/views/'.footer);
+
+
+
+});
 
 ///
 
@@ -120,7 +198,7 @@ $app->get('/dashboard/editar/:idlead', function($idlead) {
 	$nomeArquivo = EditarUser::nomeArquivo($idlead);
 
 
-
+	$rotaPastas = EditarUser::rotaPastas();
 
 	
 
@@ -198,7 +276,7 @@ $app->get('/dashboard/follow-up/:idlead', function($idlead){
 ///
 	$img = FollowUp::selectImg($idlead);
 
-
+	$rotaPastas = EditarUser::rotaPastas();
 
 
 

@@ -175,6 +175,9 @@ if (isset($_COOKIE['Atualizado'])) {
 
 			        		<?php
 			        	}else{
+
+			        		$path = "uploads/".$rotaPastas[0]['nome_pasta']."/";
+
 			        		?>
 
 			        		<table class="highlight ">
@@ -188,7 +191,7 @@ if (isset($_COOKIE['Atualizado'])) {
 										<td>
 
 											<a class="waves-effect waves-light btn-small" 
-								 href="<?php echo URLestilo ?>/uploads/<?php echo $value['imagem'] ?>" target="_blank">Ver</a>
+								 href="<?php echo URLestilo ?>/<?php echo $path . $value['imagem'] ?>" target="_blank">Ver</a>
 
 								 			<a class=" red accent-4 btn-small" 
 								 href="<?php echo $value['idfollowup'] ?>/delete-img/?id=<?php echo $lead[0]['idlead']; ?>" onclick="return confirm('Deseja realmente excluir este Arquivo?')" >Excluir</a>

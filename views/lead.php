@@ -193,12 +193,13 @@ if (isset($_COOKIE['Atualizado'])) {
 					<?php }else{ ?>	
 
 					<?php foreach ($nomeArquivo as $value) { 
-						$path = "uploads/";
+						$path = "uploads/".$rotaPastas[0]['nome_pasta']."/";
 					?>
 
 					<table class="highlight">
 			        <thead>
 			          <tr>
+
 			              <th>Arquivo PDF</th>
 			              <th>Editar</th>
 			          </tr>
@@ -214,6 +215,7 @@ if (isset($_COOKIE['Atualizado'])) {
 								</td>
 
 								<td>
+
 
 									<a class="waves-effect waves-light btn-small" 
 								 href="<?php echo URLestilo ?>/<?php echo $path . $value['arquivo'] ?>" target="_blank">Ler</a>

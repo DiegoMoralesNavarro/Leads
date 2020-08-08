@@ -97,12 +97,17 @@ public function save(){
 
           }
 
+
+          $sql = new Sql();
+          $idcliente = $_SESSION["fk_id_cliente"];
+          $nomePasta = $sql->select("SELECT * FROM tb_cliente where id_cliente = $idcliente");
+
           
           //criar um diretorio temporario
-          $dirUpload = "uploads";
+          $dirUpload = $nomePasta[0]['nome_pasta'];
 
-          if(!is_dir($dirUpload)){
-            mkdir($dirUpload);
+          if(!is_dir('uploads/'.$dirUpload)){
+            mkdir('uploads/'.$dirUpload);
           }
 
         //PEGAR o nome do arquivo
@@ -115,7 +120,7 @@ public function save(){
           $numero = rand(1, 200). "-";
           
           //verificar se o upload aconteceu
-          if(move_uploaded_file($file["tmp_name"], $dirUpload . DIRECTORY_SEPARATOR .$numero . $file["name"])){
+          if(move_uploaded_file($file["tmp_name"], 'uploads/'.$dirUpload . DIRECTORY_SEPARATOR .$numero . $file["name"])){
 
             $arquivo = $numero . $file["name"];
             $this->cadastraUser($arquivo);
@@ -146,13 +151,19 @@ public function save(){
 
 public function cadastraUser($arquivo){
 
+  // var_dump($this->getnome());
+  // var_dump($this->getempresa());
+  // var_dump($this->gettelefone());
+  // var_dump($this->getemail());
+  // var_dump($this->getobs());
+
   $sql = new Sql();
 
     $results = $sql->select("CALL insert_lead(:nome, :empresa, :telefone, :fk_status, :email, :site, :origemLead, :idcliente)", array(
       ":nome"=>$this->getnome(),
       ":empresa"=>$this->getempresa(),
       ":telefone"=>$this->gettelefone(),
-      ":fk_status"=>"5",
+      ":fk_status"=>"1",
       ":email"=>$this->getemail(),
       ":site"=>$this->getsite(),
       ":origemLead"=>$this->getorigemLead(),
@@ -166,9 +177,10 @@ public function cadastraUser($arquivo){
   
 
 //arquivo $arquivo, $idlead
-    $resultsArquivo = $sql->select("INSERT INTO tb_arquivo (arquivo, fk_idlead) VALUES (:arquivo, :idlead)", array(
+    $resultsArquivo = $sql->select("INSERT INTO tb_arquivo (arquivo, fk_idlead, fk_id_cliente) VALUES (:arquivo, :idlead, :idcliente)", array(
           ":arquivo"=>$arquivo,
-          ":idlead"=>$idlead
+          ":idlead"=>$idlead,
+          ":idcliente"=>$_SESSION["fk_id_cliente"]
         ));
 
 //
@@ -209,13 +221,19 @@ public function cadastraUser($arquivo){
 
 public function cadastraUserSimples(){
 
+  //   var_dump($this->getnome());
+  // var_dump($this->getempresa());
+  // var_dump($this->gettelefone());
+  // var_dump($this->getemail());
+  // var_dump($this->getobs());
+
   $sql = new Sql();
 
     $results = $sql->select("CALL insert_lead(:nome, :empresa, :telefone, :fk_status, :email, :site, :origemLead, :idcliente)", array(
       ":nome"=>$this->getnome(),
       ":empresa"=>$this->getempresa(),
       ":telefone"=>$this->gettelefone(),
-      ":fk_status"=>"5",
+      ":fk_status"=>"1",
       ":email"=>$this->getemail(),
       ":site"=>$this->getsite(),
       ":origemLead"=>$this->getorigemLead(),

@@ -10,13 +10,96 @@
   <div class="row">
     <div class="col s12">
       <h1>Dashboard</h1>
-      
-       <blockquote>Consulte, Edite ou Exclua um Lead.</blockquote>
+     
      </div>
   </div>
 
 </div>
 
+
+<div class="container">
+
+  <div class="row">
+    <div class="col s12">
+      <h4>Novo Lead em espera</h4>
+      
+       <blockquote>Leads com <strong>status NOVO </strong>esperando um retorno</blockquote>
+     </div>
+  </div>
+
+</div>
+
+
+
+<div class="container">
+
+  <div class="row status">
+    <div class="col s12 form center-align">
+
+    	
+    	<div class="col s12 m4">
+	      <div class="">
+	        <div class="card-content center-align">
+	          <i class="material-icons prefix " style="font-size: 70px; color: #4bdc4b;">account_circle</i> 
+	          <h4 style="margin-top: 2px;"><strong>Até 5 horas</strong></h4>
+	          <?php if (0 == count($tempoum)) {?>
+	          	<h4 style="margin-top: 2px;">Lead em espera:<strong> <?php echo count($tempoum); ?></strong></h4>
+	          <?php }else{?>
+
+	          	<a href="<?php echo URLestilo ?>/dashboard/lead-espera/?tempo=1">
+		          <h4 style="margin-top: 2px;">Lead em espera:<strong> <?php echo count($tempoum); ?></strong></h4>
+		          </a>
+	          <?php } ?>
+
+	          
+	          <br>
+	        </div>
+	      </div>
+	    </div>
+
+	    <div class="col s12 m4">
+	      <div class="">
+	        <div class="card-content center-align">
+	          <i class="material-icons prefix " style="font-size: 70px; color: #ff9800;">account_circle</i>
+	          <h4 style="margin-top: 2px;"><strong>Até 24 horas</strong></h4>
+	        <?php if (0 == count($tempodois)) {?>
+	          	<h4 style="margin-top: 2px;">Lead em espera:<strong> <?php echo count($tempodois); ?></strong></h4>
+	          <?php }else{?>
+
+	          	<a href="<?php echo URLestilo ?>/dashboard/lead-espera/?tempo=2">
+		          <h4 style="margin-top: 2px;">Lead em espera:<strong> <?php echo count($tempodois); ?></strong></h4>
+		          </a>
+	          <?php } ?>
+	          
+	          <br>
+	        </div>
+	      </div>
+	    </div>
+
+	    <div class="col s12 m4">
+	      <div class="">
+	        <div class="card-content center-align">
+	          <i class="material-icons prefix " style="font-size: 70px; color: #e61000;">account_circle</i>
+	          <h4 style="margin-top: 2px;"><strong>Mais de 24 horas</strong></h4>
+	          <?php if (0 == count($tempotres)) {?>
+	          	<h4 style="margin-top: 2px;">Lead em espera:<strong> <?php echo count($tempotres); ?></strong></h4>
+	          <?php }else{?>
+
+	          	<a href="<?php echo URLestilo ?>/dashboard/lead-espera/?tempo=3">
+		          <h4 style="margin-top: 2px;">Lead em espera:<strong> <?php echo count($tempotres); ?></strong></h4>
+		          </a>
+	          <?php } ?>
+
+	          <br>
+	        </div>
+	      </div>
+	    </div>
+
+
+ 	</div>
+  </div>
+
+</div>
 
 
 <?php 
@@ -33,13 +116,35 @@ if (isset($_GET['pesquisa'])) {
 }
 
 
+if (isset($_GET['followup'])) {
+	$_SESSION["followup"] = $_GET['followup'];
+
+	$followup = $_SESSION["followup"];
+}else{
+	$_SESSION["followup"] = 1;
+
+	$followup = 1;
+}
 
 
 
 ?>
 
 
+<!--  -->
 
+<div class="container">
+
+  <div class="row status">
+    <div class="col s12">
+    	<h4>Tabela de Lead</h4>
+      
+		<blockquote>Consulte, Edite ou Exclua um Lead</blockquote>
+
+     </div>
+  </div>
+
+</div>
 
 
 <div class="container">
@@ -48,21 +153,43 @@ if (isset($_GET['pesquisa'])) {
   	<div class="col s12 form ">
 
 
-<form role="form" action="/<?php echo pastaPrincipal ?>/dashboard/?pesquisa=$pesquisa&page=$numero" method="get">
+
+
+<form role="form" action="/<?php echo pastaPrincipal ?>/dashboard/?pesquisa=$pesquisa&page=$numero&followup=$followup" method="get">
 
 	<div class="row">
-		<div class="input-field col s12 l9">
+		<div class="input-field col s12 l4">
 		<table>
             <tr>
 
-                <div class="input-field col s12 l12">
+                
 					<i class="material-icons prefix">textsms</i>
 			          <input type="text" id="autocomplete-input" class="autocomplete" name="pesquisa" value="<?php echo $valor; ?>">
 			          <label for="autocomplete-input">Nome do Lead</label>
-				</div>
+				
             </tr>
         </table>
         </div>
+
+        <div class="input-field col s12 l3">
+					
+		    <select name="followup" >
+		    	<?php
+					function selectedfollowup( $value, $selected ){
+					    return $value==$selected ? ' selected="selected"' : '';
+					}
+				?>
+		    
+
+			    <option <?php echo selectedfollowup( $_SESSION["followup"], 1 ); ?> value="1" > Padrão </option>
+			    <option <?php echo selectedfollowup( $_SESSION["followup"], 2 ); ?> value="2" > Follow UP asc </option>
+			    <option <?php echo selectedfollowup( $_SESSION["followup"], 3 ); ?> value="3" > Follow UP desc </option>
+
+			    
+		    </select>
+		    <label>Ordenar Follow UP</label>
+		    
+		</div>
 		
 		<div class="input-field col s12 l3 center-align">
 			<button class="btn waves-effect waves-light" type="submit">Pesquisar
@@ -270,6 +397,7 @@ function selected( $value, $selected ){
 
   <div class="row status">
     <div class="col s12">
+    	<h4>Status dos Lead</h4>
       
        <blockquote>Total geral dos Status</blockquote>
     </div>

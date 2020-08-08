@@ -60,7 +60,7 @@ protected $fields = [
  public static function listStatus()
   {
     $sql = new Sql();
-    return $sql->select("SELECT * FROM tb_status WHERE idstatus not LIKE '%5%'");
+    return $sql->select("SELECT * FROM tb_status WHERE idstatus not LIKE '1' and idstatus not LIKE '2'");
   }
 
 

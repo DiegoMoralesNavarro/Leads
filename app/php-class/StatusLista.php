@@ -101,6 +101,94 @@ public function listAll($val, $page, $itemsPerPage, $idstatus){
 
 
 
+
+
+////
+
+
+
+public function listAllStatus($val, $page, $itemsPerPage, $dataA, $dataB, $dataC, $dataD, $tempo){
+
+  $start = ($page - 1) * $itemsPerPage;
+
+  if ($tempo == 1) {
+    $horasA = $dataA;        
+    $horasA->modify( '-5 hours' );
+    $datahoras = $horasA->format( 'Y-m-d H:i:s' );
+    $dataAtual = $dataB->format('Y-m-d H:i:s');
+    $comando = "data between '$datahoras' and '$dataAtual'";
+
+  }else if ($tempo == 2) {
+    $horasA = $dataC;        
+    $horasA->modify( '-5 hours' );
+    $horasA->modify( '-2 seconds' );
+
+    $datahorasA = $horasA->format( 'Y-m-d H:i:s' );
+
+    $horasB = $dataB;        
+    $horasB->modify( '-24 hours' );
+
+    $datahorasB = $horasB->format( 'Y-m-d H:i:s' );
+    $comando = "data between '$datahorasB' and '$datahorasA'";
+
+  }else if ($tempo == 3) {
+    $horasA = $dataD;        
+    $horasA->modify( '-24 hours' );
+    $horasA->modify( '-3 seconds' );
+
+    $datahorasA = $horasA->format( 'Y-m-d H:i:s' );
+    $comando = "data <= '$datahorasA'";
+
+  }else{
+    $horasA = $dataA;        
+    $horasA->modify( '-5 hours' );
+    $datahoras = $horasA->format( 'Y-m-d H:i:s' );
+    $dataAtual = $dataB->format('Y-m-d H:i:s');
+    $comando = "data between '$datahoras' and '$dataAtual'";
+  }
+
+  if ($val  == "") {
+     
+    $sql = new Sql();
+        $results = $sql->select("SELECT SQL_CALC_FOUND_ROWS * FROM tb_lead inner join tb_status ON tb_lead.fk_status = tb_status.idstatus inner join tb_origem_lead ON tb_lead.fk_origem_lead = tb_origem_lead.id_origem_lead where fk_status = '1' and $comando ORDER BY idlead desc LIMIT $start, $itemsPerPage");
+
+        $this->setData($results);
+
+
+         $results2 = $sql->select("SELECT * FROM tb_lead inner join tb_status ON tb_lead.fk_status = tb_status.idstatus inner join tb_origem_lead ON tb_lead.fk_origem_lead = tb_origem_lead.id_origem_lead where fk_status = '1' and $comando AND nome like '%$val%' ");
+
+        $_SESSION["paginas"] = count($results2);
+
+      }else{
+
+
+
+        $sql = new Sql();
+        $results = $sql->select("SELECT SQL_CALC_FOUND_ROWS * FROM tb_lead inner join tb_status ON tb_lead.fk_status = tb_status.idstatus inner join tb_origem_lead ON tb_lead.fk_origem_lead = tb_origem_lead.id_origem_lead where fk_status = '1' and $comando AND nome like '%$val%' ORDER BY idlead desc LIMIT $start, $itemsPerPage");
+
+        $this->setData($results);
+
+
+         $results2 = $sql->select("SELECT * FROM tb_lead inner join tb_status ON tb_lead.fk_status = tb_status.idstatus inner join tb_origem_lead ON tb_lead.fk_origem_lead = tb_origem_lead.id_origem_lead where fk_status = '1' and $comando AND nome like '%$val%' ");
+
+        $_SESSION["paginas"] = count($results2);
+
+
+
+      }
+
+
+
+
+}
+
+
+
+
+
+
+
+
 public static function imprimir($val, $page, $itemsPerPage, $idstatus){
 
  
@@ -245,7 +333,7 @@ public static function imprimirSimples($idstatus){
     header ("Pragma: no-cache");
 
 
-    echo $dadosXls;  
+    // echo $dadosXls;  
     exit;
 
 

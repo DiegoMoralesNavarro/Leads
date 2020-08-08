@@ -123,8 +123,11 @@ public static function origem(){
     return $sql->select("SELECT * FROM tb_origem_lead");
 } 
 
-
-
+public static function rotaPastas(){
+   $sql = new Sql();
+   $idcliente = $_SESSION["fk_id_cliente"];
+    return $sql->select("SELECT * FROM tb_cliente where id_cliente = $idcliente");
+} 
 
 
 // post
@@ -233,9 +236,14 @@ public function deleteArquivo($idlead){
 
 
     if(count($tb_arquivo) > 0){
+
+
+        $idcliente = $_SESSION["fk_id_cliente"];
+        $nomePasta = $sql->select("SELECT * FROM tb_cliente where id_cliente = $idcliente");
+
        $results = $sql->select("DELETE FROM tb_arquivo WHERE fk_idlead = $idlead");
 
-        $path = "uploads/";
+        $path = 'uploads/'.$nomePasta[0]['nome_pasta'].'/';
         $diretorio = dir($path);
 
 
@@ -279,12 +287,15 @@ public function gravarArquivo($idlead){
 
           }
 
-          //criar um diretorio temporario
-            $dirUpload = "uploads";
+          $idcliente = $_SESSION["fk_id_cliente"];
+        $nomePasta = $sql->select("SELECT * FROM tb_cliente where id_cliente = $idcliente");
 
-            if(!is_dir($dirUpload)){
-              mkdir($dirUpload);
-            }
+          //criar um diretorio temporario
+             $dirUpload = $nomePasta[0]['nome_pasta'];
+
+          if(!is_dir('uploads/'.$dirUpload)){
+            mkdir('uploads/'.$dirUpload);
+          }
 
           //PEGAR o nome do arquivo
           $extension = explode('.', $file['name']);
@@ -296,14 +307,15 @@ public function gravarArquivo($idlead){
               $numero = rand(1, 200). "-";
               
               //verificar se o upload aconteceu
-              if(move_uploaded_file($file["tmp_name"], $dirUpload . DIRECTORY_SEPARATOR .$numero . $file["name"])){
+              if(move_uploaded_file($file["tmp_name"], 'uploads/'.$dirUpload . DIRECTORY_SEPARATOR .$numero . $file["name"])){
 
                 $arquivo = $numero . $file["name"];
                 //
                   //arquivo $arquivo, $idlead
-                  $resultsArquivo = $sql->select("INSERT INTO tb_arquivo (arquivo, fk_idlead) VALUES (:arquivo, :idlead)", array(
+                  $resultsArquivo = $sql->select("INSERT INTO tb_arquivo (arquivo, fk_idlead, fk_id_cliente) VALUES (:arquivo, :idlead, :idcliente)", array(
                       ":arquivo"=>$arquivo,
-                      ":idlead"=>$idlead
+                      ":idlead"=>$idlead,
+                      ":idcliente"=>$_SESSION["fk_id_cliente"]
                     ));
                 //
                 header("location: /".pastaPrincipal."/dashboard/editar/$idlead");
