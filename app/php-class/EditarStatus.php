@@ -60,7 +60,8 @@ protected $fields = [
  public static function listStatus()
   {
     $sql = new Sql();
-    return $sql->select("SELECT * FROM tb_status WHERE idstatus not LIKE '1' and idstatus not LIKE '2'");
+    $idcliente = $_SESSION['fk_id_cliente'];
+    return $sql->select("SELECT * FROM tb_status WHERE fk_id_cliente = $idcliente and idstatus not LIKE '1' and idstatus not LIKE '2'");
   }
 
 
@@ -115,13 +116,17 @@ protected $fields = [
     $sql = new Sql();
 
    
-     $verificar = $sql->select("SELECT fk_status FROM tb_lead where fk_status = :idstatus", array(
-       ":idstatus"=>$idstatus
+     $verificar = $sql->select("SELECT fk_status FROM tb_lead where fk_status = :idstatus and fk_id_cliente = :idcliente", array(
+       ":idstatus"=>$idstatus,
+       ":idcliente"=>$_SESSION["fk_id_cliente"]
       ));
 
-     $status = $sql->select("SELECT tipostatus FROM tb_status where idstatus = :idstatus", array(
-       ":idstatus"=>$idstatus
+     $status = $sql->select("SELECT tipostatus FROM tb_status where idstatus = :idstatus and fk_id_cliente = :idcliente", array(
+       ":idstatus"=>$idstatus,
+       ":idcliente"=>$_SESSION["fk_id_cliente"]
       ));
+
+     var_dump($verificar);
 
 
      if(count($verificar) > 0){

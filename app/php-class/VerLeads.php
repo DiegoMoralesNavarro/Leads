@@ -69,16 +69,19 @@ public function listAll($val, $page, $itemsPerPage, $FollowUP)
     }
 
 
+    $idcliente = $_SESSION['fk_id_cliente'];
+
+
 
    if ($val  == "") {
      
       $sql = new Sql();
-      $results = $sql->select("SELECT SQL_CALC_FOUND_ROWS * FROM tb_lead inner join tb_status ON tb_lead.fk_status = tb_status.idstatus inner join tb_origem_lead ON tb_lead.fk_origem_lead = tb_origem_lead.id_origem_lead and idstatus not LIKE '2' ORDER BY $Follow LIMIT $start, $itemsPerPage");
+      $results = $sql->select("SELECT SQL_CALC_FOUND_ROWS * FROM tb_lead inner join tb_status ON tb_lead.fk_status = tb_status.idstatus inner join tb_origem_lead ON tb_lead.fk_origem_lead = tb_origem_lead.id_origem_lead where tb_lead.fk_id_cliente = $idcliente and idstatus not LIKE '2' ORDER BY $Follow LIMIT $start, $itemsPerPage");
 
       $this->setData($results);
 
 
-       $results2 = $sql->select("SELECT * FROM tb_lead inner join tb_status ON tb_lead.fk_status = tb_status.idstatus inner join tb_origem_lead ON tb_lead.fk_origem_lead = tb_origem_lead.id_origem_lead where nome like '%$val%' and idstatus not LIKE '2' ");
+       $results2 = $sql->select("SELECT * FROM tb_lead inner join tb_status ON tb_lead.fk_status = tb_status.idstatus inner join tb_origem_lead ON tb_lead.fk_origem_lead = tb_origem_lead.id_origem_lead where nome like '%$val%' and tb_lead.fk_id_cliente = $idcliente and idstatus not LIKE '2' ");
 
       $_SESSION["paginas"] = count($results2);
 
@@ -86,12 +89,12 @@ public function listAll($val, $page, $itemsPerPage, $FollowUP)
    }else{
     
     $sql = new Sql();
-      $results = $sql->select("SELECT SQL_CALC_FOUND_ROWS * FROM tb_lead inner join tb_status ON tb_lead.fk_status = tb_status.idstatus inner join tb_origem_lead ON tb_lead.fk_origem_lead = tb_origem_lead.id_origem_lead where nome like '%$val%' and idstatus not LIKE '2' ORDER BY $Follow LIMIT $start, $itemsPerPage");
+      $results = $sql->select("SELECT SQL_CALC_FOUND_ROWS * FROM tb_lead inner join tb_status ON tb_lead.fk_status = tb_status.idstatus inner join tb_origem_lead ON tb_lead.fk_origem_lead = tb_origem_lead.id_origem_lead where nome like '%$val%' and tb_lead.fk_id_cliente = $idcliente and idstatus not LIKE '2' ORDER BY $Follow LIMIT $start, $itemsPerPage");
 
       $this->setData($results);
 
 
-       $results2 = $sql->select("SELECT * FROM tb_lead inner join tb_status ON tb_lead.fk_status = tb_status.idstatus inner join tb_origem_lead ON tb_lead.fk_origem_lead = tb_origem_lead.id_origem_lead where nome like '%$val%' and idstatus not LIKE '2' ");
+       $results2 = $sql->select("SELECT * FROM tb_lead inner join tb_status ON tb_lead.fk_status = tb_status.idstatus inner join tb_origem_lead ON tb_lead.fk_origem_lead = tb_origem_lead.id_origem_lead where nome like '%$val%' and tb_lead.fk_id_cliente = $idcliente and idstatus not LIKE '2' ");
 
       $_SESSION["paginas"] = count($results2);
 
@@ -107,14 +110,18 @@ public function listAll($val, $page, $itemsPerPage, $FollowUP)
 public static function status(){
 
   $sql = new Sql();
-  return $sql->select("SELECT * FROM tb_status;");
+
+  $idcliente = $_SESSION['fk_id_cliente'];
+
+  return $sql->select("SELECT * FROM tb_status");
 
 }
 
 public static function totalStatus(){
 
   $sql = new Sql();
-  return $sql->select("SELECT fk_status, tipostatus FROM tb_lead inner join tb_status ON tb_lead.fk_status = tb_status.idstatus;");
+  $idcliente = $_SESSION['fk_id_cliente'];
+  return $sql->select("SELECT fk_status, tipostatus FROM tb_lead inner join tb_status ON tb_lead.fk_status = tb_status.idstatus and tb_lead.fk_id_cliente = $idcliente");
 
 }
 
@@ -129,15 +136,18 @@ public static function novoLeadsQuatroH($dataA, $dataB){
 
   $dataAtual = $dataB->format('Y-m-d H:i:s');
 
+  $idcliente = $_SESSION['fk_id_cliente'];
+
+
 
 
   $sql = new Sql();
-  return $sql->select("SELECT data FROM tb_lead WHERE fk_status = 1 and data between '$datahoras' and '$dataAtual' ");
+  return $sql->select("SELECT data FROM tb_lead WHERE fk_status = 1 and data between '$datahoras' and '$dataAtual' and fk_id_cliente = $idcliente");
 
 }
 
 
-public static function novoLeadsUmDia($dataC, $dataB){
+public static function novoLeadsUmDia($dataC, $dataD){
 
 
  
@@ -145,35 +155,41 @@ public static function novoLeadsUmDia($dataC, $dataB){
   $horasA->modify( '-5 hours' );
   $horasA->modify( '-2 seconds' );
 
-  $datahorasA = $horasA->format( 'Y-m-d H:i:s' );
+  $datahorasAA = $horasA->format( 'Y-m-d H:i:s' );
 
-  $horasB = $dataB;        
+  $horasB = $dataD;        
   $horasB->modify( '-24 hours' );
 
-  $datahorasB = $horasB->format( 'Y-m-d H:i:s' );
+  $datahorasBB = $horasB->format( 'Y-m-d H:i:s' );
+
+$idcliente = $_SESSION['fk_id_cliente'];
+  
 
 
   
 $sql = new Sql();
-  return $sql->select("SELECT data FROM tb_lead WHERE fk_status = 1 and data between '$datahorasB' and '$datahorasA' ");
+  return $sql->select("SELECT data FROM tb_lead WHERE fk_status = 1 and data between '$datahorasBB' and '$datahorasAA' and fk_id_cliente = $idcliente");
 
 
 
 }
 
 
-public static function novoLeadsDoisDias($dataD){
+public static function novoLeadsDoisDias($dataE){
 
- $horasA = $dataD;        
+ $horasA = $dataE;        
   $horasA->modify( '-24 hours' );
   $horasA->modify( '-3 seconds' );
 
-  $datahorasA = $horasA->format( 'Y-m-d H:i:s' );
+  $datahorasE = $horasA->format( 'Y-m-d H:i:s' );
+
+  $idcliente = $_SESSION['fk_id_cliente'];
+
 
 
 
 $sql = new Sql();
-  return $sql->select("SELECT data FROM tb_lead WHERE fk_status = 1 and data <= '$datahorasA'");
+  return $sql->select("SELECT data FROM tb_lead WHERE fk_status = 1 and data <= '$datahorasE' and fk_id_cliente = $idcliente");
 
 
 }
@@ -189,9 +205,11 @@ public function deleteUser($idlead){
 
   $sql = new Sql();
 
+  $idcliente = $_SESSION['fk_id_cliente'];
 
 
-    $tb_lead = $sql->select("SELECT * FROM tb_lead where idlead = $idlead");
+
+    $tb_lead = $sql->select("SELECT * FROM tb_lead where idlead = $idlead and fk_id_cliente = $idcliente");
 
     $acao = "Deletado o lead <br> Nome: ". $tb_lead[0]['nome'] ."<br> E-mail: ". $tb_lead[0]['email'] ."<br> Telefone: ". $tb_lead[0]['telefone'];
 
@@ -199,25 +217,25 @@ public function deleteUser($idlead){
 
 
 
-  $results = $sql->select("DELETE FROM tb_lead WHERE idlead = $idlead");
+  $results = $sql->select("DELETE FROM tb_lead WHERE idlead = $idlead and fk_id_cliente = $idcliente");
 
 
 
-  $tb_categoria = $sql->select("SELECT idlead FROM tb_categoria where idlead = $idlead");
+  $tb_categoria = $sql->select("SELECT idlead FROM tb_categoria where idlead = $idlead and id_cliente = $idcliente");
 
   if(count($tb_categoria) > 0){
     $results = $sql->select("DELETE FROM tb_categoria WHERE idlead = $idlead");
   }
 
 
-  $tb_obs = $sql->select("SELECT fk_idlead FROM tb_obs where fk_idlead = $idlead");
+  $tb_obs = $sql->select("SELECT fk_idlead FROM tb_obs where fk_idlead = $idlead and fk_id_cliente = $idcliente");
 
   if(count($tb_obs) > 0){
   $results = $sql->select("DELETE FROM tb_obs WHERE fk_idlead = $idlead");
   }
 
 
-  $tb_arquivo = $sql->select("SELECT * FROM tb_arquivo where fk_idlead = $idlead");
+  $tb_arquivo = $sql->select("SELECT * FROM tb_arquivo where fk_idlead = $idlead and fk_id_cliente = $idcliente");
   
   $idcliente = $_SESSION["fk_id_cliente"];
   $nomePasta = $sql->select("SELECT * FROM tb_cliente where id_cliente = $idcliente");

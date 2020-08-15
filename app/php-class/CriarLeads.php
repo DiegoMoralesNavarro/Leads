@@ -52,12 +52,14 @@ protected $fields = [
   public static function listServico()
   {
     $sql = new Sql();
-    return $sql->select("SELECT * FROM tb_servico");
+    $idcliente = $_SESSION['fk_id_cliente'];
+    return $sql->select("SELECT * FROM tb_servico where fk_id_cliente = $idcliente");
   }
 
 public static function origem(){
    $sql = new Sql();
-    return $sql->select("SELECT * FROM tb_origem_lead");
+   $idcliente = $_SESSION['fk_id_cliente'];
+    return $sql->select("SELECT * FROM tb_origem_lead where fk_id_cliente = $idcliente or fk_id_cliente = '0'");
 } 
 
 
@@ -80,6 +82,9 @@ public function save(){
       if($_SERVER["REQUEST_METHOD"] === "POST"){
 
          $file = $_FILES["fileUpload"];
+
+
+        
         
 
 
@@ -122,8 +127,10 @@ public function save(){
           //verificar se o upload aconteceu
           if(move_uploaded_file($file["tmp_name"], 'uploads/'.$dirUpload . DIRECTORY_SEPARATOR .$numero . $file["name"])){
 
+            $tamanho = $file['size'];
+
             $arquivo = $numero . $file["name"];
-            $this->cadastraUser($arquivo);
+            $this->cadastraUser($arquivo, $tamanho);
 
 
             header("location: /".pastaPrincipal."/dashboard");
@@ -149,7 +156,7 @@ public function save(){
 
 
 
-public function cadastraUser($arquivo){
+public function cadastraUser($arquivo, $tamanho){
 
   // var_dump($this->getnome());
   // var_dump($this->getempresa());
@@ -177,8 +184,10 @@ public function cadastraUser($arquivo){
   
 
 //arquivo $arquivo, $idlead
-    $resultsArquivo = $sql->select("INSERT INTO tb_arquivo (arquivo, fk_idlead, fk_id_cliente) VALUES (:arquivo, :idlead, :idcliente)", array(
+    $resultsArquivo = $sql->select("INSERT INTO tb_arquivo (arquivo, tamanho, data, fk_idlead, fk_id_cliente) VALUES (:arquivo, :tamanho, :data, :idlead, :idcliente)", array(
           ":arquivo"=>$arquivo,
+          ":tamanho"=>$tamanho,
+          ":data"=>date('Y-m-d'),
           ":idlead"=>$idlead,
           ":idcliente"=>$_SESSION["fk_id_cliente"]
         ));

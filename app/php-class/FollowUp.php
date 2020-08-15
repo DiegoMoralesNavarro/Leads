@@ -55,14 +55,15 @@ protected $fields = [
 
 public static function listFolloUp($idlead){
 	$sql = new Sql();
+  $idcliente = $_SESSION['fk_id_cliente'];
 
 
-  $results = $sql->select("SELECT * FROM tb_followup inner join tb_user on tb_followup.fk_id_user = tb_user.id_user WHERE idlead = $idlead ORDER BY idfollowup DESC");
+  $results = $sql->select("SELECT * FROM tb_followup inner join tb_user on tb_followup.fk_id_user = tb_user.id_user WHERE idlead = $idlead and tb_user.fk_id_cliente = $idcliente ORDER BY idfollowup DESC");
 
   if (count($results) == 0 || count($results) == null) {
-      return $sql->select("SELECT * FROM tb_followup WHERE idlead = $idlead ORDER BY idfollowup DESC");
+      return $sql->select("SELECT * FROM tb_followup WHERE idlead = $idlead and tb_user.fk_id_cliente = $idcliente ORDER BY idfollowup DESC");
   }else{
-      return $sql->select("SELECT * FROM tb_followup inner join tb_user on tb_followup.fk_id_user = tb_user.id_user WHERE idlead = $idlead ORDER BY idfollowup DESC");
+      return $sql->select("SELECT * FROM tb_followup inner join tb_user on tb_followup.fk_id_user = tb_user.id_user WHERE idlead = $idlead and tb_user.fk_id_cliente = $idcliente ORDER BY idfollowup DESC");
   }
 
 
@@ -73,8 +74,9 @@ public static function listFolloUp($idlead){
 
 public static function listFolloUpVazio($idlead){
   $sql = new Sql();
+  $idcliente = $_SESSION['fk_id_cliente'];
 
-      return $sql->select("SELECT * FROM tb_followup WHERE idlead = $idlead and fk_id_user = 0 ORDER BY idfollowup DESC");
+      return $sql->select("SELECT * FROM tb_followup WHERE idlead = $idlead and fk_id_cliente = $idcliente and fk_id_user = 0 ORDER BY idfollowup DESC");
   
 
 
@@ -87,27 +89,32 @@ public static function listFolloUpVazio($idlead){
 
 public static function listLead($idlead){
   $sql = new Sql();
-  return $sql->select("SELECT * FROM tb_lead WHERE idlead = $idlead");
+  $idcliente = $_SESSION['fk_id_cliente'];
+
+  return $sql->select("SELECT * FROM tb_lead WHERE idlead = $idlead and fk_id_cliente = $idcliente");
 }
 
 public static function listStatus()
   {
     $sql = new Sql();
-    return $sql->select("SELECT * FROM tb_status");
+    $idcliente = $_SESSION['fk_id_cliente'];
+
+    return $sql->select("SELECT * FROM tb_status where fk_id_cliente = $idcliente or fk_id_cliente = 0");
   }
 
 public static function listAll($idlead)
 {
   $sql = new Sql();
-  return $sql->select("SELECT * FROM tb_lead inner join tb_status ON tb_lead.fk_status = tb_status.idstatus WHERE idlead = $idlead");
+  $idcliente = $_SESSION['fk_id_cliente'];
+  return $sql->select("SELECT * FROM tb_lead inner join tb_status ON tb_lead.fk_status = tb_status.idstatus WHERE idlead = $idlead and tb_lead.fk_id_cliente = $idcliente");
 }
 
 
 
 public static function selectImg($idlead){
   $sql = new Sql();
-
-  return $sql->select("SELECT imagem FROM tb_followup where idlead = $idlead");
+  $idcliente = $_SESSION['fk_id_cliente'];
+  return $sql->select("SELECT imagem FROM tb_followup where idlead = $idlead and fk_id_cliente = $idcliente");
   
 }
 
@@ -166,11 +173,13 @@ public function deletarFollowUp($idlead, $val){
 
 $sql = new Sql();
 
-$imagemverifica = $sql->select("SELECT imagem FROM tb_followup WHERE idfollowup = $idlead");
+$idcliente = $_SESSION['fk_id_cliente'];
+
+$imagemverifica = $sql->select("SELECT imagem FROM tb_followup WHERE idfollowup = $idlead and fk_id_cliente = $idcliente");
 
 
 
-$tb_lead = $sql->select("SELECT * FROM tb_lead where idlead = $val");
+$tb_lead = $sql->select("SELECT * FROM tb_lead where idlead = $val and fk_id_cliente = $idcliente");
 
 $acao = "Deletado um Follow Up do lead <br> Nome: ". $tb_lead[0]['nome'];
 
@@ -191,7 +200,7 @@ $results = $sql->select("DELETE FROM tb_followup WHERE idfollowup = $idlead and 
 
 
 
-$valor = $sql->select("SELECT * FROM tb_followup WHERE idlead = $val order by dataAtualizada desc limit 1");
+$valor = $sql->select("SELECT * FROM tb_followup WHERE idlead = $val and fk_id_cliente = $idcliente order by dataAtualizada desc limit 1");
 
 
 if (count($valor) == 0 ) {
@@ -282,14 +291,17 @@ public function salvarFollowUp($idlead){
               
             if(move_uploaded_file($file["tmp_name"], 'uploads/'. $dirUpload. DIRECTORY_SEPARATOR .$numero . $file["name"])){
 
+              $tamanho = $file['size'];
+
               $arquivo = $numero . $file["name"];
               var_dump( $arquivo);
 
 
-              $results = $sql->select("UPDATE tb_followup SET texto = :texto, dataAtualizada = :dataAtualizada, imagem = :imagem, fk_id_user = :userId WHERE idfollowup = :idfollowup and fk_id_cliente = :idcliente", array(
+              $results = $sql->select("UPDATE tb_followup SET texto = :texto, dataAtualizada = :dataAtualizada, imagem = :imagem, tamanho = :tamanho, fk_id_user = :userId WHERE idfollowup = :idfollowup and fk_id_cliente = :idcliente", array(
                       ":texto"=>$this->gettexto(),
                        ":dataAtualizada"=>date('Y-m-d H:i'),
                        ":imagem"=>$arquivo,
+                       ":tamanho"=>$tamanho,
                        ":idfollowup"=>$this->getidfollowup(),
                        ":userId"=>$_SESSION["id_user"],
                        ":idcliente"=>$_SESSION["fk_id_cliente"]
@@ -300,11 +312,11 @@ public function salvarFollowUp($idlead){
               ));
 
 
-              $datacriado = $sql->select("SELECT data FROM tb_followup where idfollowup = :idfollowup", array(
+              $datacriado = $sql->select("SELECT data FROM tb_followup where idfollowup = :idfollowup and fk_id_cliente = $idcliente", array(
                 ":idfollowup"=>$this->getidfollowup()
               ));
 
-              $tb_lead = $sql->select("SELECT * FROM tb_lead where idlead = $idlead");
+              $tb_lead = $sql->select("SELECT * FROM tb_lead where idlead = $idlead and fk_id_cliente = $idcliente");
 
               $acao = "Atualizado o Follow Up do lead <br> Nome: ". $tb_lead[0]['nome'] ."<br> Criado em: ". $datacriado[0]['data'];
 
@@ -348,6 +360,7 @@ public function salvarFollowUpSimples($idlead){
 
 
   $sql = new Sql();
+  $idcliente = $_SESSION['fk_id_cliente'];
 
 
    $results = $sql->select("UPDATE tb_followup SET texto = :texto, dataAtualizada = :dataAtualizada, fk_id_user = :userId WHERE idfollowup = :idfollowup and fk_id_cliente = :idcliente", array(
@@ -364,11 +377,11 @@ public function salvarFollowUpSimples($idlead){
       ));
 
 
-    $datacriado = $sql->select("SELECT data FROM tb_followup where idfollowup = :idfollowup", array(
+    $datacriado = $sql->select("SELECT data FROM tb_followup where idfollowup = :idfollowup and fk_id_cliente = $idcliente", array(
       ":idfollowup"=>$this->getidfollowup()
     ));
 
-    $tb_lead = $sql->select("SELECT * FROM tb_lead where idlead = $idlead");
+    $tb_lead = $sql->select("SELECT * FROM tb_lead where idlead = $idlead and fk_id_cliente = $idcliente");
 
     $acao = "Atualizado o Follow Up do lead <br> Nome: ". $tb_lead[0]['nome'] ."<br> Criado em: ". $datacriado[0]['data'];
 
@@ -392,12 +405,13 @@ public function salvarFollowUpSimples($idlead){
 public function salvarStatus($idlead){
 
   $sql = new Sql();
+
+  $idcliente = $_SESSION['fk_id_cliente'];
     
-    $results = $sql->select("UPDATE tb_lead SET fk_status = :statusLead, dataAtualizada = :dataAtualizada, fk_id_user_atualiza = :quemAtualizou WHERE idlead = $idlead and fk_id_cliente = :idcliente", array(
+    $results = $sql->select("UPDATE tb_lead SET fk_status = :statusLead, dataAtualizada = :dataAtualizada, fk_id_user_atualiza = :quemAtualizou WHERE idlead = $idlead and fk_id_cliente = $idcliente", array(
        ":statusLead"=>$this->getstatusLead(),
        ":dataAtualizada"=>date('Y-m-d H:i'),
-       ":quemAtualizou"=>$_SESSION["id_user"],
-       ":idcliente"=>$_SESSION["fk_id_cliente"]
+       ":quemAtualizou"=>$_SESSION["id_user"]
       ));
 
   
@@ -406,7 +420,7 @@ public function salvarStatus($idlead){
       ":statusLead"=>$this->getstatusLead()
     ));
 
-    $tb_lead = $sql->select("SELECT * FROM tb_lead where idlead = $idlead");
+    $tb_lead = $sql->select("SELECT * FROM tb_lead where idlead = $idlead and fk_id_cliente = $idcliente");
 
     $acao = "Atualizado o status do lead <br> Nome: ". $tb_lead[0]['nome'] ."<br> status: ". $status[0]['tipostatus'];
 
@@ -430,10 +444,12 @@ public function deleteImg($idlead){
 
 $sql = new Sql();
 
-   $tb_arquivo = $sql->select("SELECT imagem FROM tb_followup where idfollowup = $idlead");
+$idcliente = $_SESSION['fk_id_cliente'];
 
-     $idcliente = $_SESSION["fk_id_cliente"];
-  $nomePasta = $sql->select("SELECT * FROM tb_cliente where id_cliente = $idcliente");
+
+   $tb_arquivo = $sql->select("SELECT imagem FROM tb_followup where idfollowup = $idlead and fk_id_cliente = $idcliente");
+
+  $nomePasta = $sql->select("SELECT * FROM tb_cliente where id_cliente = $idcliente ");
 
 
     if(!$tb_arquivo == '' || !$tb_arquivo == null){
@@ -447,7 +463,7 @@ $sql = new Sql();
            unlink($path.$tb_arquivo[0]['imagem']);
 
 
-         $results = $sql->select("UPDATE tb_followup SET dataAtualizada = :dataAtualizada, imagem = '' WHERE idfollowup = $idlead and fk_id_cliente = :idcliente", array(
+         $results = $sql->select("UPDATE tb_followup SET dataAtualizada = :dataAtualizada, imagem = null, tamanho = null WHERE idfollowup = $idlead and fk_id_cliente = :idcliente", array(
        ":dataAtualizada"=>date('Y-m-d H:i'),
        ":idcliente"=>$_SESSION["fk_id_cliente"]
       )); 

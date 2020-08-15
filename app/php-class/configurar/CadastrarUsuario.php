@@ -41,7 +41,8 @@ class CadastrarUsuario{
  public static function listlog()
   {
     $sql = new Sql();
-    return $sql->select("SELECT * FROM tb_logs");
+    $idcliente = $_SESSION['fk_id_cliente'];
+    return $sql->select("SELECT * FROM tb_logs where fk_id_cliente = '$idcliente'");
   }
 
 
@@ -58,10 +59,11 @@ protected $fields = [
 public function cadastrar(){
 
 	$sql = new Sql();
+  $idcliente = $_SESSION['fk_id_cliente'];
 
 	$nome = $this->getuser();
 
-	$results = $sql->select("SELECT user FROM tb_user WHERE user = '$nome'");
+	$results = $sql->select("SELECT user FROM tb_user WHERE user = '$nome' and fk_id_cliente = '$idcliente'");
 
 	$nomeVerifica = count($results);
 

@@ -55,7 +55,8 @@ protected $fields = [
   public static function listServico()
   {
     $sql = new Sql();
-    return $sql->select("SELECT * FROM tb_servico");
+    $idcliente = $_SESSION['fk_id_cliente'];
+    return $sql->select("SELECT * FROM tb_servico where fk_id_cliente = $idcliente");
   }
 
 
@@ -114,15 +115,19 @@ public function ServicoDeletar($idservico){
 
    
     $sql = new Sql();
+     $idcliente = $_SESSION['fk_id_cliente'];
 
-   
-     $verificar = $sql->select("SELECT idservico FROM tb_categoria where idservico = :idservico", array(
+  
+     $verificar = $sql->select("SELECT idservico FROM tb_categoria where idservico = :idservico and id_cliente = :idcliente", array(
+       ":idservico"=>$idservico,
+       ":idcliente"=>$_SESSION["fk_id_cliente"]
+      ));
+
+     $servico = $sql->select("SELECT tiposervico FROM tb_servico where idservico = :idservico and fk_id_cliente = $idcliente", array(
        ":idservico"=>$idservico
       ));
 
-     $servico = $sql->select("SELECT tiposervico FROM tb_servico where idservico = :idservico", array(
-       ":idservico"=>$idservico
-      ));
+     var_dump($verificar);
 
 
      if(count($verificar) > 0){

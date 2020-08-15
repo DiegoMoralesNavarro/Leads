@@ -2,6 +2,66 @@
 
 
 
+<?php
+
+
+
+$path = "uploads/leads/";
+$tamanho = 0;
+$resultado = 0;
+
+$diretorio = scandir($path);
+$qtd = count($diretorio) - 2;
+
+$fileInfo2 = "'777-corporate.jpg','833-dormitorios.jpg'";
+
+
+
+
+
+
+// Loop que gera registros 
+foreach (new DirectoryIterator($path) as $fileInfo) { 
+
+
+    if($fileInfo->isDot()) continue;
+
+   //echo $fileInfo->getFilename();
+   
+
+    $fs = $fileInfo->getSize(); 
+	$tamanho += $fs;
+   
+}
+
+
+
+    if ($tamanho >= 1000000) { 
+      $resultado = round($tamanho /1024 /1024,2) . " Mb"; 
+
+    } else if ($tamanho >= 100) {
+       
+       $resultado = round($tamanho /1024,2) . " kb"; 
+
+    } else { 
+    	$resultado = $tamanho . " bytes"; 
+        
+
+    }
+
+
+echo "Total de arquivos: ".$qtd;
+echo "<br>";
+echo "Consumo em disco: ".$resultado;
+
+
+
+
+
+
+ ?>
+
+
 
 
 

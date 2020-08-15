@@ -51,7 +51,8 @@ protected $fields = [
 public static function usuarioDados($user){
 
   $sql = new Sql();
-  return $sql->select("SELECT * FROM tb_user WHERE id_user = $user");
+  $idcliente = $_SESSION['fk_id_cliente'];
+  return $sql->select("SELECT * FROM tb_user WHERE id_user = $user and fk_id_cliente = '$idcliente'");
 
 }
 
@@ -66,6 +67,7 @@ public static function usuarioDados($user){
 public function atualizarDados($user){
 
    $sql = new Sql();
+   $idcliente = $_SESSION['fk_id_cliente'];
 
 
   if ($this->getuser() == '' || $this->getuser() == NULL) {
@@ -81,7 +83,7 @@ public function atualizarDados($user){
 
 
 
-    $tb_user = $sql->select("SELECT * FROM tb_user where id_user = $user");
+    $tb_user = $sql->select("SELECT * FROM tb_user where id_user = $user and fk_id_cliente = '$idcliente'");
 
       $acao = "Atualizado os dados do usuário <br> Nome: ". $tb_user[0]['user'];
 
@@ -102,6 +104,7 @@ public function atualizarDados($user){
 public function atualizarSenha($user){
 
   $sql = new Sql();
+  $idcliente = $_SESSION['fk_id_cliente'];
 
   if ($this->getnovaSenha() == '' || $this->getnovaSenha() == NULL) {
     header("Location: /".pastaPrincipal."/dashboard/configurar/atualizar-usuario/$user?senha=Vazio#senha");
@@ -115,7 +118,7 @@ public function atualizarSenha($user){
         
          ));
 
-    $tb_user = $sql->select("SELECT * FROM tb_user where id_user = $user");
+    $tb_user = $sql->select("SELECT * FROM tb_user where id_user = $user and fk_id_cliente = '$idcliente'");
 
       $acao = "Atualizado a senha do usuário <br> Nome: ". $tb_user[0]['user'];
 
@@ -141,18 +144,19 @@ public function atualizarSenha($user){
 public function deletarUsuario($id){
 
   $sql = new Sql();
+  $idcliente = $_SESSION['fk_id_cliente'];
 
  
 
 
-  $tb_user = $sql->select("SELECT * FROM tb_user where id_user = $id");
+  $tb_user = $sql->select("SELECT * FROM tb_user where id_user = $id and fk_id_cliente = '$idcliente'");
 
       $acao = "Deletou o usuário <br> Nome: ". $tb_user[0]['user'];
 
       $log = new Logs($_SESSION["id_user"], date('Y-m-d H:i'), $acao);
 
 
-$id_cliente = $_SESSION["fk_id_cliente"];
+
 
 
   $results = $sql->select("UPDATE tb_lead SET fk_id_user = 0 WHERE (fk_id_user = $id) and (fk_id_cliente = $id_cliente)");

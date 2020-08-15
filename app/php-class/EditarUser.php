@@ -58,69 +58,81 @@ protected $fields = [
 public static function listAll()
 {
 	$sql = new Sql();
-	return $sql->select("SELECT * FROM tb_lead inner join tb_status ON tb_lead.fk_status = tb_status.idstatus order by idlead");
+  $idcliente = $_SESSION['fk_id_cliente'];
+	return $sql->select("SELECT * FROM tb_lead inner join tb_status ON tb_lead.fk_status = tb_status.idstatus where fk_id_cliente = $idcliente order by idlead");
 }
 
 
 public static function listId($idlead){
     $sql = new Sql();
-    return $sql->select("SELECT * FROM tb_lead inner join tb_status ON tb_lead.fk_status = tb_status.idstatus WHERE idlead = $idlead");
+    $idcliente = $_SESSION['fk_id_cliente'];
+    return $sql->select("SELECT * FROM tb_lead inner join tb_status ON tb_lead.fk_status = tb_status.idstatus WHERE idlead = $idlead and tb_lead.fk_id_cliente = $idcliente");
   }
 
 public static function listIdOrigem($idlead){
     $sql = new Sql();
-    return $sql->select("SELECT * FROM tb_lead inner join tb_origem_lead ON tb_lead.fk_origem_lead = tb_origem_lead.id_origem_lead WHERE idlead = $idlead");
+    $idcliente = $_SESSION['fk_id_cliente'];
+    return $sql->select("SELECT * FROM tb_lead inner join tb_origem_lead ON tb_lead.fk_origem_lead = tb_origem_lead.id_origem_lead WHERE idlead = $idlead and tb_lead.fk_id_cliente = $idcliente or tb_lead.fk_id_cliente = '0'");
   }  
 
 
 public static function listAllId($idlead){
     $sql = new Sql();
-    return $sql->select("SELECT * FROM tb_lead WHERE idlead = $idlead");
+    $idcliente = $_SESSION['fk_id_cliente'];
+    return $sql->select("SELECT * FROM tb_lead WHERE idlead = $idlead and fk_id_cliente = $idcliente");
   }
 
   public static function responsavel($idlead){
     $sql = new Sql();
-    return $sql->select("SELECT * FROM tb_lead inner join tb_user on tb_user.id_user = tb_lead.fk_id_user WHERE idlead = $idlead");
+    $idcliente = $_SESSION['fk_id_cliente'];
+    return $sql->select("SELECT * FROM tb_lead inner join tb_user on tb_user.id_user = tb_lead.fk_id_user WHERE idlead = $idlead and tb_user.fk_id_cliente = $idcliente");
   }
 
   public static function responsavelAtualizou($idlead){
     $sql = new Sql();
-    return $sql->select("SELECT * FROM tb_lead inner join tb_user on tb_lead.fk_id_user_atualiza = tb_user.id_user WHERE idlead = $idlead");
+    $idcliente = $_SESSION['fk_id_cliente'];
+    return $sql->select("SELECT * FROM tb_lead inner join tb_user on tb_lead.fk_id_user_atualiza = tb_user.id_user WHERE idlead = $idlead and tb_user.fk_id_cliente = $idcliente");
   }
 
 
  public static function listObs($idlead)
   {
     $sql = new Sql();
-    return $sql->select("SELECT * FROM tb_obs WHERE fk_idlead = $idlead");
+    $idcliente = $_SESSION['fk_id_cliente'];
+    return $sql->select("SELECT * FROM tb_obs WHERE fk_idlead = $idlead and fk_id_cliente = $idcliente");
   }
 
 
  public static function listStatus()
   {
     $sql = new Sql();
-    return $sql->select("SELECT * FROM tb_status");
+    $idcliente = $_SESSION['fk_id_cliente'];
+    return $sql->select("SELECT * FROM tb_status where fk_id_cliente = $idcliente or fk_id_cliente = 0");
   }
 
 
  public static function servicoDesejado($idlead){
   $sql = new Sql();
-    return $sql->select("call servico_ativo($idlead);");
+  $idcliente = $_SESSION['fk_id_cliente'];
+    return $sql->select("call servico_ativo($idlead, $idcliente);");
 }
 
 public static function servicoNaoDesejado($idlead){
    $sql = new Sql();
-    return $sql->select("call servico_inativo($idlead);");
+   $idcliente = $_SESSION['fk_id_cliente'];
+    return $sql->select("call servico_inativo($idlead, $idcliente);");
 } 
 
 public static function nomeArquivo($idlead){
    $sql = new Sql();
-    return $sql->select("SELECT * FROM tb_arquivo WHERE fk_idlead = $idlead");
+    $idcliente = $_SESSION['fk_id_cliente'];
+    return $sql->select("SELECT * FROM tb_arquivo WHERE fk_idlead = $idlead and fk_id_cliente = $idcliente");
 } 
 
 public static function origem(){
    $sql = new Sql();
-    return $sql->select("SELECT * FROM tb_origem_lead");
+    $idcliente = $_SESSION['fk_id_cliente'];
+    return $sql->select("SELECT * FROM tb_origem_lead where fk_id_cliente = $idcliente or fk_id_cliente = '0'");
 } 
 
 public static function rotaPastas(){
@@ -134,6 +146,7 @@ public static function rotaPastas(){
 
 public function saveUpdateLead($idlead){
     $sql = new Sql();
+    $idcliente = $_SESSION["fk_id_cliente"];
     
     $results = $sql->select("UPDATE tb_lead SET nome = :nome, empresa = :empresa, telefone = :telefone, email = :email, site = :site, fk_status = :statusLead, dataAtualizada = :dataAtualizada, fk_origem_lead = :origemLead, fk_id_user_atualiza = :quemAtualizou WHERE idlead = $idlead and fk_id_cliente = :idcliente", array(
        ":nome"=>$this->getnome(),
@@ -158,14 +171,15 @@ public function saveUpdateLead($idlead){
     $results2 = $sql->select("SELECT * FROM tb_obs WHERE fk_idlead = $idlead");
 
     if (count($results2) > 0) {
-        $results3 = $sql->select("UPDATE tb_obs SET obs = :obs WHERE fk_idlead = $idlead", array(
+        $results3 = $sql->select("UPDATE tb_obs SET obs = :obs WHERE fk_idlead = $idlead and fk_id_cliente = $idcliente", array(
            ":obs"=>$this->getobs()
       ));
 
     }else{
 
-      $results3 = $sql->select("INSERT INTO tb_obs (obs, fk_idlead, fk_id_user) VALUES (:obs, $idlead, 0)", array(
-           ":obs"=>$this->getobs()
+      $results3 = $sql->select("INSERT INTO tb_obs (obs, fk_idlead, fk_id_user, fk_id_cliente) VALUES (:obs, $idlead, 0, :idcliente)", array(
+           ":obs"=>$this->getobs(),
+           ":idcliente"=>$_SESSION["fk_id_cliente"]
       ));
 
     }
@@ -179,6 +193,7 @@ public function saveUpdateLead($idlead){
 public function adicionaServico($idlead){
 
   $sql = new Sql();
+  $idcliente = $_SESSION["fk_id_cliente"];
 
   //var_dump($this->getidservicoadd());
 
@@ -188,11 +203,11 @@ public function adicionaServico($idlead){
     ));
 
 
-   $results2 = $sql->select("UPDATE tb_lead SET dataAtualizada = :dataAtualizada WHERE idlead = $idlead", array(
+   $results2 = $sql->select("UPDATE tb_lead SET dataAtualizada = :dataAtualizada WHERE idlead = $idlead and fk_id_cliente = $idcliente", array(
         ":dataAtualizada"=>date('Y-m-d H:i'),
       ));
 
-   $results3 = $sql->select("UPDATE tb_lead SET fk_id_user_atualiza = :quemAtualizou WHERE idlead = $idlead", array(
+   $results3 = $sql->select("UPDATE tb_lead SET fk_id_user_atualiza = :quemAtualizou WHERE idlead = $idlead and fk_id_cliente = $idcliente", array(
         ":quemAtualizou"=>$_SESSION["id_user"]
 
       ));
@@ -204,6 +219,7 @@ public function adicionaServico($idlead){
 public function removeServico($idlead){
 
   $sql = new Sql();
+  $idcliente = $_SESSION["fk_id_cliente"];
   // var_dump($this->getidserviconao());
   
    $results = $sql->select("DELETE FROM tb_categoria WHERE idlead = $idlead and idservico = :idserviconao and id_cliente = :idcliente", array(
@@ -211,11 +227,11 @@ public function removeServico($idlead){
          ":idcliente"=>$_SESSION["fk_id_cliente"]
     ));
 
-    $results2 = $sql->select("UPDATE tb_lead SET dataAtualizada = :dataAtualizada WHERE idlead = $idlead", array(
+    $results2 = $sql->select("UPDATE tb_lead SET dataAtualizada = :dataAtualizada WHERE idlead = $idlead and fk_id_cliente = $idcliente", array(
         ":dataAtualizada"=>date('Y-m-d H:i'),
       ));
 
-    $results3 = $sql->select("UPDATE tb_lead SET fk_id_user_atualiza = :quemAtualizou WHERE idlead = $idlead", array(
+    $results3 = $sql->select("UPDATE tb_lead SET fk_id_user_atualiza = :quemAtualizou WHERE idlead = $idlead and fk_id_cliente = $idcliente", array(
         ":quemAtualizou"=>$_SESSION["id_user"]
 
       ));
@@ -229,8 +245,9 @@ public function removeServico($idlead){
 public function deleteArquivo($idlead){
 
   $sql = new Sql();
+  $idcliente = $_SESSION["fk_id_cliente"];
 
-   $tb_arquivo = $sql->select("SELECT * FROM tb_arquivo where fk_idlead = $idlead");
+   $tb_arquivo = $sql->select("SELECT * FROM tb_arquivo where fk_idlead = $idlead and fk_id_cliente = $idcliente");
 
 
 
@@ -238,10 +255,10 @@ public function deleteArquivo($idlead){
     if(count($tb_arquivo) > 0){
 
 
-        $idcliente = $_SESSION["fk_id_cliente"];
+       
         $nomePasta = $sql->select("SELECT * FROM tb_cliente where id_cliente = $idcliente");
 
-       $results = $sql->select("DELETE FROM tb_arquivo WHERE fk_idlead = $idlead");
+       $results = $sql->select("DELETE FROM tb_arquivo WHERE fk_idlead = $idlead and fk_id_cliente = $idcliente");
 
         $path = 'uploads/'.$nomePasta[0]['nome_pasta'].'/';
         $diretorio = dir($path);
@@ -309,11 +326,15 @@ public function gravarArquivo($idlead){
               //verificar se o upload aconteceu
               if(move_uploaded_file($file["tmp_name"], 'uploads/'.$dirUpload . DIRECTORY_SEPARATOR .$numero . $file["name"])){
 
+                $tamanho = $file['size'];
+
                 $arquivo = $numero . $file["name"];
                 //
                   //arquivo $arquivo, $idlead
-                  $resultsArquivo = $sql->select("INSERT INTO tb_arquivo (arquivo, fk_idlead, fk_id_cliente) VALUES (:arquivo, :idlead, :idcliente)", array(
+                  $resultsArquivo = $sql->select("INSERT INTO tb_arquivo (arquivo, tamanho, data, fk_idlead, fk_id_cliente) VALUES (:arquivo, :tamanho, :data, :idlead, :idcliente)", array(
                       ":arquivo"=>$arquivo,
+                      ":tamanho"=>$tamanho,
+                      ":data"=>date('Y-m-d'),
                       ":idlead"=>$idlead,
                       ":idcliente"=>$_SESSION["fk_id_cliente"]
                     ));

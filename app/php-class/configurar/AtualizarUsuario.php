@@ -56,16 +56,17 @@ protected $fields = [
 public function listUsuario($val, $page, $itemsPerPage, $nivel){
 
 	$start = ($page - 1) * $itemsPerPage;
+  $idcliente = $_SESSION['fk_id_cliente'];
 
 	if ($val  == "") {
      
 		$sql = new Sql();
-	      $results = $sql->select("SELECT SQL_CALC_FOUND_ROWS * FROM tb_user where nivel NOT LIKE '%$nivel%' AND nivel NOT LIKE '1' ORDER BY user LIMIT $start, $itemsPerPage");
+	      $results = $sql->select("SELECT SQL_CALC_FOUND_ROWS * FROM tb_user where nivel NOT LIKE '%$nivel%' AND nivel NOT LIKE '1' and fk_id_cliente = '$idcliente' ORDER BY user LIMIT $start, $itemsPerPage");
 
 	      $this->setData($results);
 
 
-	       $results2 = $sql->select("SELECT * FROM tb_user where nivel NOT LIKE '%$nivel%' AND nivel NOT LIKE '1' AND user like '%$val%' ");
+	       $results2 = $sql->select("SELECT * FROM tb_user where nivel NOT LIKE '%$nivel%' AND nivel NOT LIKE '1' and fk_id_cliente = '$idcliente' AND user like '%$val%' ");
 
 	      $_SESSION["paginas"] = count($results2);
 
@@ -74,12 +75,12 @@ public function listUsuario($val, $page, $itemsPerPage, $nivel){
 
 
       	$sql = new Sql();
-	      $results = $sql->select("SELECT SQL_CALC_FOUND_ROWS * FROM tb_user where  nivel NOT LIKE '%$nivel%' AND nivel NOT LIKE '1' AND user like '%$val%' ORDER BY user LIMIT $start, $itemsPerPage");
+	      $results = $sql->select("SELECT SQL_CALC_FOUND_ROWS * FROM tb_user where  nivel NOT LIKE '%$nivel%' AND nivel NOT LIKE '1' and fk_id_cliente = '$idcliente' AND user like '%$val%' ORDER BY user LIMIT $start, $itemsPerPage");
 
 	      $this->setData($results);
 
 
-	       $results2 = $sql->select("SELECT * FROM tb_user where where nivel NOT LIKE '%$nivel%' AND nivel NOT LIKE '1' AND user like '%$val%' ");
+	       $results2 = $sql->select("SELECT * FROM tb_user where where nivel NOT LIKE '%$nivel%' AND nivel NOT LIKE '1' and fk_id_cliente = '$idcliente' AND user like '%$val%' ");
 
 	      $_SESSION["paginas"] = count($results2);
 
@@ -98,7 +99,7 @@ public function listUsuario($val, $page, $itemsPerPage, $nivel){
 public static function listAll()
 {
 	$sql = new Sql();
-	return $sql->select("SELECT * FROM tb_user order by user");
+	return $sql->select("SELECT * FROM tb_user where fk_id_cliente = '$idcliente' order by user");
 }
 
 

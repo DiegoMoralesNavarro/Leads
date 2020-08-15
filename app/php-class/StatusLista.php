@@ -49,6 +49,7 @@ class StatusLista{
 public static function saberStatus($idstatus){
 
 	$sql = new Sql();
+  $idcliente = $_SESSION['fk_id_cliente'];
     return $sql->select("SELECT * FROM tb_status where idstatus = $idstatus");
 	
 }
@@ -62,17 +63,19 @@ public static function saberStatus($idstatus){
 
 public function listAll($val, $page, $itemsPerPage, $idstatus){
 
+  $idcliente = $_SESSION['fk_id_cliente'];
+
 	$start = ($page - 1) * $itemsPerPage;
 
 	if ($val  == "") {
      
 		$sql = new Sql();
-	      $results = $sql->select("SELECT SQL_CALC_FOUND_ROWS * FROM tb_lead inner join tb_status ON tb_lead.fk_status = tb_status.idstatus inner join tb_origem_lead ON tb_lead.fk_origem_lead = tb_origem_lead.id_origem_lead where fk_status = '$idstatus' ORDER BY idlead desc LIMIT $start, $itemsPerPage");
+	      $results = $sql->select("SELECT SQL_CALC_FOUND_ROWS * FROM tb_lead inner join tb_status ON tb_lead.fk_status = tb_status.idstatus inner join tb_origem_lead ON tb_lead.fk_origem_lead = tb_origem_lead.id_origem_lead where fk_status = '$idstatus' and tb_lead.fk_id_cliente = $idcliente ORDER BY idlead desc LIMIT $start, $itemsPerPage");
 
 	      $this->setData($results);
 
 
-	       $results2 = $sql->select("SELECT * FROM tb_lead inner join tb_status ON tb_lead.fk_status = tb_status.idstatus inner join tb_origem_lead ON tb_lead.fk_origem_lead = tb_origem_lead.id_origem_lead where fk_status = '$idstatus' AND nome like '%$val%' ");
+	       $results2 = $sql->select("SELECT * FROM tb_lead inner join tb_status ON tb_lead.fk_status = tb_status.idstatus inner join tb_origem_lead ON tb_lead.fk_origem_lead = tb_origem_lead.id_origem_lead where fk_status = '$idstatus' and tb_lead.fk_id_cliente = $idcliente and tb_lead.fk_id_cliente = $idcliente AND nome like '%$val%' ");
 
 	      $_SESSION["paginas"] = count($results2);
 
@@ -81,12 +84,12 @@ public function listAll($val, $page, $itemsPerPage, $idstatus){
 
 
       	$sql = new Sql();
-	      $results = $sql->select("SELECT SQL_CALC_FOUND_ROWS * FROM tb_lead inner join tb_status ON tb_lead.fk_status = tb_status.idstatus inner join tb_origem_lead ON tb_lead.fk_origem_lead = tb_origem_lead.id_origem_lead where fk_status = '$idstatus' AND nome like '%$val%' ORDER BY idlead desc LIMIT $start, $itemsPerPage");
+	      $results = $sql->select("SELECT SQL_CALC_FOUND_ROWS * FROM tb_lead inner join tb_status ON tb_lead.fk_status = tb_status.idstatus inner join tb_origem_lead ON tb_lead.fk_origem_lead = tb_origem_lead.id_origem_lead where fk_status = '$idstatus' and tb_lead.fk_id_cliente = $idcliente and tb_lead.fk_id_cliente = $idcliente AND nome like '%$val%' ORDER BY idlead desc LIMIT $start, $itemsPerPage");
 
 	      $this->setData($results);
 
 
-	       $results2 = $sql->select("SELECT * FROM tb_lead inner join tb_status ON tb_lead.fk_status = tb_status.idstatus inner join tb_origem_lead ON tb_lead.fk_origem_lead = tb_origem_lead.id_origem_lead where fk_status = '$idstatus' AND nome like '%$val%' ");
+	       $results2 = $sql->select("SELECT * FROM tb_lead inner join tb_status ON tb_lead.fk_status = tb_status.idstatus inner join tb_origem_lead ON tb_lead.fk_origem_lead = tb_origem_lead.id_origem_lead where fk_status = '$idstatus' and tb_lead.fk_id_cliente = $idcliente and tb_lead.fk_id_cliente = $idcliente AND nome like '%$val%' ");
 
 	      $_SESSION["paginas"] = count($results2);
 
@@ -110,6 +113,8 @@ public function listAll($val, $page, $itemsPerPage, $idstatus){
 public function listAllStatus($val, $page, $itemsPerPage, $dataA, $dataB, $dataC, $dataD, $tempo){
 
   $start = ($page - 1) * $itemsPerPage;
+
+  $idcliente = $_SESSION['fk_id_cliente'];
 
   if ($tempo == 1) {
     $horasA = $dataA;        
@@ -147,15 +152,17 @@ public function listAllStatus($val, $page, $itemsPerPage, $dataA, $dataB, $dataC
     $comando = "data between '$datahoras' and '$dataAtual'";
   }
 
+
+
   if ($val  == "") {
      
     $sql = new Sql();
-        $results = $sql->select("SELECT SQL_CALC_FOUND_ROWS * FROM tb_lead inner join tb_status ON tb_lead.fk_status = tb_status.idstatus inner join tb_origem_lead ON tb_lead.fk_origem_lead = tb_origem_lead.id_origem_lead where fk_status = '1' and $comando ORDER BY idlead desc LIMIT $start, $itemsPerPage");
+        $results = $sql->select("SELECT SQL_CALC_FOUND_ROWS * FROM tb_lead inner join tb_status ON tb_lead.fk_status = tb_status.idstatus inner join tb_origem_lead ON tb_lead.fk_origem_lead = tb_origem_lead.id_origem_lead where fk_status = '1' and $comando and tb_lead.fk_id_cliente = $idcliente ORDER BY idlead desc LIMIT $start, $itemsPerPage");
 
         $this->setData($results);
 
 
-         $results2 = $sql->select("SELECT * FROM tb_lead inner join tb_status ON tb_lead.fk_status = tb_status.idstatus inner join tb_origem_lead ON tb_lead.fk_origem_lead = tb_origem_lead.id_origem_lead where fk_status = '1' and $comando AND nome like '%$val%' ");
+         $results2 = $sql->select("SELECT * FROM tb_lead inner join tb_status ON tb_lead.fk_status = tb_status.idstatus inner join tb_origem_lead ON tb_lead.fk_origem_lead = tb_origem_lead.id_origem_lead where fk_status = '1' and $comando AND nome and tb_lead.fk_id_cliente = $idcliente like '%$val%' ");
 
         $_SESSION["paginas"] = count($results2);
 
@@ -164,12 +171,12 @@ public function listAllStatus($val, $page, $itemsPerPage, $dataA, $dataB, $dataC
 
 
         $sql = new Sql();
-        $results = $sql->select("SELECT SQL_CALC_FOUND_ROWS * FROM tb_lead inner join tb_status ON tb_lead.fk_status = tb_status.idstatus inner join tb_origem_lead ON tb_lead.fk_origem_lead = tb_origem_lead.id_origem_lead where fk_status = '1' and $comando AND nome like '%$val%' ORDER BY idlead desc LIMIT $start, $itemsPerPage");
+        $results = $sql->select("SELECT SQL_CALC_FOUND_ROWS * FROM tb_lead inner join tb_status ON tb_lead.fk_status = tb_status.idstatus inner join tb_origem_lead ON tb_lead.fk_origem_lead = tb_origem_lead.id_origem_lead where fk_status = '1' and $comando AND nome and tb_lead.fk_id_cliente = $idcliente like '%$val%' ORDER BY idlead desc LIMIT $start, $itemsPerPage");
 
         $this->setData($results);
 
 
-         $results2 = $sql->select("SELECT * FROM tb_lead inner join tb_status ON tb_lead.fk_status = tb_status.idstatus inner join tb_origem_lead ON tb_lead.fk_origem_lead = tb_origem_lead.id_origem_lead where fk_status = '1' and $comando AND nome like '%$val%' ");
+         $results2 = $sql->select("SELECT * FROM tb_lead inner join tb_status ON tb_lead.fk_status = tb_status.idstatus inner join tb_origem_lead ON tb_lead.fk_origem_lead = tb_origem_lead.id_origem_lead where fk_status = '1' and $comando AND nome and tb_lead.fk_id_cliente = $idcliente like '%$val%' ");
 
         $_SESSION["paginas"] = count($results2);
 
@@ -191,10 +198,12 @@ public function listAllStatus($val, $page, $itemsPerPage, $dataA, $dataB, $dataC
 
 public static function imprimir($val, $page, $itemsPerPage, $idstatus){
 
- 
+ $idcliente = $_SESSION['fk_id_cliente'];
+
    // $sql = new Sql();
 
    // $result = $sql->select("SELECT idlead,nome,empresa,email,telefone FROM tb_lead where fk_status = '$idstatus'");
+
 
    $start = ($page - 1) * $itemsPerPage;
 
@@ -202,7 +211,7 @@ public static function imprimir($val, $page, $itemsPerPage, $idstatus){
      
     $sql = new Sql();
 
-        $result = $sql->select("SELECT idlead,nome,empresa,email,telefone FROM tb_lead inner join tb_status ON tb_lead.fk_status = tb_status.idstatus inner join tb_origem_lead ON tb_lead.fk_origem_lead = tb_origem_lead.id_origem_lead where fk_status = '$idstatus' ORDER BY idlead desc LIMIT $start, $itemsPerPage");
+        $result = $sql->select("SELECT idlead,nome,empresa,email,telefone FROM tb_lead inner join tb_status ON tb_lead.fk_status = tb_status.idstatus inner join tb_origem_lead ON tb_lead.fk_origem_lead = tb_origem_lead.id_origem_lead where fk_status = '$idstatus' and fk_id_cliente = $idcliente ORDER BY idlead desc LIMIT $start, $itemsPerPage");
 
    
       }else{
@@ -212,7 +221,7 @@ public static function imprimir($val, $page, $itemsPerPage, $idstatus){
         $sql = new Sql();
        
 
-        $result = $sql->select("SELECT SQL_CALC_FOUND_ROWS * FROM tb_lead inner join tb_status ON tb_lead.fk_status = tb_status.idstatus inner join tb_origem_lead ON tb_lead.fk_origem_lead = tb_origem_lead.id_origem_lead where fk_status = '$idstatus' AND nome like '%$val%' ORDER BY idlead desc LIMIT $start, $itemsPerPage");
+        $result = $sql->select("SELECT SQL_CALC_FOUND_ROWS * FROM tb_lead inner join tb_status ON tb_lead.fk_status = tb_status.idstatus inner join tb_origem_lead ON tb_lead.fk_origem_lead = tb_origem_lead.id_origem_lead where fk_status = '$idstatus' AND nome and fk_id_cliente = $idcliente like '%$val%' ORDER BY idlead desc LIMIT $start, $itemsPerPage");
        
 
 
@@ -282,8 +291,10 @@ public static function imprimirSimples($idstatus){
 
  
    $sql = new Sql();
+   $idcliente = $_SESSION['fk_id_cliente'];
 
-   $result = $sql->select("SELECT idlead,nome,empresa,email,telefone FROM tb_lead where fk_status = '$idstatus'");
+   $result = $sql->select("SELECT idlead,nome,empresa,email,telefone FROM tb_lead where fk_status = '$idstatus' and fk_id_cliente = $idcliente ");
+
 
 
 
@@ -311,7 +322,7 @@ public static function imprimirSimples($idstatus){
 
     $dadosXls .= "  </table>";
 
-    
+   
 
     // Definimos o nome do arquivo que será exportado  
     $arquivo = "MinhaPlanilha.xls";  
@@ -333,7 +344,7 @@ public static function imprimirSimples($idstatus){
     header ("Pragma: no-cache");
 
 
-    // echo $dadosXls;  
+    echo $dadosXls;  
     exit;
 
 

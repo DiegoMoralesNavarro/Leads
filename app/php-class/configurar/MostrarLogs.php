@@ -53,7 +53,8 @@ protected $fields = [
  public static function user()
   {
     $sql = new Sql();
-    return $sql->select("SELECT * FROM tb_user ");
+    $idcliente = $_SESSION['fk_id_cliente'];
+    return $sql->select("SELECT * FROM tb_user where fk_id_cliente = '$idcliente'");
   }
 
 
@@ -63,6 +64,7 @@ protected $fields = [
 public function atribuirResponsavel($page, $itemsPerPage, $responsavel){
 
 	$start = ($page - 1) * $itemsPerPage;
+  $idcliente = $_SESSION['fk_id_cliente'];
 
 
 	if ($responsavel == 0) {
@@ -75,12 +77,12 @@ public function atribuirResponsavel($page, $itemsPerPage, $responsavel){
 
      
 		$sql = new Sql();
-	      $results = $sql->select("SELECT SQL_CALC_FOUND_ROWS * FROM tb_logs inner join tb_user on tb_user.id_user = tb_logs.idusuario where $valorResp ORDER BY datalog desc LIMIT $start, $itemsPerPage");
+	      $results = $sql->select("SELECT SQL_CALC_FOUND_ROWS * FROM tb_logs inner join tb_user on tb_user.id_user = tb_logs.idusuario where $valorResp and tb_user.fk_id_cliente = '$idcliente' ORDER BY datalog desc LIMIT $start, $itemsPerPage");
 
 	      $this->setData($results);
 
 
-	      $results2 = $sql->select("SELECT * FROM tb_logs inner join tb_user on tb_user.id_user = tb_logs.idusuario where $valorResp ");
+	      $results2 = $sql->select("SELECT * FROM tb_logs inner join tb_user on tb_user.id_user = tb_logs.idusuario where $valorResp and tb_user.fk_id_cliente = '$idcliente'");
 
 	      $_SESSION["paginas"] = count($results2);
 

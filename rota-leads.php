@@ -62,14 +62,15 @@ if (isset($_GET['followup'])) {
 
 	$dataC = new DateTime();
 
-
 	$dataD = new DateTime();
+
+	$dataE = new DateTime();
 
 	$tempoum = VerLeads::novoLeadsQuatroH($dataA, $dataB);
 
-	$tempodois = VerLeads::novoLeadsUmDia($dataC, $dataB);
+	$tempodois = VerLeads::novoLeadsUmDia($dataC, $dataD);
 
-	$tempotres = VerLeads::novoLeadsDoisDias($dataD);
+	$tempotres = VerLeads::novoLeadsDoisDias($dataE);
 
 	
 

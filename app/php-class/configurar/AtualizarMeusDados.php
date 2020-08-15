@@ -52,7 +52,8 @@ protected $fields = [
 public static function meusDados($user){
 
   $sql = new Sql();
-  return $sql->select("SELECT * FROM tb_user WHERE id_user = $user");
+  $idcliente = $_SESSION['fk_id_cliente'];
+  return $sql->select("SELECT * FROM tb_user WHERE id_user = $user and fk_id_cliente = '$idcliente'");
 
 }
 
@@ -67,6 +68,7 @@ public static function meusDados($user){
 public function atualizarDados($user){
 
    $sql = new Sql();
+
 
 
   if ($this->getuser() == '' || $this->getuser() == NULL) {
@@ -99,13 +101,14 @@ public function atualizarDados($user){
 public function atualizarSenha($user){
 
   $sql = new Sql();
+  $idcliente = $_SESSION['fk_id_cliente'];
 
   if ($this->getsenhaAtual() == '' || $this->getsenhaAtual() == NULL) {
     header("Location: /".pastaPrincipal."/dashboard/configurar/atualizar-dados?senha=Vazio#senha");
     exit;
   }else{
     //verificar se senha atual está correta
-    $results = $sql->select("SELECT senha FROM tb_user WHERE id_user = $user");
+    $results = $sql->select("SELECT senha FROM tb_user WHERE id_user = $user and fk_id_cliente = '$idcliente'");
 
     $md5 = md5($this->getsenhaAtual());
 
