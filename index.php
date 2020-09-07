@@ -9,7 +9,7 @@ date_default_timezone_set('America/Sao_Paulo');
 
 define("header", "header.php");
 
-define("footer", "footer.php");
+define("footer", "footer.php"); 
 
 define("URLestilo", "http://localhost/leads");
 
