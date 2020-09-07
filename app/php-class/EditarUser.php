@@ -114,19 +114,31 @@ public static function listAllId($idlead){
  public static function servicoDesejado($idlead){
   $sql = new Sql();
   $idcliente = $_SESSION['fk_id_cliente'];
-    return $sql->select("call servico_ativo($idlead, $idcliente);");
+  return $sql->select("SELECT * FROM tb_servico WHERE fk_id_cliente = $idcliente and idservico IN(
+          SELECT a.idservico
+          FROM tb_servico a
+          INNER JOIN tb_categoria b ON a.idservico = b.idservico
+          WHERE b.idlead = $idlead
+        )");
+    // return $sql->select("call servico_ativo($idlead, $idcliente);");
 }
 
 public static function servicoNaoDesejado($idlead){
    $sql = new Sql();
    $idcliente = $_SESSION['fk_id_cliente'];
-    return $sql->select("call servico_inativo($idlead, $idcliente);");
+   return $sql->select("SELECT * FROM tb_servico WHERE fk_id_cliente = $idcliente and idservico not IN(
+          SELECT a.idservico
+          FROM tb_servico a
+          INNER JOIN tb_categoria b ON a.idservico = b.idservico
+          WHERE b.idlead = $idlead
+        )");
+    // return $sql->select("call servico_inativo($idlead, $idcliente);");
 } 
 
 public static function nomeArquivo($idlead){
    $sql = new Sql();
     $idcliente = $_SESSION['fk_id_cliente'];
-    return $sql->select("SELECT * FROM tb_arquivo WHERE fk_idlead = $idlead and fk_id_cliente = $idcliente");
+    return $sql->select("SELECT * FROM tb_arquivo WHERE fk_idlead = $idlead and fk_id_cliente = $idcliente and fk_idfollowup IS NULL");
 } 
 
 public static function origem(){
@@ -195,9 +207,16 @@ public function adicionaServico($idlead){
   $sql = new Sql();
   $idcliente = $_SESSION["fk_id_cliente"];
 
+  var_dump($idcliente);
+
+  var_dump($idlead);
+
+  var_dump($this->getidservicoadd());
+
   //var_dump($this->getidservicoadd());
 
-  $results = $sql->select("INSERT INTO tb_categoria (idlead, idservico, id_cliente) VALUES ($idlead, :idservicoadd, :idcliente)", array(
+  $results = $sql->select("INSERT INTO tb_categoria (idlead, idservico, id_cliente) VALUES (:idlead, :idservicoadd, :idcliente)", array(
+        ":idlead"=>$idlead,
           ":idservicoadd"=>$this->getidservicoadd(),
           ":idcliente"=>$_SESSION["fk_id_cliente"]
     ));
@@ -266,6 +285,10 @@ public function deleteArquivo($idlead){
 
          
            unlink($path.$tb_arquivo[0]['arquivo']);
+
+           var_dump($results);
+
+           var_dump($tb_arquivo[0]['arquivo']);
          
 
       
@@ -287,10 +310,7 @@ public function gravarArquivo($idlead){
   $tb_arquivo = $sql->select("SELECT * FROM tb_arquivo where fk_idlead = $idlead");
 
 
-  if(count($tb_arquivo) > 0){
-
-
-  }else{
+ 
 
 
       if($_SERVER["REQUEST_METHOD"] === "POST"){
@@ -304,14 +324,19 @@ public function gravarArquivo($idlead){
 
           }
 
+       
+
           $idcliente = $_SESSION["fk_id_cliente"];
         $nomePasta = $sql->select("SELECT * FROM tb_cliente where id_cliente = $idcliente");
+
+      
 
           //criar um diretorio temporario
              $dirUpload = $nomePasta[0]['nome_pasta'];
 
-          if(!is_dir('uploads/'.$dirUpload)){
-            mkdir('uploads/'.$dirUpload);
+          if(!is_dir('uploads/'.$dirUpload.'/')){
+            mkdir('uploads/'.$dirUpload.'/');
+            echo $dirUpload;
           }
 
           //PEGAR o nome do arquivo
@@ -352,7 +377,7 @@ public function gravarArquivo($idlead){
 
       }//if
 
-  }//count
+
 
 
 

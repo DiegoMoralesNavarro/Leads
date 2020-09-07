@@ -15,6 +15,9 @@ use \App\configurar\CadastrarUsuario;
 use \App\configurar\AtribuirLead;
 use \App\configurar\MostrarLogs;
 
+use \App\configurar\Arquivo;
+use \App\EditarUser;
+
 
 ////
 
@@ -645,6 +648,136 @@ $app->post('/dashboard/configurar/log', function() {
 	
 
 });
+
+///
+
+
+
+
+$app->get('/dashboard/configurar/arquivos', function() {
+
+
+	LoginUser::verifyLogin();
+
+	LoginUser::verifyNivel2();
+
+
+	$datainicio = Arquivo::dataInicio();
+
+
+	if (!isset($_SESSION['datainicio'])) {
+	    $_SESSION['datainicio'] = $datainicio[0]['MIN(data)'];
+	  }
+
+	if (!isset($_SESSION['datafinal'])) {
+	    $_SESSION['datafinal'] = date('Y-m-d');
+	  }
+
+
+
+
+
+	$itemsPerPage = 10;
+
+	$arquivos = new Arquivo();
+	$arquivos->listaArquivos($itemsPerPage);
+
+
+	$tamanho = Arquivo::arquivoTamanhoTotal();
+	$totalArquivos = Arquivo::totalArquivos();
+	$rotaPastas = EditarUser::rotaPastas();
+
+
+
+	if ($tamanho[0]['sum(tamanho)'] >= 1000000) { 
+      $resultado = round($tamanho[0]['sum(tamanho)'] /1024 /1024,2) . " Mb"; 
+     
+    } else if ($tamanho[0]['sum(tamanho)'] >= 100) {
+       
+       $resultado = round($tamanho[0]['sum(tamanho)'] /1000,2) . " kb"; 
+       
+    } else { 
+    	
+
+    	if ($tamanho[0]['sum(tamanho)'] == null) {
+    		 $resultado = 0 . " bytes";
+    	}else{
+    		$resultado = $tamanho[0]['sum(tamanho)'] . " bytes";
+    		
+    	}
+
+    	 
+    }
+
+	
+//arrumar para update o delete
+	
+
+	require_once('../'.pastaPrincipal.'/views/'.header);
+
+
+	require_once('../'.pastaPrincipal.'/views/configurar/arquivo.php');
+
+
+
+	require_once('../'.pastaPrincipal.'/views/'.footer);
+
+
+
+	
+
+});
+
+
+
+
+$app->post('/dashboard/configurar/arquivos', function() {
+
+	
+	 $arquivos = new Arquivo();
+
+	$arquivos->setData($_POST);
+
+	
+
+
+	if (isset($_POST['page'])) {
+
+		$arquivos->paginavalor();
+
+	}else if (isset($_POST['deletar'])) {
+
+		$arquivos->paginavalor();
+
+		$arquivos->deletar();
+
+	}else if (isset($_POST['buscar'])){
+
+		$itemsPerPage = 2;
+
+		$arquivos->listaArquivos($itemsPerPage);
+
+	}
+
+
+header("location: /".pastaPrincipal."/dashboard/configurar/arquivos");
+     exit; 
+	
+
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

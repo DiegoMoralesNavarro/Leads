@@ -43,7 +43,7 @@ public $values = [];
 
 
 protected $fields = [
-	"idfollowup", "texto", "data", "idlead", "dataAtualizada", "imagem", "textofollow", "statusLead", "fileUpload"
+	"idfollowup", "texto", "data", "idlead", "dataAtualizada", "imagem", "textofollow", "statusLead", "fileUpload", "fileUpload"
 ];
 
 
@@ -53,22 +53,23 @@ protected $fields = [
 //get
 
 
-public static function listFolloUp($idlead){
-	$sql = new Sql();
+
+public static function listFolloUp1($idlead){
+  $sql = new Sql();
   $idcliente = $_SESSION['fk_id_cliente'];
 
 
-  $results = $sql->select("SELECT * FROM tb_followup inner join tb_user on tb_followup.fk_id_user = tb_user.id_user WHERE idlead = $idlead and tb_user.fk_id_cliente = $idcliente ORDER BY idfollowup DESC");
-
-  if (count($results) == 0 || count($results) == null) {
-      return $sql->select("SELECT * FROM tb_followup WHERE idlead = $idlead and tb_user.fk_id_cliente = $idcliente ORDER BY idfollowup DESC");
-  }else{
-      return $sql->select("SELECT * FROM tb_followup inner join tb_user on tb_followup.fk_id_user = tb_user.id_user WHERE idlead = $idlead and tb_user.fk_id_cliente = $idcliente ORDER BY idfollowup DESC");
-  }
+ 
+      return $sql->select("SELECT * FROM tb_followup left JOIN tb_arquivo on tb_followup.fk_idtarquivo = tb_arquivo.idtarquivo inner join tb_user on tb_followup.fk_id_user = tb_user.id_user WHERE idlead = $idlead and tb_user.fk_id_cliente = $idcliente ORDER BY idfollowup DESC;");
+ 
 
 
 
 }
+///////
+
+
+
 
 
 
@@ -131,7 +132,7 @@ public function cadastrarFollowUp($idlead){
   if ($this->gettextofollow() == "") {
       //vazio
     }else{
-       $results = $sql->select("INSERT INTO tb_followup (texto, data, idlead, dataAtualizada, fk_id_user, fk_id_cliente) VALUES (:texto, :data, $idlead, :dataAtualizada, :userId, :idcliente)", array(
+       $results = $sql->select("INSERT INTO tb_followup (texto, dataf, idlead, dataAtualizada, fk_id_user, fk_id_cliente) VALUES (:texto, :data, $idlead, :dataAtualizada, :userId, :idcliente)", array(
             ":texto"=>$this->gettextofollow(),
             ":data"=>date('Y-m-d'),
             ":dataAtualizada"=>date('Y-m-d H:i'),
@@ -171,61 +172,69 @@ public function cadastrarFollowUp($idlead){
 public function deletarFollowUp($idlead, $val){
 
 
-$sql = new Sql();
+  $sql = new Sql();
 
-$idcliente = $_SESSION['fk_id_cliente'];
-
-$imagemverifica = $sql->select("SELECT imagem FROM tb_followup WHERE idfollowup = $idlead and fk_id_cliente = $idcliente");
+  $idcliente = $_SESSION['fk_id_cliente'];
 
 
+  $tb_lead = $sql->select("SELECT * FROM tb_lead where idlead = $val and fk_id_cliente = $idcliente");
 
-$tb_lead = $sql->select("SELECT * FROM tb_lead where idlead = $val and fk_id_cliente = $idcliente");
+  $acao = "Deletado um Follow Up do lead <br> Nome: ". $tb_lead[0]['nome'];
 
-$acao = "Deletado um Follow Up do lead <br> Nome: ". $tb_lead[0]['nome'];
+  $log = new Logs($_SESSION["id_user"], date('Y-m-d H:i'), $acao);
 
-$log = new Logs($_SESSION["id_user"], date('Y-m-d H:i'), $acao);
+
+
+
+   $arquivo = $sql->select("SELECT * FROM tb_followup where idfollowup = $idlead");
+
+  
+
+
+   if ($arquivo[0]['fk_idtarquivo'] == null || $arquivo[0]['fk_idtarquivo'] == '') {
+
+
+
+     $results = $sql->select("DELETE FROM tb_followup WHERE idfollowup = $idlead and fk_id_cliente = $idcliente");
+
+     header("location: /".pastaPrincipal."/dashboard/follow-up/$val");
+   exit; 
+
+   
+   }else{
+
  
 
+    var_dump($idlead);//113
+    var_dump($val); // 166
 
- if ($imagemverifica[0]['imagem'] == '' || $imagemverifica == null){
-     
- }else{
-   $this->deleteImg($idlead);
-   
- }
+    $idtarquivo = $sql->select("SELECT * FROM tb_followup where idfollowup = $idlead");
 
-$idcliente = $_SESSION["fk_id_cliente"];
+    $arquivo = $idtarquivo[0]['fk_idtarquivo'];
 
-$results = $sql->select("DELETE FROM tb_followup WHERE idfollowup = $idlead and fk_id_cliente = $idcliente");
+
+    var_dump($arquivo);
 
 
 
-$valor = $sql->select("SELECT * FROM tb_followup WHERE idlead = $val and fk_id_cliente = $idcliente order by dataAtualizada desc limit 1");
+    $this->deleteImg($idlead, $val, $arquivo);
+
+    $results = $sql->select("DELETE FROM tb_arquivo WHERE idtarquivo = $arquivo and fk_id_cliente = $idcliente");
+
+    $results = $sql->select("DELETE FROM tb_followup WHERE idfollowup = $idlead and fk_id_cliente = $idcliente");
 
 
-if (count($valor) == 0 ) {
 
-  $sql = new Sql();
+    header("location: /".pastaPrincipal."/dashboard/follow-up/$val");
+   exit; 
+
+
+   }
+
+
+
+
   
-  $results2 = $sql->select("UPDATE tb_lead SET ultimo_followup = :dataAtualizada WHERE (idlead = '$val')", array(
-       ":dataAtualizada"=>"vazio"
-      ));
-
-
-  header("location: /".pastaPrincipal."/dashboard/follow-up/$val");
-   exit; 
-
-}else{
-
-  $sql = new Sql();
-  $results3 = $sql->select("UPDATE tb_lead SET ultimo_followup = :dataAtualizada WHERE (idlead = '$val')", array(
-       ":dataAtualizada"=>$valor[0]['dataAtualizada']
-      ));
-
-  header("location: /".pastaPrincipal."/dashboard/follow-up/$val");
-   exit; 
-   
-}
 
 
 
@@ -238,22 +247,36 @@ public function salvarFollowUp($idlead){
 
   $sql = new Sql();
 
-  $tb_followup = $sql->select("SELECT imagem FROM tb_followup where idfollowup = :idfollowup and fk_id_cliente = :idcliente",array(
-    
+
+
+
+  $tb_followup = $sql->select("SELECT * FROM tb_followup where idfollowup = :idfollowup and fk_id_cliente = :idcliente",array(
      ":idfollowup"=>$this->getidfollowup(),
      ":idcliente"=>$_SESSION["fk_id_cliente"]
     ));
+
+  var_dump($tb_followup);
+
+
+
  
 
 
-  if ($tb_followup[0]['imagem'] == null) {
+  if ($tb_followup[0]['fk_idtarquivo'] == null || $tb_followup[0]['fk_idtarquivo'] == '') {
 
-  
-  
+     echo "não tem";
 
-     if($_SERVER["REQUEST_METHOD"] === "POST"){
+    $this->salvarFollowUpSimples($idlead);
 
-        $file = $_FILES["fileUpload"];
+
+
+      if (isset($_FILES["fileUpload"])) {
+
+
+
+           $file = $_FILES["fileUpload"];
+
+         
 
 
         if ($file['name'] == '') {
@@ -271,8 +294,7 @@ public function salvarFollowUp($idlead){
           $idcliente = $_SESSION["fk_id_cliente"];
         $nomePasta = $sql->select("SELECT * FROM tb_cliente where id_cliente = $idcliente");
           
-          //criar um diretorio temporario
-          //criar um diretorio temporario
+
              $dirUpload = $nomePasta[0]['nome_pasta'];
 
           if(!is_dir('uploads/'.$dirUpload)){
@@ -285,6 +307,7 @@ public function salvarFollowUp($idlead){
           //pegar a ultima posição
           $extension = end($extension);
 
+
           if ($extension == 'png' || $extension == 'jpg' || $extension == 'jpeg') {
 
             $numero = rand(1, 900). "-";
@@ -294,65 +317,76 @@ public function salvarFollowUp($idlead){
               $tamanho = $file['size'];
 
               $arquivo = $numero . $file["name"];
-              var_dump( $arquivo);
 
 
-              $results = $sql->select("UPDATE tb_followup SET texto = :texto, dataAtualizada = :dataAtualizada, imagem = :imagem, tamanho = :tamanho, fk_id_user = :userId WHERE idfollowup = :idfollowup and fk_id_cliente = :idcliente", array(
-                      ":texto"=>$this->gettexto(),
-                       ":dataAtualizada"=>date('Y-m-d H:i'),
-                       ":imagem"=>$arquivo,
-                       ":tamanho"=>$tamanho,
-                       ":idfollowup"=>$this->getidfollowup(),
-                       ":userId"=>$_SESSION["id_user"],
-                       ":idcliente"=>$_SESSION["fk_id_cliente"]
-                      ));
 
-              $results2 = $sql->select("UPDATE tb_lead SET ultimo_followup = :dataAtualizada WHERE (idlead = '$idlead')", array(
-               ":dataAtualizada"=>date('Y-m-d H:i')
+
+              $results3 = $sql->select("INSERT INTO tb_arquivo (arquivo, tamanho, data, fk_idlead, fk_id_cliente, fk_idfollowup) VALUES (:arquivo, :tamanho, :data, :idlead, :idcliente, :idfollowup)", array(
+               ":arquivo"=>$arquivo,
+               ":tamanho"=>$tamanho,
+               ":data"=>date('Y-m-d'),
+               ":idlead"=>$idlead,
+                ":idcliente"=>$_SESSION["fk_id_cliente"],
+                ":idfollowup"=>$this->getidfollowup()
+
               ));
 
+              $resul =  $sql->select("SELECT LAST_INSERT_ID()");
+              $idarquivo = $resul[0]['LAST_INSERT_ID()'];
 
-              $datacriado = $sql->select("SELECT data FROM tb_followup where idfollowup = :idfollowup and fk_id_cliente = $idcliente", array(
+              var_dump($idarquivo);
+
+              $results2 = $sql->select("UPDATE tb_followup SET fk_idtarquivo = :idarquivo WHERE (idfollowup = :idfollowup)", array(
+                ":idarquivo"=>$idarquivo,
                 ":idfollowup"=>$this->getidfollowup()
               ));
 
-              $tb_lead = $sql->select("SELECT * FROM tb_lead where idlead = $idlead and fk_id_cliente = $idcliente");
-
-              $acao = "Atualizado o Follow Up do lead <br> Nome: ". $tb_lead[0]['nome'] ."<br> Criado em: ". $datacriado[0]['data'];
-
-              $log = new Logs($_SESSION["id_user"], date('Y-m-d H:i'), $acao);
-                  
 
 
 
                header("location: /".pastaPrincipal."/dashboard/follow-up/$idlead");
                 exit;
 
+               } 
+
               
             }else{
 
              header("location: /".pastaPrincipal."/dashboard/follow-up/$idlead");
               exit;
-             }
-
-              
+            
 
           }
 
 
-        }
 
-  }else{
 
+      }
+
+
+   }else{
+
+    echo "string";
 
     $this->salvarFollowUpSimples($idlead);
 
+     header("location: /".pastaPrincipal."/dashboard/follow-up/$idlead");
+    exit;
 
-  }
+
+   }
+   
+ 
+
+
     
 
    
 }
+
+
+
+
 
 
 
@@ -377,21 +411,24 @@ public function salvarFollowUpSimples($idlead){
       ));
 
 
-    $datacriado = $sql->select("SELECT data FROM tb_followup where idfollowup = :idfollowup and fk_id_cliente = $idcliente", array(
+    $datacriado = $sql->select("SELECT dataf FROM tb_followup where idfollowup = :idfollowup and fk_id_cliente = $idcliente", array(
       ":idfollowup"=>$this->getidfollowup()
     ));
 
+  
+
     $tb_lead = $sql->select("SELECT * FROM tb_lead where idlead = $idlead and fk_id_cliente = $idcliente");
 
-    $acao = "Atualizado o Follow Up do lead <br> Nome: ". $tb_lead[0]['nome'] ."<br> Criado em: ". $datacriado[0]['data'];
+   
+
+    $acao = "Atualizado o Follow Up do lead <br> Nome: ". $tb_lead[0]['nome'] ."<br> Criado em: ". $datacriado[0]['dataf'];
 
     $log = new Logs($_SESSION["id_user"], date('Y-m-d H:i'), $acao);
 
 
 
 
-   header("location: /".pastaPrincipal."/dashboard/follow-up/$idlead");
-  exit;
+  
 
 }
 
@@ -437,7 +474,7 @@ public function salvarStatus($idlead){
 
 
 
-public function deleteImg($idlead){
+public function deleteImg($idlead, $val, $arquivo){
 
 
 
@@ -447,12 +484,12 @@ $sql = new Sql();
 $idcliente = $_SESSION['fk_id_cliente'];
 
 
-   $tb_arquivo = $sql->select("SELECT imagem FROM tb_followup where idfollowup = $idlead and fk_id_cliente = $idcliente");
+$idfollow = $this->getidfollowup();
+
+
+   $tb_arquivo = $sql->select("SELECT * FROM tb_arquivo where idtarquivo = $arquivo and fk_id_cliente = $idcliente");
 
   $nomePasta = $sql->select("SELECT * FROM tb_cliente where id_cliente = $idcliente ");
-
-
-    if(!$tb_arquivo == '' || !$tb_arquivo == null){
 
 
      
@@ -460,19 +497,61 @@ $idcliente = $_SESSION['fk_id_cliente'];
         $diretorio = dir($path);
 
          
-           unlink($path.$tb_arquivo[0]['imagem']);
+        unlink($path.$tb_arquivo[0]['arquivo']);
 
 
-         $results = $sql->select("UPDATE tb_followup SET dataAtualizada = :dataAtualizada, imagem = null, tamanho = null WHERE idfollowup = $idlead and fk_id_cliente = :idcliente", array(
-       ":dataAtualizada"=>date('Y-m-d H:i'),
-       ":idcliente"=>$_SESSION["fk_id_cliente"]
-      )); 
 
+}
+
+
+
+
+
+
+public function deleteImg2($idlead, $val){
+
+
+
+
+$sql = new Sql();
+
+$idcliente = $_SESSION['fk_id_cliente'];
+
+
+$idtarquivo = $sql->select("SELECT * FROM tb_followup where idfollowup = $idlead");
+
+$arquivo = $idtarquivo[0]['fk_idtarquivo'];
+
+
+
+
+  $tb_arquivo = $sql->select("SELECT * FROM tb_arquivo where idtarquivo = $arquivo and fk_id_cliente = $idcliente");
+
+  $nomePasta = $sql->select("SELECT * FROM tb_cliente where id_cliente = $idcliente ");
+
+
+     
+        $path = 'uploads/'.$nomePasta[0]['nome_pasta'].'/';
+        $diretorio = dir($path);
+
+         
+        unlink($path.$tb_arquivo[0]['arquivo']);
+
+
+
+
+    $resultsarquivo = $sql->select("DELETE FROM tb_arquivo WHERE idtarquivo = $arquivo and fk_id_cliente = $idcliente");
+
+    
+
+  $resulfollowup = $sql->select("UPDATE tb_followup SET fk_idtarquivo = NULL WHERE idfollowup = $idlead");
+
+
+ 
+
+    header("location: /".pastaPrincipal."/dashboard/follow-up/$val");
+   exit; 
    
-        
-
-   }
-
 
 
 

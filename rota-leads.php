@@ -263,9 +263,15 @@ $app->get('/dashboard/follow-up/:idlead', function($idlead){
 
 	$idlead = $idlead;
 
-	$followUp = FollowUp::listFolloUp($idlead);
+
+	$followUp = FollowUp::listFolloUp1($idlead);
+
+
+
 
 	$followUpVazio = FollowUp::listFolloUpVazio($idlead);
+
+
 
 	$lead = FollowUp::listLead($idlead);
 
@@ -275,9 +281,11 @@ $app->get('/dashboard/follow-up/:idlead', function($idlead){
 
 
 ///
-	$img = FollowUp::selectImg($idlead);
+	//$img = FollowUp::selectImg($idlead);
 
 	$rotaPastas = EditarUser::rotaPastas();
+
+	// var_dump($followUp);
 
 
 
@@ -322,6 +330,8 @@ $app->post('/dashboard/follow-up/:idlead', function($idlead) {
 
 	header("location: /".pastaPrincipal."/dashboard/follow-up/$idlead");
   	 exit; 
+
+
 
 });
 

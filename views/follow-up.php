@@ -116,15 +116,13 @@ if (isset($_COOKIE['Atualizado'])) {
 
 
 
-
-
     	<?php foreach ($followUp as $value) { ?>
 
     	<form role="form" action="/<?php echo pastaPrincipal ?>/dashboard/follow-up/<?php echo $idlead; ?>" method="post" enctype="multipart/form-data">
 
     		<div class="col s12 linha">
     			<div class="col s12 l3">
-    				<p>Criado em: <?php echo date('d/m/Y', strtotime($value['data'])); ?></p>
+    				<p>Criado em: <?php echo date('d/m/Y', strtotime($value['dataf'])); ?></p>
 				</div>
 				<div class="col s12 l9">
 				<p>Ultima atualização: <?php echo date('d/m/Y H:i', strtotime($value['dataAtualizada']));?>
@@ -160,7 +158,7 @@ if (isset($_COOKIE['Atualizado'])) {
 				</div>
 
 				<div class=" input-field col s12 l9" style="margin-top: -1rem;">
-			        	<?php if ($value['imagem'] == null || $value['imagem'] == '') {
+			        	<?php if ($value['arquivo'] == null || $value['arquivo'] == '') {
 			        		?>
 			        		<div class="file-field input-field ">
 					            <div class="btn">
@@ -185,13 +183,13 @@ if (isset($_COOKIE['Atualizado'])) {
 			        		<tbody>
 									<tr>
 										<td>
-											<?php echo $value['imagem']; ?>
+											<?php echo $value['arquivo']; ?>
 										</td>
 
 										<td>
 
 											<a class="waves-effect waves-light btn-small" 
-								 href="<?php echo URLestilo ?>/<?php echo $path . $value['imagem'] ?>" target="_blank">Ver</a>
+								 href="<?php echo URLestilo ?>/<?php echo $path . $value['arquivo'] ?>" target="_blank">Ver</a>
 
 								 			<a class=" red accent-4 btn-small" 
 								 href="<?php echo $value['idfollowup'] ?>/delete-img/?id=<?php echo $lead[0]['idlead']; ?>" onclick="return confirm('Deseja realmente excluir este Arquivo?')" >Excluir</a>
@@ -214,13 +212,8 @@ if (isset($_COOKIE['Atualizado'])) {
 
 
 
-<!-- <div class="row">
-    <div class="col s12">
-      <blockquote>Quando estiver escrito <strong>VAZIO</strong> significa que o usuário que fez a última atualização foi DELETADO </blockquote>
-     </div>
-  </div> -->
 
-<!-- CRIAR UMA REGRA PARA ESCONDER O STATUS NOVO -->
+    	<!-- CRIAR UMA REGRA PARA ESCONDER O STATUS NOVO -->
 
 
 
@@ -232,7 +225,7 @@ if (isset($_COOKIE['Atualizado'])) {
 
 		    		<div class="col s12 linha">
 		    			<div class="col s12 l3">
-		    				<p>Criado em: <?php echo date('d/m/Y', strtotime($value['data'])); ?></p>
+		    				<p>Criado em: <?php echo date('d/m/Y', strtotime($value['dataf'])); ?></p>
 						</div>
 						<div class="col s12 l9">
 						<p>Ultima atualização: <?php echo date('d/m/Y H:i', strtotime($value['dataAtualizada']));?> - <strong><?php echo "vazio";?> </strong>
@@ -263,7 +256,7 @@ if (isset($_COOKIE['Atualizado'])) {
 						</div>
 
 						<div class=" input-field col s12 l9" style="margin-top: -1rem;">
-					        	<?php if ($value['imagem'] == null || $value['imagem'] == '') {
+					        	<?php if ($value['arquivo'] == null || $value['arquivo'] == '') {
 					        		?>
 					        		<div class="file-field input-field ">
 							            <div class="btn">
@@ -285,13 +278,13 @@ if (isset($_COOKIE['Atualizado'])) {
 					        		<tbody>
 											<tr>
 												<td>
-													<?php echo $value['imagem']; ?>
+													<?php echo $value['arquivo']; ?>
 												</td>
 
 												<td>
 
 													<a class="waves-effect waves-light btn-small" 
-								 href="<?php echo URLestilo ?>/<?php echo $path . $value['imagem'] ?>" target="_blank">Ver</a>
+								 href="<?php echo URLestilo ?>/<?php echo $path . $value['arquivo'] ?>" target="_blank">Ver</a>
 
 								 			<a class=" red accent-4 btn-small" 
 								 href="<?php echo $value['idfollowup'] ?>/delete-img/?id=<?php echo $lead[0]['idlead']; ?>" onclick="return confirm('Deseja realmente excluir este Arquivo?')" >Excluir</a>
@@ -310,6 +303,9 @@ if (isset($_COOKIE['Atualizado'])) {
 
 
 		    	<?php } ?>
+
+
+
 
 
 

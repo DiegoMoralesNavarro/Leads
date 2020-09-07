@@ -41,10 +41,14 @@
         </div>
 
         <div class="input-field col s12">
+
           <i class="material-icons prefix">phone_iphone</i>
-          <label for="telefone">Telefone* 119000-0000</label>
           <input type="tel" id="telefone" maxlength="14"  name="telefone" required="" class="validate" data-js="phone">
+          <label for="telefone">Telefone* 119000-0000</label>
+
         </div>
+
+
 
         <div class="input-field col s12">
           <i class="material-icons prefix">mail</i>

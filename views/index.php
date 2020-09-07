@@ -16,6 +16,11 @@ $qtd = count($diretorio) - 2;
 $fileInfo2 = "'777-corporate.jpg','833-dormitorios.jpg'";
 
 
+echo $idcliente = $_SESSION["fk_id_cliente"];
+echo "<br>";
+echo "<br>";
+echo "<br>";
+
 
 
 
@@ -41,7 +46,7 @@ foreach (new DirectoryIterator($path) as $fileInfo) {
 
     } else if ($tamanho >= 100) {
        
-       $resultado = round($tamanho /1024,2) . " kb"; 
+       $resultado = round($tamanho /1000,2) . " kb"; 
 
     } else { 
     	$resultado = $tamanho . " bytes"; 

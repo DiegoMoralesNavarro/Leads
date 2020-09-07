@@ -11,7 +11,7 @@ define("header", "header.php");
 
 define("footer", "footer.php");
 
-define("URLestilo", "http://localhost/leads");
+define("URLestilo", "https://agencianovaacao.com.br/leads");
 
 define("pastaPrincipal", "leads");
 
@@ -29,10 +29,6 @@ use \App\CriarLeads;
 use \App\VerLeads;
 use \App\FollowUp;
 use \App\StatusLista;
-
-use \App\configurar\Arquivo;
-
-
 
 use \App\configurar\AtualizarUsuarioDados;
 
@@ -66,7 +62,7 @@ $app->post('/', function() {
 
 	LoginUser::login($_POST["user"],$_POST["senha"]);
 
-	
+
 
 	header("Location: /leads/dashboard/");
 	exit;
@@ -94,40 +90,6 @@ require_once("rota-admin.php");
 
 
 require_once("rota-leads.php");
-
-
-
-
-$app->get('/dashboard/buscar', function() {
-
-require_once('../'.pastaPrincipal.'/views/'.header);
-
-
-
-
-	require_once('../'.pastaPrincipal.'/index2.php');
-
-		require_once('../'.pastaPrincipal.'/views/'.footer);
-
-	//$user = EditarUser::listAll(); ///
-
-	//var_dump($user);
-
-	
-});	
-
-
-$app->post('/dashboard/buscar', function() {
-
-
-	
-	
-});	
-
-
-
-
-
 
 
 
@@ -225,6 +187,9 @@ $app->get('/dashboard/follow-up/:idlead/delete-img/', function($idlead){
 
 
 
+
+
+
 $app->get('/dashboard/status-lista/:idlead/delete', function($idlead) {
 
 	if (isset($_GET['idstatus'])) {
@@ -240,6 +205,7 @@ $app->get('/dashboard/status-lista/:idlead/delete', function($idlead) {
 });
 
 
+
 $app->get('/dashboard/lead-espera/:idlead/delete', function($idlead) {
 
 
@@ -252,6 +218,8 @@ $app->get('/dashboard/lead-espera/:idlead/delete', function($idlead) {
   	exit; 
 
 });
+
+
 
 
 
@@ -274,6 +242,7 @@ $app->get('/dashboard/configurar/atualizar-usuario/:id/delete/', function($id){
 
 
 
+
 $app->get('/dashboard/configurar/arquivos/:id/delete/', function($id){
 
 
@@ -286,8 +255,6 @@ $app->get('/dashboard/configurar/arquivos/:id/delete/', function($id){
 	
 
 });
-
-
 
 
 

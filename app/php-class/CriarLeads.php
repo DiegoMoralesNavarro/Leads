@@ -111,8 +111,8 @@ public function save(){
           //criar um diretorio temporario
           $dirUpload = $nomePasta[0]['nome_pasta'];
 
-          if(!is_dir('uploads/'.$dirUpload)){
-            mkdir('uploads/'.$dirUpload);
+          if(!is_dir('uploads/'.$dirUpload.'/')){
+            mkdir('uploads/'.$dirUpload.'/');
           }
 
         //PEGAR o nome do arquivo

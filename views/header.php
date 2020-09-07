@@ -28,11 +28,16 @@ if ($pathFragments[3] == '') {
 
 
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
- 
+   <script src="<?php echo URLestilo; ?>/materialize/js/jquery-3.5.0.min.js"></script>
   <link rel="stylesheet" type="text/css" href="<?php echo URLestilo; ?>/materialize/css/materialize.css" > 
   <link rel="stylesheet" type="text/css" href="<?php echo URLestilo; ?>/materialize/css/lead.css">
   
- 
+<!-- <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"> -->
+
+
 
 
 </head>

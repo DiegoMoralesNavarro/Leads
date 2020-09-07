@@ -113,7 +113,7 @@ public static function status(){
 
   $idcliente = $_SESSION['fk_id_cliente'];
 
-  return $sql->select("SELECT * FROM tb_status");
+  return $sql->select("SELECT * FROM tb_status where fk_id_cliente = $idcliente or fk_id_cliente = 0");
 
 }
 
@@ -235,46 +235,51 @@ public function deleteUser($idlead){
   }
 
 
-  $tb_arquivo = $sql->select("SELECT * FROM tb_arquivo where fk_idlead = $idlead and fk_id_cliente = $idcliente");
+
   
-  $idcliente = $_SESSION["fk_id_cliente"];
-  $nomePasta = $sql->select("SELECT * FROM tb_cliente where id_cliente = $idcliente");
+  $tb_arquivo = $sql->select("SELECT * FROM tb_arquivo where fk_idlead = $idlead and fk_id_cliente = $idcliente");
+
+
 
 
   if(count($tb_arquivo) > 0){
-      $results = $sql->select("DELETE FROM tb_arquivo WHERE fk_idlead = $idlead");
 
-      $path = 'uploads/'.$nomePasta[0]['nome_pasta'].'/';
-      $diretorio = dir($path);
-
-      
-       unlink($path.$tb_arquivo[0]['arquivo']);
-
-  }
+     $nomePasta = $sql->select("SELECT * FROM tb_cliente where id_cliente = $idcliente ");
 
   
 
+       for ($i=0; $i < count($tb_arquivo) ; $i++) { 
 
-  $arquivosTotal = $sql->select("SELECT * FROM tb_followup where imagem NOT LIKE '' and idlead = $idlead");
-
-  if(count($arquivosTotal) > 0){
-
-       for ($i=0; $i < count($arquivosTotal) ; $i++) { 
 
            $path = 'uploads/'.$nomePasta[0]['nome_pasta'].'/';
             $diretorio = dir($path);
+
+
              
-            unlink($path.$arquivosTotal[$i]['imagem']); 
+            unlink($path.$tb_arquivo[$i]['arquivo']); 
 
        }
        
   }
 
 
+  if (count($tb_arquivo) > 0) {
+
+    $results = $sql->select("DELETE FROM tb_arquivo WHERE fk_idlead = $idlead");
+    
+  }
+
+
+
+
   $tb_followup = $sql->select("SELECT * FROM tb_followup where idlead = $idlead");
 
+
+
   if(count($tb_followup) > 0){
-  $results = $sql->select("DELETE FROM tb_followup WHERE idlead = $idlead");
+
+  $results = $sql->select("DELETE FROM tb_followup WHERE idlead = $idlead and fk_id_cliente = $idcliente");
+
 
   }
 
