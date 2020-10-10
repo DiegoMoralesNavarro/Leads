@@ -69,19 +69,43 @@ if (isset($_COOKIE['Atualizado'])) {
 
 			<div class="input-field col s12 l12">
 
-				<div class="input-field col s6">
+				<div class="input-field col s12 l5">
 			        <i class="material-icons prefix">assignment_turned_in</i>
 		          	<input id="nomelogin" type="text" class="validate" name="user" value="<?php echo $usuarioDados[0]['user'] ?>">
 		          	<label for="nomelogin">Nome de login</label>
 				</div>
 
-				<div class="input-field col s6">
+				<div class="input-field col s12 l5">
 			        <i class="material-icons prefix">email</i>
 		          	<input id="email" type="email" class="validate" name="email" value="<?php echo $usuarioDados[0]['email'] ?>">
 		          	<label for="email">E-mail</label>
 				</div>
 
 			</div>
+
+
+			<?php
+				function selectedStatus( $value, $selected ){
+				    return $value==$selected ? ' selected="selected"' : '';
+				}
+			?>
+
+
+
+
+			<div class="input-field col s12 ">
+
+				<div class="input-field col s12 l5">
+					<i class="material-icons prefix">camera_front</i>
+					<select name="status">
+				      <option <?php echo selectedStatus( "1", $usuarioDados[0]['user_status'] ); ?> value="1">Ativo</option>
+				      <option <?php echo selectedStatus( "2", $usuarioDados[0]['user_status'] ); ?> value="2">Bloqueado</option>
+				    </select>
+				    <label>Status</label>
+				</div>
+	          	
+			</div>
+
 
 			<div class="input-field col s12 ">
 

@@ -11,8 +11,9 @@ use \App\FollowUp;
 use \App\StatusLista;
 use \App\LoginUser;
 use \App\AjaxNomes2;
+use \App\Lembrete;
 
-
+use \App\configurar\AtribuirLead;
 
 ////
 
@@ -73,13 +74,22 @@ if (isset($_GET['followup'])) {
 	$tempotres = VerLeads::novoLeadsDoisDias($dataE);
 
 	
-
-
-	
 	
 
 	$status = VerLeads::status();
 	$totalStatus = VerLeads::totalStatus();
+
+
+
+	
+	$responsavelTotal = AtribuirLead::responsavelTotal();
+	$responsavelTotalLead = AtribuirLead::responsavelTotalLead();
+	$responsavelMeuLead = AtribuirLead::responsavelMeuLead();
+
+
+	$followMinhaLista = Lembrete::followMinhaLista();
+
+
 
 	require_once('../'.pastaPrincipal.'/views/index.php');
 
@@ -268,8 +278,11 @@ $app->get('/dashboard/follow-up/:idlead', function($idlead){
 
 
 
+	
 
 	$followUpVazio = FollowUp::listFolloUpVazio($idlead);
+
+
 
 
 
@@ -281,11 +294,18 @@ $app->get('/dashboard/follow-up/:idlead', function($idlead){
 
 
 ///
-	//$img = FollowUp::selectImg($idlead);
+
 
 	$rotaPastas = EditarUser::rotaPastas();
 
-	// var_dump($followUp);
+	$responsavel = EditarUser::responsavel($idlead);
+
+	
+
+
+	$totalLembrete = Lembrete::totalLembrete();
+
+	
 
 
 
@@ -318,6 +338,17 @@ $app->post('/dashboard/follow-up/:idlead', function($idlead) {
 	if (isset($_POST['texto'])) {
 		$user->salvarFollowUp($idlead);
 	}
+
+	if (isset($_POST['posse'])) {
+		$user->tomarPosseLead3($idlead);
+	}
+
+	if (isset($_POST['imprimirsimples'])) {
+		$user->imprimirSimples($idlead);
+
+		
+	}
+
 
 
 	
@@ -456,6 +487,8 @@ $app->post('/dashboard/status', function() {
 
 	 $user->setData($_POST);
 
+	 // var_dump($user);
+
 	if (isset($_POST['tipostatus'])) {
 		$user->saveStatus();
 		
@@ -540,16 +573,156 @@ $app->post('/dashboard/status-lista/:idstatus', function($idstatus) {
 		$user->imprimir($val, $page, $itemsPerPage, $idstatus);
 		
 	}
+
+	if (isset($_POST['imprimirSimplesFollowup'])) {
+		$user->imprimirSimplesFollowup($idstatus);
+		
+	}
+	
+
+	if (isset($_POST['imprimirFollowup'])) {
+		$user->imprimirFollowup($val, $page, $itemsPerPage, $idstatus);
+		
+	}
+
 	
 
 
- //     header("location: /".pastaPrincipal."/dashboard/status-lista/:idstatus");
- //     exit;
+     // header("location: /".pastaPrincipal."/dashboard/status-lista/:idstatus");
+     // exit;
 
 });
 
 
 
+
+////
+
+
+
+
+$app->get('/dashboard/lembrete/:idfollow', function($idfollow) {
+
+	LoginUser::verifyLogin();
+
+	//LoginUser::verifyNivel2();
+
+	$follow = Lembrete::follow($idfollow);
+
+	$followLembrete = Lembrete::followLembrete($idfollow);
+
+
+	$followUsuario = Lembrete::followUsuario();
+
+
+	
+
+
+
+
+	require_once('../'.pastaPrincipal.'/views/'.header);
+	
+	require_once('../'.pastaPrincipal.'/views/lembrete.php');
+
+	require_once('../'.pastaPrincipal.'/views/'.footer);
+
+});
+
+$app->post('/dashboard/lembrete/:idfollow', function($idfollow) {
+
+	 $user = new Lembrete();
+
+	 $user->setData($_POST);
+
+
+
+
+	 
+
+	if (isset($_POST['textolembrete'])) {
+		$user->cadastrarLembrete($idfollow);
+	}
+
+	if (isset($_POST['textolembretenovo'])) {
+		$user->atualizarLembrete($idfollow);
+	}
+	
+	
+
+	 
+	 
+
+	 setcookie("Atualizado", "Atualizado");
+
+	 header("location: /".pastaPrincipal."/dashboard/lembrete/$idfollow");
+  	 exit; 
+
+});
+
+
+
+
+
+
+
+$app->get('/dashboard/meus-lembretes', function() {
+
+	LoginUser::verifyLogin();
+
+	
+	if (isset($_GET['page'])) {
+		$page = $_GET['page'];
+	}else{
+		$page = 1;
+	}
+
+
+
+	$itemsPerPage = 30;
+
+	$lembrete = new Lembrete();
+	$lembrete->TodosMeusLembretes($page, $itemsPerPage);
+
+	// var_dump($lembrete);
+	
+
+
+
+
+	require_once('../'.pastaPrincipal.'/views/'.header);
+	
+	require_once('../'.pastaPrincipal.'/views/meus-lembretes.php');
+
+	require_once('../'.pastaPrincipal.'/views/'.footer);
+
+});
+
+
+
+
+
+$app->post('/dashboard/meus-lembretes', function() {
+
+	$lembrete = new Lembrete();
+
+	$lembrete->setData($_POST);
+
+	
+});
+
+
+$app->get('/dashboard/meus-lembretes/:idlembrete/delete/:idfollow', function($idlembrete, $idfollow) {
+
+	$lembrete = new Lembrete();
+
+	$lembrete->deletarMeuLembrete($idlembrete, $idfollow);
+
+	header("Location: /".pastaPrincipal."/dashboard/meus-lembretes");
+ 	exit;
+
+
+	
+});
 
 
 

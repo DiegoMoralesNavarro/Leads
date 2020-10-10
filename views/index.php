@@ -6,58 +6,58 @@
 
 
 
-$path = "uploads/leads/";
-$tamanho = 0;
-$resultado = 0;
+// $path = "uploads/leads/";
+// $tamanho = 0;
+// $resultado = 0;
 
-$diretorio = scandir($path);
-$qtd = count($diretorio) - 2;
+// $diretorio = scandir($path);
+// $qtd = count($diretorio) - 2;
 
-$fileInfo2 = "'777-corporate.jpg','833-dormitorios.jpg'";
-
-
-echo $idcliente = $_SESSION["fk_id_cliente"];
-echo "<br>";
-echo "<br>";
-echo "<br>";
+// $fileInfo2 = "'777-corporate.jpg','833-dormitorios.jpg'";
 
 
+// echo $idcliente = $_SESSION["fk_id_cliente"];
+// echo "<br>";
+// echo "<br>";
+// echo "<br>";
 
 
 
-// Loop que gera registros 
-foreach (new DirectoryIterator($path) as $fileInfo) { 
 
 
-    if($fileInfo->isDot()) continue;
+// // Loop que gera registros 
+// foreach (new DirectoryIterator($path) as $fileInfo) { 
 
-   //echo $fileInfo->getFilename();
+
+//     if($fileInfo->isDot()) continue;
+
+//    //echo $fileInfo->getFilename();
    
 
-    $fs = $fileInfo->getSize(); 
-	$tamanho += $fs;
+//     $fs = $fileInfo->getSize(); 
+// 	$tamanho += $fs;
    
-}
+// }
 
 
 
-    if ($tamanho >= 1000000) { 
-      $resultado = round($tamanho /1024 /1024,2) . " Mb"; 
+//     if ($tamanho >= 1000000) { 
+//       $resultado = round($tamanho /1024 /1024,2) . " Mb"; 
 
-    } else if ($tamanho >= 100) {
+//     } else if ($tamanho >= 100) {
        
-       $resultado = round($tamanho /1000,2) . " kb"; 
+//        $resultado = round($tamanho /1000,2) . " kb"; 
 
-    } else { 
-    	$resultado = $tamanho . " bytes"; 
+//     } else { 
+//     	$resultado = $tamanho . " bytes"; 
         
 
-    }
+//     }
 
 
-echo "Total de arquivos: ".$qtd;
-echo "<br>";
-echo "Consumo em disco: ".$resultado;
+// echo "Total de arquivos: ".$qtd;
+// echo "<br>";
+// echo "Consumo em disco: ".$resultado;
 
 
 
@@ -74,7 +74,22 @@ echo "Consumo em disco: ".$resultado;
 
   <div class="row">
     <div class="col s12">
-      <h1>Dashboard</h1>
+
+      	<div class="col s11 l9"> <h1>Dashboard</h1> </div>
+
+      	<?php if (count($followMinhaLista) >= 1) { ?>
+
+      		<div class="col s1 l3 right-align">
+	       		<a href="<?php echo URLestilo ?>/dashboard/#lembrete" 
+	  			class="btn-floating btn-small waves-effect yellow accent-4 heartbeat" style="padding: 0 0px!important;">
+	  			<i class="material-icons" >notifications_active</i></a>
+	  		</div>
+      		
+      	<?php } ?>
+
+      	
+  		<div class="col s12 linha ">
+		</div>
      
      </div>
   </div>
@@ -465,7 +480,9 @@ function selected( $value, $selected ){
     	<h4>Status dos Lead</h4>
       
        <blockquote>Total geral dos Status</blockquote>
+       <br>
     </div>
+
  
 
 <?php
@@ -515,6 +532,159 @@ foreach ($status as $value) {
 
  </div>
 
+
 </div>
+
+
+
+<div class="container">
+
+  	<div class="row status">
+
+  		<div class="col s12">
+	    	<h4>Gerenciar Responsável por Lead</h4>
+	      
+	       <blockquote>Não esta sendo exibido o Lead finalizado ou configurado como invisível.</blockquote>
+	       <br>
+	    </div>
+
+
+  		<div class="col s12 form center-align">
+
+    	
+			<div class="col s12 m4">
+		        <div class="card-content center-align">
+
+		          <i class="material-icons prefix " style="font-size: 70px; ">folder</i> 
+		          <h4 style="margin-top: 2px;"><strong>Atribuir lead</strong></h4>
+		          <a href="<?php echo URLestilo ?>/dashboard/configurar/atribuir-lead/novo">Lead sem responável: <strong><?php echo $responsavelTotal[0]['count(*)']; ?></strong></a>
+
+		          
+		          <br>
+		        </div>
+		    </div>
+
+		    <div class="col s12 m4">
+		        <div class="card-content center-align">
+
+		          <i class="material-icons prefix " style="font-size: 70px; ">folder_shared</i> 
+		          <h4 style="margin-top: 2px;"><strong>Responsável por lead</strong></h4>
+		          <a href="<?php echo URLestilo ?>/dashboard/configurar/responsavel-lead">Lead com responável: <strong><?php echo $responsavelTotalLead[0]['count(*)']; ?></strong></a>
+
+		          
+		          <br>
+		        </div>
+		    </div>
+
+		    <div class="col s12 m4">
+		        <div class="card-content center-align">
+
+		          <i class="material-icons prefix " style="font-size: 70px; color: #64dd17;">folder_special</i> 
+		          <h4 style="margin-top: 2px;"><strong>Meu lead</strong></h4>
+		          <a href="<?php echo URLestilo ?>/dashboard/configurar/meu-lead">Você está responável por: <strong><?php echo $responsavelMeuLead[0]['count(*)']; ?></strong></a>
+
+		          
+		          <br>
+		        </div>
+		    </div>
+
+		</div>
+
+
+	</div>
+
+</div>  
+
+
+
+<div class="container">
+
+  	<div class="row status">
+
+  		<div id="lembrete" class="col s12">
+	    	<h4>Meus lembretes</h4>
+	      
+	       <blockquote>O lembrete esta associado ao Follow Up </blockquote>
+	       <br>
+	    </div>
+
+	    <div class="col s12 form ">
+
+	    	<div class="right-align">
+	    		<a href="meus-lembretes" class="right-align">Ver todos<i class="material-icons" style="font-size: 18px;" >notifications_active</i></a>
+  			</div>
+
+	    	<div class="input-field col s12 center-align">
+
+	    		<h4><strong>Meu lembrete do dia</strong></h4>
+
+	            <table class="highlight">
+	                  <thead>
+	                    <tr>
+	                        <th>Data do lembrete </th>
+	                        <th>Descrição</th>
+	                        <th>Nome do lead</th>
+	                        <th>Ver Follow Up</th>
+	                    </tr>
+	                  </thead>
+
+	                  <tbody>
+
+	                    <?php if ($followMinhaLista == null || $followMinhaLista == ""){ ?>
+	                      
+	                      <tr>
+	                        <td>xx</td>
+	                        <td>vazio</td>
+	                        <td></td>
+	                        <td></td>
+	                      </tr>
+
+
+	                    <?php }else{ ?>
+
+	                      <?php foreach ($followMinhaLista as $value) { ?>
+
+	                        <tr>
+
+
+	                          <td><?php echo date('d/m/Y', strtotime($value['data_lembrete']));?></td>
+
+	                          <td>
+	                            <?php echo $value['texto_lembrete'] ?>
+	                          </td>
+
+	                          <td>
+	                            <?php echo $value['nome'] ?>
+	                          </td>
+
+	                          <td>
+
+	                            
+	                          	<a href="follow-up/<?php echo $value['fk_idlead']?>#follow<?php echo $value['fk_idfollowup']?>" class="btn-floating btn-small waves-effect light-green " style="padding: 0 0px!important;"><i class="material-icons" >done_all</i></a>
+
+	                          </td>
+
+	                        </tr>
+
+	                      <?php } ?>
+
+
+	                    <?php } ?>
+
+
+
+	                  </tbody>
+	                </table>
+
+	         </div>
+
+
+
+  		</div>
+  		
+
+  	</div>
+
+</div>  	
 
 <br><br><br><br>

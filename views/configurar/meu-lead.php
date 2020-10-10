@@ -22,32 +22,13 @@ if (isset($_GET['pesquisa'])) {
 
 
 
-<?php 
-
-if (isset($_COOKIE['Atualizado'])) {
-	?> 
-	<script>
-		window.addEventListener("load", function() {
-	    M.toast({html: 'Atualizado'})
-	  });
-	</script>
-	<?php
-	setcookie("Atualizado", '', time() - 2000);
-}else{
-
-}
-
-?>
-
-
-
 <div class="container">
 
   <div class="row">
     <div class="col s12">
-      <h1>Leads que não tem um responsável</h1>
+      <h1>Meu Lead</h1>
       
-       <blockquote>Atribua um lead a um funcionário.</blockquote>
+       <blockquote>Acompanhe ou atribua um novo responsável pelo Lead</blockquote>
      </div>
   </div>
 
@@ -67,7 +48,7 @@ if (isset($_COOKIE['Atualizado'])) {
 
   			<br><br>
 
-    	<form role="form" action="/<?php echo pastaPrincipal ?>/dashboard/configurar/atribuir-lead/novo?pesquisa=$pesquisa&page=$numero" method="get">
+    	<form role="form" action="/<?php echo pastaPrincipal ?>/dashboard/configurar/meu-lead?pesquisa=$pesquisa&page=$numero" method="get">
 
     		<div class="row">
 				<div class="input-field col s12 l9">
@@ -138,11 +119,8 @@ if (isset($_COOKIE['Atualizado'])) {
 							<td class="edite-form"> 
 								<?php if($_SESSION["nivel"] <= 2) { ?>
 
-								<a class="waves-effect light-green accent-4 btn-small" 
-								href="<?php echo URLestilo ?>/dashboard/configurar/meu-lead/<?php echo $value[$i]['idlead'] ?>">Tomar posse</a>
-
 								<a class="waves-effect waves-light btn-small" 
-								href="<?php echo URLestilo ?>/dashboard/configurar/atribuir-lead/novo/<?php echo $value[$i]['idlead'] ?>">Atribuir</a>
+								href="<?php echo URLestilo ?>/dashboard/configurar/atribuir-lead/novo/<?php echo $value[$i]['idlead'] ?>">Novo responsável</a>
 
 								<a class="waves-effect light-green btn-small" 
 								href="<?php echo URLestilo ?>/dashboard/follow-up/<?php echo $value[$i]['idlead']?>">Follow up</a>

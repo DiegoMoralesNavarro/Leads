@@ -31,6 +31,7 @@ use \App\FollowUp;
 use \App\StatusLista;
 
 use \App\configurar\Arquivo;
+use \App\Lembrete;
 
 
 
@@ -288,6 +289,22 @@ $app->get('/dashboard/configurar/arquivos/:id/delete/', function($id){
 });
 
 
+$app->get('/dashboard/lembrete/:idlembrete/delete/:idfollow', function($idlembrete, $idfollow) {
+
+
+
+
+	$user = new Lembrete();
+
+
+	$user->deletarLembrete($idlembrete, $idfollow);
+
+
+	 setcookie("Atualizado", "Atualizado");
+	header("location: /".pastaPrincipal."/dashboard/lembrete/$idfollow");
+  	exit; 
+
+});
 
 
 

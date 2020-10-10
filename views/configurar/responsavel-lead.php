@@ -41,7 +41,7 @@ if (isset($_GET['responsavel'])) {
     <div class="col s12">
       <h1>Reponsável pelo lead</h1>
       
-       <blockquote>Realize um pesquisa por responsável.</blockquote>
+       <blockquote>Realize um pesquisa por responsável.<br>Não é exibido Lead finalizado.</blockquote>
      </div>
   </div>
 
@@ -67,7 +67,7 @@ if (isset($_GET['responsavel'])) {
 				<div class="input-field col s12 l5">
 					<i class="material-icons prefix">textsms</i>
 			          <input type="text" id="autocomplete-input" class="autocomplete" name="pesquisa" value="<?php echo $valor; ?>">
-			          <label for="autocomplete-input">Nome do Usuario</label>
+			          <label for="autocomplete-input">Nome do Lead</label>
 				</div>
 
 
@@ -114,6 +114,7 @@ if (isset($_GET['responsavel'])) {
 						<th>Telefone</th>
 						<th>E-mail</th>
 						<th>Responsável</th>
+						<th>Último<br>Follow UP</th>
 						<th>Editar</th>
 					</tr>
 				</thead>
@@ -148,9 +149,23 @@ if (isset($_GET['responsavel'])) {
 							<td><?php echo $value[$i]['email']; ?></td>
 							<td><?php echo $value[$i]['user']; ?></td>
 
+							<td><?php if ($value[$i]['ultimo_followup'] == "vazio" || $value[$i]['ultimo_followup'] == null) {
+								echo "Não existe <br> Follow UP";
+							}else{
+								echo date('d/m/Y', strtotime($value[$i]['ultimo_followup']));
+							} ?>
+								
+							</td>
+
 							<td class="edite-form"> 
+								<?php if($_SESSION["nivel"] <= 2) { ?>
 								<a class="waves-effect waves-light btn-small" 
 								href="<?php echo URLestilo ?>/dashboard/configurar/atribuir-lead/existente/<?php echo $value[$i]['idlead'] ?>">Novo responsável</a>
+
+								<a class="waves-effect light-green btn-small" 
+								href="<?php echo URLestilo ?>/dashboard/follow-up/<?php echo $value[$i]['idlead']?>">Follow up</a>
+
+								 <?php }else{ echo "<p>Você não pode editar</p>"; } ?>
 
 							</td>
 						</tr>
@@ -164,6 +179,7 @@ if (isset($_GET['responsavel'])) {
 							<tr>
 								<td>xx</td>
 								<td>vazio</td>
+								<td></td>
 								<td></td>
 								<td></td>
 								<td></td>

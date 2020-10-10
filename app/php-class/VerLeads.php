@@ -76,12 +76,12 @@ public function listAll($val, $page, $itemsPerPage, $FollowUP)
    if ($val  == "") {
      
       $sql = new Sql();
-      $results = $sql->select("SELECT SQL_CALC_FOUND_ROWS * FROM tb_lead inner join tb_status ON tb_lead.fk_status = tb_status.idstatus inner join tb_origem_lead ON tb_lead.fk_origem_lead = tb_origem_lead.id_origem_lead where tb_lead.fk_id_cliente = $idcliente and idstatus not LIKE '2' ORDER BY $Follow LIMIT $start, $itemsPerPage");
+      $results = $sql->select("SELECT SQL_CALC_FOUND_ROWS * FROM tb_lead inner join tb_status ON tb_lead.fk_status = tb_status.idstatus inner join tb_origem_lead ON tb_lead.fk_origem_lead = tb_origem_lead.id_origem_lead where tb_lead.fk_id_cliente = $idcliente and idstatus not LIKE '2' and visivel not LIKE '0' ORDER BY $Follow LIMIT $start, $itemsPerPage");
 
       $this->setData($results);
 
 
-       $results2 = $sql->select("SELECT * FROM tb_lead inner join tb_status ON tb_lead.fk_status = tb_status.idstatus inner join tb_origem_lead ON tb_lead.fk_origem_lead = tb_origem_lead.id_origem_lead where nome like '%$val%' and tb_lead.fk_id_cliente = $idcliente and idstatus not LIKE '2' ");
+       $results2 = $sql->select("SELECT * FROM tb_lead inner join tb_status ON tb_lead.fk_status = tb_status.idstatus inner join tb_origem_lead ON tb_lead.fk_origem_lead = tb_origem_lead.id_origem_lead where nome like '%$val%' and tb_lead.fk_id_cliente = $idcliente and idstatus not LIKE '2' and visivel not LIKE '0'");
 
       $_SESSION["paginas"] = count($results2);
 
@@ -89,12 +89,12 @@ public function listAll($val, $page, $itemsPerPage, $FollowUP)
    }else{
     
     $sql = new Sql();
-      $results = $sql->select("SELECT SQL_CALC_FOUND_ROWS * FROM tb_lead inner join tb_status ON tb_lead.fk_status = tb_status.idstatus inner join tb_origem_lead ON tb_lead.fk_origem_lead = tb_origem_lead.id_origem_lead where nome like '%$val%' and tb_lead.fk_id_cliente = $idcliente and idstatus not LIKE '2' ORDER BY $Follow LIMIT $start, $itemsPerPage");
+      $results = $sql->select("SELECT SQL_CALC_FOUND_ROWS * FROM tb_lead inner join tb_status ON tb_lead.fk_status = tb_status.idstatus inner join tb_origem_lead ON tb_lead.fk_origem_lead = tb_origem_lead.id_origem_lead where nome like '%$val%' and tb_lead.fk_id_cliente = $idcliente and idstatus not LIKE '2' and visivel not LIKE '0' ORDER BY $Follow LIMIT $start, $itemsPerPage");
 
       $this->setData($results);
 
 
-       $results2 = $sql->select("SELECT * FROM tb_lead inner join tb_status ON tb_lead.fk_status = tb_status.idstatus inner join tb_origem_lead ON tb_lead.fk_origem_lead = tb_origem_lead.id_origem_lead where nome like '%$val%' and tb_lead.fk_id_cliente = $idcliente and idstatus not LIKE '2' ");
+       $results2 = $sql->select("SELECT * FROM tb_lead inner join tb_status ON tb_lead.fk_status = tb_status.idstatus inner join tb_origem_lead ON tb_lead.fk_origem_lead = tb_origem_lead.id_origem_lead where nome like '%$val%' and tb_lead.fk_id_cliente = $idcliente and idstatus not LIKE '2' and visivel not LIKE '0'");
 
       $_SESSION["paginas"] = count($results2);
 
@@ -283,6 +283,22 @@ public function deleteUser($idlead){
 
   }
 
+
+
+
+  $tb_lembrete = $sql->select("SELECT * FROM tb_lembrete where fk_idlead = $idlead");
+
+
+ if(count($tb_lembrete) > 0){
+
+  $results = $sql->select("DELETE FROM tb_lembrete WHERE fk_idlead = $idlead and fk_id_cliente = $idcliente");
+
+
+  }
+
+
+
+  
  
  
 

@@ -70,6 +70,12 @@ protected $fields = [
 			
 		}
 
+		if($results[0]['user_status'] === "2") {
+			header("Location: /leads/?login=bloqueado");
+			exit;
+			
+		}
+
 		$data = $results[0];
 		
 		if ($md5 === $data["senha"]){

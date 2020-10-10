@@ -62,7 +62,7 @@ public static function lead($id)
   {
     $sql = new Sql();
     $idcliente = $_SESSION['fk_id_cliente'];
-    return $sql->select("SELECT * FROM tb_user WHERE nivel NOT LIKE '1' and fk_id_cliente = '$idcliente'");
+    return $sql->select("SELECT * FROM tb_user WHERE fk_id_cliente = '$idcliente'");
   }
 
 
@@ -73,7 +73,29 @@ public static function responsavel($id)
     return $sql->select("SELECT * FROM tb_lead inner join tb_user on tb_lead.fk_id_user = tb_user.id_user WHERE idlead = $id and tb_lead.fk_id_cliente = '$idcliente'");
   }  
 
+public static function responsavelTotal()
+  {
+    $sql = new Sql();
+    $idcliente = $_SESSION['fk_id_cliente'];
+    return $sql->select("SELECT count(*) FROM tb_lead inner join tb_status ON tb_lead.fk_status = tb_status.idstatus where tb_lead.fk_id_user LIKE '0' and visivel not LIKE '0' and tb_lead.fk_status not LIKE '2'  and tb_lead.fk_id_cliente = '$idcliente'");
+  }  
 
+  public static function responsavelTotalLead()
+  {
+    $sql = new Sql();
+    $idcliente = $_SESSION['fk_id_cliente'];
+    return $sql->select("SELECT count(*) FROM tb_lead inner join tb_status ON tb_lead.fk_status = tb_status.idstatus where tb_lead.fk_id_user not LIKE '0' and visivel not LIKE '0' and tb_lead.fk_id_cliente = '$idcliente'");
+  }  
+
+
+  public static function responsavelMeuLead()
+  {
+    $sql = new Sql();
+    $idcliente = $_SESSION['fk_id_cliente'];
+    $iduser = $_SESSION["id_user"];
+    return $sql->select("SELECT count(*) FROM tb_lead inner join tb_status ON tb_lead.fk_status = tb_status.idstatus where tb_lead.fk_id_user LIKE '0' and tb_lead.fk_id_user = '$iduser' and visivel not LIKE '0' and tb_lead.fk_id_cliente = '$idcliente'");
+    
+  }  
 
 
 
@@ -88,12 +110,12 @@ public function atribuirNovo($val, $page, $itemsPerPage){
 
      
 		$sql = new Sql();
-	      $results = $sql->select("SELECT SQL_CALC_FOUND_ROWS * FROM tb_lead where fk_id_user LIKE '0' and fk_id_cliente = '$idcliente' ORDER BY data LIMIT $start, $itemsPerPage");
+	      $results = $sql->select("SELECT SQL_CALC_FOUND_ROWS * FROM tb_lead inner join tb_status on tb_lead.fk_status = tb_status.idstatus where fk_id_user LIKE '0' and fk_status not LIKE '2' and visivel not LIKE '0' and tb_lead.fk_id_cliente = '$idcliente' ORDER BY idlead desc LIMIT $start, $itemsPerPage");
 
 	      $this->setData($results);
 
 
-	      $results2 = $sql->select("SELECT * FROM tb_lead where fk_id_user LIKE '0' and fk_id_cliente = '$idcliente' AND nome like '%$val%' ");
+	      $results2 = $sql->select("SELECT * FROM tb_lead inner join tb_status on tb_lead.fk_status = tb_status.idstatus where fk_id_user LIKE '0' and fk_status not LIKE '2' and visivel not LIKE '0' and tb_lead.fk_id_cliente = '$idcliente' AND nome like '%$val%' ");
 
 	      $_SESSION["paginas"] = count($results2);
 
@@ -102,12 +124,12 @@ public function atribuirNovo($val, $page, $itemsPerPage){
 
 
       	$sql = new Sql();
-	      $results = $sql->select("SELECT SQL_CALC_FOUND_ROWS * FROM tb_lead where fk_id_user LIKE '0' AND nome like '%$val%' and fk_id_cliente = '$idcliente' ORDER BY data LIMIT $start, $itemsPerPage");
+	      $results = $sql->select("SELECT SQL_CALC_FOUND_ROWS * FROM tb_lead inner join tb_status on tb_lead.fk_status = tb_status.idstatus where fk_id_user LIKE '0' and visivel not LIKE '0' and fk_status not LIKE '2' AND nome like '%$val%' and tb_lead.fk_id_cliente = '$idcliente' ORDER BY idlead desc LIMIT $start, $itemsPerPage");
 
 	      $this->setData($results);
 
 
-	       $results2 = $sql->select("SELECT * FROM tb_lead where fk_id_user LIKE '0' and fk_id_cliente = '$idcliente' AND nome like '%$val%' ");
+	       $results2 = $sql->select("SELECT * FROM tb_lead inner join tb_status on tb_lead.fk_status = tb_status.idstatus where fk_id_user LIKE '0' and visivel not LIKE '0' and fk_status not LIKE '2' and tb_lead.fk_id_cliente = '$idcliente' AND nome like '%$val%' ");
 
 	      $_SESSION["paginas"] = count($results2);
 
@@ -164,12 +186,12 @@ public function atribuirExistente($val, $page, $itemsPerPage){
 
      
 		$sql = new Sql();
-	      $results = $sql->select("SELECT SQL_CALC_FOUND_ROWS * FROM tb_lead where fk_id_user NOT LIKE '0' and fk_id_cliente = '$idcliente' ORDER BY data LIMIT $start, $itemsPerPage");
+	      $results = $sql->select("SELECT SQL_CALC_FOUND_ROWS * FROM tb_lead where fk_id_user NOT LIKE '0' and fk_status not LIKE '2' and fk_id_cliente = '$idcliente' ORDER BY idlead desc LIMIT $start, $itemsPerPage");
 
 	      $this->setData($results);
 
 
-	      $results2 = $sql->select("SELECT * FROM tb_lead where fk_id_user NOT LIKE '0' and fk_id_cliente = '$idcliente' AND nome like '%$val%' ");
+	      $results2 = $sql->select("SELECT * FROM tb_lead where fk_id_user NOT LIKE '0' and fk_status not LIKE '2' and fk_id_cliente = '$idcliente' AND nome like '%$val%' ");
 
 	      $_SESSION["paginas"] = count($results2);
 
@@ -178,12 +200,12 @@ public function atribuirExistente($val, $page, $itemsPerPage){
 
 
       	$sql = new Sql();
-	      $results = $sql->select("SELECT SQL_CALC_FOUND_ROWS * FROM tb_lead where fk_id_user LIKE '0' AND nome like '%$val%' and fk_id_cliente = '$idcliente' ORDER BY data LIMIT $start, $itemsPerPage");
+	      $results = $sql->select("SELECT SQL_CALC_FOUND_ROWS * FROM tb_lead where fk_id_user LIKE '0' and fk_status not LIKE '2' AND nome like '%$val%' and fk_id_cliente = '$idcliente' ORDER BY idlead desc LIMIT $start, $itemsPerPage");
 
 	      $this->setData($results);
 
 
-	       $results2 = $sql->select("SELECT * FROM tb_lead where fk_id_user LIKE '0' AND nome like '%$val%' and fk_id_cliente = '$idcliente'");
+	       $results2 = $sql->select("SELECT * FROM tb_lead where fk_id_user LIKE '0' and fk_status not LIKE '2' AND nome like '%$val%' and fk_id_cliente = '$idcliente'");
 
 	      $_SESSION["paginas"] = count($results2);
 
@@ -220,12 +242,12 @@ public function atribuirResponsavel($val, $page, $itemsPerPage, $responsavel){
 
      
 		$sql = new Sql();
-	      $results = $sql->select("SELECT SQL_CALC_FOUND_ROWS * FROM tb_lead inner join tb_user on tb_lead.fk_id_user = tb_user.id_user where $valorResp and tb_user.fk_id_cliente = '$idcliente' ORDER BY tb_user.dataCriado LIMIT $start, $itemsPerPage");
+	      $results = $sql->select("SELECT SQL_CALC_FOUND_ROWS idlead, nivel, nome, telefone, tb_lead.email, user, ultimo_followup, fk_status FROM tb_lead inner join tb_user on tb_lead.fk_id_user = tb_user.id_user inner join tb_status on tb_lead.fk_status = tb_status.idstatus where $valorResp and fk_status not LIKE '2' and tb_status.visivel not LIKE '0' and tb_user.fk_id_cliente = '$idcliente' ORDER BY tb_user.dataCriado LIMIT $start, $itemsPerPage");
 
 	      $this->setData($results);
 
 
-	      $results2 = $sql->select("SELECT * FROM tb_lead inner join tb_user on tb_lead.fk_id_user = tb_user.id_user where $valorResp and tb_user.fk_id_cliente = '$idcliente' AND nome like '%$val%' ");
+	      $results2 = $sql->select("SELECT idlead, nivel, nome, telefone, tb_lead.email, user, ultimo_followup, fk_status FROM tb_lead inner join tb_user on tb_lead.fk_id_user = tb_user.id_user inner join tb_status on tb_lead.fk_status = tb_status.idstatus where $valorResp and fk_status not LIKE '2' and tb_status.visivel not LIKE '0' and tb_user.fk_id_cliente = '$idcliente' AND nome like '%$val%' ");
 
 	      $_SESSION["paginas"] = count($results2);
 
@@ -234,15 +256,63 @@ public function atribuirResponsavel($val, $page, $itemsPerPage, $responsavel){
 
 
       	$sql = new Sql();
-	      $results = $sql->select("SELECT SQL_CALC_FOUND_ROWS * FROM tb_lead inner join tb_user on tb_lead.fk_id_user = tb_user.id_user where $valorResp and tb_user.fk_id_cliente = '$idcliente' AND nome like '%$val%' ORDER BY tb_user.dataCriado LIMIT $start, $itemsPerPage");
+	      $results = $sql->select("SELECT SQL_CALC_FOUND_ROWS idlead, nivel, nome, telefone, tb_lead.email, user, ultimo_followup, fk_status FROM tb_lead inner join tb_user on tb_lead.fk_id_user = tb_user.id_user inner join tb_status on tb_lead.fk_status = tb_status.idstatus where $valorResp and fk_status not LIKE '2' and tb_status.visivel not LIKE '0' and tb_user.fk_id_cliente = '$idcliente' AND nome like '%$val%' ORDER BY tb_user.dataCriado LIMIT $start, $itemsPerPage");
 
 	      $this->setData($results);
 
 
 
-	       $results2 = $sql->select("SELECT * FROM tb_lead inner join tb_user on tb_lead.fk_id_user = tb_user.id_user where $valorResp and tb_user.fk_id_cliente = '$idcliente' AND nome like '%$val%' ");
+	       $results2 = $sql->select("SELECT idlead, nivel, nome, telefone, tb_lead.email, user, ultimo_followup, fk_status FROM tb_lead inner join tb_user on tb_lead.fk_id_user = tb_user.id_user inner join tb_status on tb_lead.fk_status = tb_status.idstatus where $valorResp and fk_status not LIKE '2' and tb_status.visivel not LIKE '0' and tb_user.fk_id_cliente = '$idcliente' AND nome like '%$val%' ");
 
 	      $_SESSION["paginas"] = count($results2);
+
+
+
+      }
+
+
+
+
+}
+
+
+
+
+
+
+
+public function meuLead($val, $page, $itemsPerPage){
+
+  $start = ($page - 1) * $itemsPerPage;
+  $idcliente = $_SESSION['fk_id_cliente'];
+  $iduser = $_SESSION["id_user"];
+
+  if ($val  == "") {
+
+     
+    $sql = new Sql();
+        $results = $sql->select("SELECT SQL_CALC_FOUND_ROWS * FROM tb_lead inner join tb_status on tb_lead.fk_status = tb_status.idstatus where fk_id_user = $iduser and tb_lead.fk_id_cliente = '$idcliente' and tb_lead.fk_status not LIKE '2' and visivel not LIKE '0' ORDER BY idlead desc LIMIT $start, $itemsPerPage");
+
+        $this->setData($results);
+
+
+        $results2 = $sql->select("SELECT * FROM tb_lead inner join tb_status on tb_lead.fk_status = tb_status.idstatus where fk_id_user = $iduser and tb_lead.fk_id_cliente = '$idcliente' and tb_lead.fk_status not LIKE '2' and visivel not LIKE '0' AND nome like '%$val%' ");
+
+        $_SESSION["paginas"] = count($results2);
+
+      }else{
+
+
+
+        $sql = new Sql();
+        $results = $sql->select("SELECT SQL_CALC_FOUND_ROWS * FROM tb_lead inner join tb_status on tb_lead.fk_status = tb_status.idstatus where fk_id_user = $iduser and tb_lead.fk_status not LIKE '2' and visivel not LIKE '0' AND nome like '%$val%' and tb_lead.fk_id_cliente = '$idcliente' ORDER BY idlead desc LIMIT $start, $itemsPerPage");
+
+        $this->setData($results);
+
+
+         $results2 = $sql->select("SELECT * FROM tb_lead inner join tb_status on tb_lead.fk_status = tb_status.idstatus where fk_id_user = $iduser and tb_lead.fk_id_cliente = '$idcliente' and tb_lead.fk_status not LIKE '2' and visivel not LIKE '0' AND nome like '%$val%' ");
+
+        $_SESSION["paginas"] = count($results2);
 
 
 

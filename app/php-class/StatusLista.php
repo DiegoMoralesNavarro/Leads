@@ -41,7 +41,7 @@ class StatusLista{
 
 
 
-    protected $fields = [ "pesquisa", "page", "imprimirsimples", "imprimir" ];
+    protected $fields = [ "pesquisa", "page", "imprimirsimples", "imprimir","visibilidade" ];
 
 
 // get
@@ -234,21 +234,21 @@ public static function imprimir($val, $page, $itemsPerPage, $idstatus){
     //declaramos uma variavel para monstarmos a tabela
     $dadosXls  = "";
     $dadosXls .= "  <table>";
-    $dadosXls .= "       <tr>";
-    $dadosXls .= "          <th>id</th>";
-    $dadosXls .= "          <th>nome</th>";
-    $dadosXls .= "          <th>empresa</th>";
-    $dadosXls .= "          <th>telefone</th>";
-    $dadosXls .= "          <th>email</th>";
+    $dadosXls .= "       <tr style='background: #CDDC39;'>";
+    $dadosXls .= "          <th style='border: 1px solid; text-align: left;'>id</th>";
+    $dadosXls .= "          <th style='border: 1px solid; text-align: left;'>nome</th>";
+    $dadosXls .= "          <th style='border: 1px solid; text-align: left;'>empresa</th>";
+    $dadosXls .= "          <th style='border: 1px solid; text-align: left;'>telefone</th>";
+    $dadosXls .= "          <th style='border: 1px solid; text-align: left;'>email</th>";
     $dadosXls .= "      </tr>";
 
     foreach($result as $res){
         $dadosXls .= "      <tr>";
-        $dadosXls .= "          <td>".$res['idlead']."</td>";
-        $dadosXls .= "          <td>".$res['nome']."</td>";
-        $dadosXls .= "          <td>".$res['empresa']."</td>";
-        $dadosXls .= "          <td>".$res['telefone']."</td>";
-        $dadosXls .= "          <td>".$res['email']."</td>";
+        $dadosXls .= "          <td style='border: 1px solid; text-align: left;'>".$res['idlead']."</td>";
+        $dadosXls .= "          <td style='border: 1px solid; text-align: left;'>".$res['nome']."</td>";
+        $dadosXls .= "          <td style='border: 1px solid; text-align: left;'>".$res['empresa']."</td>";
+        $dadosXls .= "          <td style='border: 1px solid; text-align: left;'>".$res['telefone']."</td>";
+        $dadosXls .= "          <td style='border: 1px solid; text-align: left;'>".$res['email']."</td>";
         $dadosXls .= "      </tr>";
     }
 
@@ -258,7 +258,7 @@ public static function imprimir($val, $page, $itemsPerPage, $idstatus){
     
 
     // Definimos o nome do arquivo que será exportado  
-    $arquivo = "MinhaPlanilha.xls";  
+    $arquivo = "dados-lead-pagina.xls";  
 
     header("Content-Type: text/html; charset=utf-8");
     header("Content-Type: multipart/form-data; boundary=something");
@@ -296,26 +296,29 @@ public static function imprimirSimples($idstatus){
    $result = $sql->select("SELECT idlead,nome,empresa,email,telefone FROM tb_lead where fk_status = '$idstatus' and fk_id_cliente = $idcliente ");
 
 
+   // $result = $sql->select("SELECT tb_followup.idlead,nome,empresa,email,telefone, tb_followup.dataAtualizada, texto FROM tb_lead inner join tb_followup ON tb_followup.idlead = tb_lead.idlead where fk_status = '$idstatus' and tb_followup.fk_id_cliente = $idcliente ");
 
 
-    //declaramos uma variavel para monstarmos a tabela
+
+
+    // //declaramos uma variavel para monstarmos a tabela
     $dadosXls  = "";
     $dadosXls .= "  <table>";
-    $dadosXls .= "       <tr>";
-    $dadosXls .= "          <th>id</th>";
-    $dadosXls .= "          <th>nome</th>";
-    $dadosXls .= "          <th>empresa</th>";
-    $dadosXls .= "          <th>telefone</th>";
-    $dadosXls .= "          <th>email</th>";
+    $dadosXls .= "       <tr style='background: #CDDC39;'>";
+    $dadosXls .= "          <th style='border: 1px solid; text-align: left;'>id</th>";
+    $dadosXls .= "          <th style='border: 1px solid; text-align: left;'>nome</th>";
+    $dadosXls .= "          <th style='border: 1px solid; text-align: left;'>empresa</th>";
+    $dadosXls .= "          <th style='border: 1px solid; text-align: left;'>telefone</th>";
+    $dadosXls .= "          <th style='border: 1px solid; text-align: left;'>email</th>";
     $dadosXls .= "      </tr>";
 
     foreach($result as $res){
         $dadosXls .= "      <tr>";
-        $dadosXls .= "          <td>".$res['idlead']."</td>";
-        $dadosXls .= "          <td>".$res['nome']."</td>";
-        $dadosXls .= "          <td>".$res['empresa']."</td>";
-        $dadosXls .= "          <td>".$res['telefone']."</td>";
-        $dadosXls .= "          <td>".$res['email']."</td>";
+        $dadosXls .= "          <td style='border: 1px solid; text-align: left;'>".$res['idlead']."</td>";
+        $dadosXls .= "          <td style='border: 1px solid; text-align: left;'>".$res['nome']."</td>";
+        $dadosXls .= "          <td style='border: 1px solid; text-align: left;'>".$res['empresa']."</td>";
+        $dadosXls .= "          <td style='border: 1px solid; text-align: left;'>".$res['telefone']."</td>";
+        $dadosXls .= "          <td style='border: 1px solid; text-align: left;'>".$res['email']."</td>";
         $dadosXls .= "      </tr>";
     }
 
@@ -325,7 +328,176 @@ public static function imprimirSimples($idstatus){
    
 
     // Definimos o nome do arquivo que será exportado  
-    $arquivo = "MinhaPlanilha.xls";  
+    $arquivo = "dados-lead.xls";  
+
+    header("Content-Type: text/html; charset=utf-8");
+    header("Content-Type: multipart/form-data; boundary=something");
+
+    header ("Last-Modified: " . gmdate("D,d M YH:i:s") . " GMT");
+    header ("Content-Description: form-data; leads" );
+
+    header('Content-Type: application/xls');
+    header('Content-Type: application/pkix-attr-cert');
+    header('Content-Type: application/vnd.ms-excel');
+
+    header('Content-Disposition: attachment; filename="'.$arquivo.'"');
+    header("Content-Type: application/download");
+
+    header ("Cache-Control: no-cache, must-revalidate");
+    header ("Pragma: no-cache");
+
+
+    echo $dadosXls;  
+    exit;
+
+
+
+}
+
+
+
+
+
+
+public static function imprimirSimplesFollowup($idstatus){
+
+ 
+   $sql = new Sql();
+   $idcliente = $_SESSION['fk_id_cliente'];
+
+  
+
+
+   $result = $sql->select("SELECT tb_followup.idlead,nome,empresa,email,telefone, tb_followup.dataAtualizada, texto FROM tb_lead inner join tb_followup ON tb_followup.idlead = tb_lead.idlead where fk_status = '$idstatus' and tb_followup.fk_id_cliente = $idcliente ");
+
+
+
+
+    // //declaramos uma variavel para monstarmos a tabela
+    $dadosXls  = "";
+    $dadosXls .= "  <table>";
+    $dadosXls .= "       <tr style='background: #CDDC39;'>";
+    $dadosXls .= "          <th style='border: 1px solid; text-align: left;'>id</th>";
+    $dadosXls .= "          <th style='border: 1px solid; text-align: left;'>nome</th>";
+    $dadosXls .= "          <th style='border: 1px solid; text-align: left;'>empresa</th>";
+    $dadosXls .= "          <th style='border: 1px solid; text-align: left;'>telefone</th>";
+    $dadosXls .= "          <th style='border: 1px solid; text-align: left;'>email</th>";
+    $dadosXls .= "          <th style='border: 1px solid; text-align: left;'>data do follow up</th>";
+    $dadosXls .= "          <th style='border: 1px solid; text-align: left;'>descritivo do follow up</th>";
+    $dadosXls .= "      </tr>";
+
+    foreach($result as $res){
+        $dadosXls .= "      <tr>";
+        $dadosXls .= "          <td style='border: 1px solid; text-align: left;'>".$res['idlead']."</td>";
+        $dadosXls .= "          <td style='border: 1px solid; text-align: left;'>".$res['nome']."</td>";
+        $dadosXls .= "          <td style='border: 1px solid; text-align: left;'>".$res['empresa']."</td>";
+        $dadosXls .= "          <td style='border: 1px solid; text-align: left;'>".$res['telefone']."</td>";
+        $dadosXls .= "          <td style='border: 1px solid; text-align: left;'>".$res['email']."</td>";
+        $dadosXls .= "          <td style='border: 1px solid; text-align: left;'>".$res['dataAtualizada']."</td>";
+        $dadosXls .= "          <td style='border: 1px solid; text-align: left;'>".$res['texto']."</td>";
+        $dadosXls .= "      </tr>";
+    }
+
+
+    $dadosXls .= "  </table>";
+
+   
+
+    // Definimos o nome do arquivo que será exportado  
+    $arquivo = "dados-lead-followup.xls";  
+
+    header("Content-Type: text/html; charset=utf-8");
+    header("Content-Type: multipart/form-data; boundary=something");
+
+    header ("Last-Modified: " . gmdate("D,d M YH:i:s") . " GMT");
+    header ("Content-Description: form-data; leads" );
+
+    header('Content-Type: application/xls');
+    header('Content-Type: application/pkix-attr-cert');
+    header('Content-Type: application/vnd.ms-excel');
+
+    header('Content-Disposition: attachment; filename="'.$arquivo.'"');
+    header("Content-Type: application/download");
+
+    header ("Cache-Control: no-cache, must-revalidate");
+    header ("Pragma: no-cache");
+
+
+    echo $dadosXls;  
+    exit;
+
+
+
+}
+
+
+
+public static function imprimirFollowup($val, $page, $itemsPerPage, $idstatus){
+
+ $idcliente = $_SESSION['fk_id_cliente'];
+
+   // $sql = new Sql();
+
+   // $result = $sql->select("SELECT idlead,nome,empresa,email,telefone FROM tb_lead where fk_status = '$idstatus'");
+
+
+   $start = ($page - 1) * $itemsPerPage;
+
+  if ($val  == "") {
+     
+    $sql = new Sql();
+
+        $result = $sql->select("SELECT tb_followup.idlead,nome,empresa,email,telefone, tb_followup.dataAtualizada, texto FROM tb_lead inner join tb_status ON tb_lead.fk_status = tb_status.idstatus inner join tb_origem_lead ON tb_lead.fk_origem_lead = tb_origem_lead.id_origem_lead inner join tb_followup ON tb_followup.idlead = tb_lead.idlead where fk_status = '$idstatus' and tb_followup.fk_id_cliente = $idcliente LIMIT $start, $itemsPerPage");
+
+   
+      }else{
+
+
+
+        $sql = new Sql();
+       
+
+        $result = $sql->select("SELECT SQL_CALC_FOUND_ROWS * FROM tb_lead inner join tb_status ON tb_lead.fk_status = tb_status.idstatus inner join tb_origem_lead ON tb_lead.fk_origem_lead = tb_origem_lead.id_origem_lead inner join tb_followup ON tb_followup.idlead = tb_lead.idlead where fk_status = '$idstatus' AND nome and tb_followup.fk_id_cliente = $idcliente like '%$val%' LIMIT $start, $itemsPerPage");
+       
+
+
+      }
+
+     
+
+
+
+      // //declaramos uma variavel para monstarmos a tabela
+    $dadosXls  = "";
+    $dadosXls .= "  <table>";
+    $dadosXls .= "       <tr style='background: #CDDC39;'>";
+    $dadosXls .= "          <th style='border: 1px solid; text-align: left;'>id</th>";
+    $dadosXls .= "          <th style='border: 1px solid; text-align: left;'>nome</th>";
+    $dadosXls .= "          <th style='border: 1px solid; text-align: left;'>empresa</th>";
+    $dadosXls .= "          <th style='border: 1px solid; text-align: left;'>telefone</th>";
+    $dadosXls .= "          <th style='border: 1px solid; text-align: left;'>email</th>";
+    $dadosXls .= "          <th style='border: 1px solid; text-align: left;'>data do follow up</th>";
+    $dadosXls .= "          <th style='border: 1px solid; text-align: left;'>descritivo do follow up</th>";
+    $dadosXls .= "      </tr>";
+
+    foreach($result as $res){
+        $dadosXls .= "      <tr>";
+        $dadosXls .= "          <td style='border: 1px solid; text-align: left;'>".$res['idlead']."</td>";
+        $dadosXls .= "          <td style='border: 1px solid; text-align: left;'>".$res['nome']."</td>";
+        $dadosXls .= "          <td style='border: 1px solid; text-align: left;'>".$res['empresa']."</td>";
+        $dadosXls .= "          <td style='border: 1px solid; text-align: left;'>".$res['telefone']."</td>";
+        $dadosXls .= "          <td style='border: 1px solid; text-align: left;'>".$res['email']."</td>";
+        $dadosXls .= "          <td style='border: 1px solid; text-align: left;'>".$res['dataAtualizada']."</td>";
+        $dadosXls .= "          <td style='border: 1px solid; text-align: left;'>".$res['texto']."</td>";
+        $dadosXls .= "      </tr>";
+    }
+
+
+    $dadosXls .= "  </table>";
+    
+
+    // Definimos o nome do arquivo que será exportado  
+    $arquivo = "dados-lead-followup-pagina.xls";  
 
     header("Content-Type: text/html; charset=utf-8");
     header("Content-Type: multipart/form-data; boundary=something");
@@ -358,12 +530,6 @@ public static function imprimirSimples($idstatus){
 
 
 }
-
-
-
-
-
-
 
 
 

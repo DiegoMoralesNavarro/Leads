@@ -39,7 +39,7 @@ if (isset($_COOKIE['Atualizado'])) {
 
       <form role="form" action="/<?php echo pastaPrincipal ?>/dashboard/servico" method="post" >
 
-	      <div class="input-field col s12 l6">
+	      <div class="input-field col s12 l4">
 
 	      	<h3>Criar um Serviço</h3>
 
@@ -58,7 +58,7 @@ if (isset($_COOKIE['Atualizado'])) {
 
 	      </div> <!-- coluna 1 -->
 	    </form>
-	      <div class="input-field col s12 l6">
+	      <div class="input-field col s12 l8">
 	      	<h3>Editar um Serviço</h3>
 
 	      	<?php 

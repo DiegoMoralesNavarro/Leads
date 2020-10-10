@@ -37,7 +37,7 @@ if (isset($_COOKIE['Atualizado'])) {
 </div>
 
 
-<div class="container">
+<div class="container" id="sua_div">
 
   <div class="row">
     <div class="col s12 form">
@@ -45,13 +45,40 @@ if (isset($_COOKIE['Atualizado'])) {
   			class="btn-floating btn-small waves-effect teal accent-4 " style="padding: 0 0px!important;">
   			<i class="material-icons" >arrow_back</i></a>
 
+
+  		<form role="form1" action="/<?php echo pastaPrincipal ?>/dashboard/follow-up/<?php echo $idlead; ?>" method="post" enctype="multipart/form-data">	
+
+
+  		<div class="col s12 l12">
+  			<br>
+  			<p> Responsável pelo lead: 
+	  		<?php 
+	      	if (isset($responsavel[0]['user'])) {
+			 	echo "<strong>".$responsavel[0]['user']."</strong>";
+			 }else{
+			 	?> 
+			 	 <strong> Ninguém como responsável </strong>
+			 	 <button class="waves-effect light-green btn-small" style="height: 20.4px; line-height: 20.4px;" type="submit" name="posse">Tomar posse</button>
+			 	<?php
+			 } ?> 
+
+			 </p>
+			 <br>
+		 </div>		
+
+		</form>
+
+  		<form role="form1" action="/<?php echo pastaPrincipal ?>/dashboard/follow-up/<?php echo $idlead; ?>" method="post" enctype="multipart/form-data">	
+
+
+
     	
 
-    	<h4>Lead: <strong><?php echo $lead[0]['nome']; ?> </strong></h4>
+    	<h3>Lead: <strong><?php echo $lead[0]['nome']; ?> </strong></h3>
 
     	<div class="col s12 l6">
 
-	    	<form role="form1" action="/<?php echo pastaPrincipal ?>/dashboard/follow-up/<?php echo $idlead; ?>" method="post" enctype="multipart/form-data">
+	    	
 
 	    	<div class="input-field col s12 l12">
 
@@ -115,12 +142,11 @@ if (isset($_COOKIE['Atualizado'])) {
     	
 
 
-
     	<?php foreach ($followUp as $value) { ?>
 
     	<form role="form" action="/<?php echo pastaPrincipal ?>/dashboard/follow-up/<?php echo $idlead; ?>" method="post" enctype="multipart/form-data">
 
-    		<div class="col s12 linha">
+    		<div id="follow<?php echo $value['idfollowup'] ?>" class="col s12 linha">
     			<div class="col s12 l3">
     				<p>Criado em: <?php echo date('d/m/Y', strtotime($value['dataf'])); ?></p>
 				</div>
@@ -157,7 +183,7 @@ if (isset($_COOKIE['Atualizado'])) {
 
 				</div>
 
-				<div class=" input-field col s12 l9" style="margin-top: -1rem;">
+				<div class=" input-field col s12 l9" style="margin-top: -1rem; margin-bottom: 0px;">
 			        	<?php if ($value['arquivo'] == null || $value['arquivo'] == '') {
 			        		?>
 			        		<div class="file-field input-field ">
@@ -202,6 +228,26 @@ if (isset($_COOKIE['Atualizado'])) {
 			        	} ?>
 			    </div>
 
+			    <div class="col s12 l12">
+  			
+  		<?php if (isset(array_count_values(array_column($totalLembrete, 'fk_idfollowup'))[$value['idfollowup']]) ) {  ?>
+
+  			<p><a href="<?php echo URLestilo ?>/dashboard/lembrete/<?php echo $value['idfollowup'] ?>" 
+  			class="btn-floating btn-small waves-effect yellow accent-4 " style="padding: 0 0px!important;">
+  			<i class="material-icons" >notifications_active</i></a>Total de lembrete: <?php echo array_count_values(array_column($totalLembrete, 'fk_idfollowup'))[$value['idfollowup']]; ?></p>
+
+  			
+  		<?php }else{?>
+
+  			<p><a href="<?php echo URLestilo ?>/dashboard/lembrete/<?php echo $value['idfollowup'] ?>" 
+  			class="btn-floating btn-small waves-effect yellow accent-4 " style="padding: 0 0px!important;">
+  			<i class="material-icons" >notifications_off</i></a>Total de lembrete: 0</p>
+
+  		<?php } ?>
+			    </div>
+
+
+
 			</div>
 
     	</form>
@@ -215,7 +261,7 @@ if (isset($_COOKIE['Atualizado'])) {
 
     	<!-- CRIAR UMA REGRA PARA ESCONDER O STATUS NOVO -->
 
-
+<!-- 
 
     	<?php foreach ($followUpVazio as $value) { ?>
 
@@ -302,7 +348,7 @@ if (isset($_COOKIE['Atualizado'])) {
 		    	</form>
 
 
-		    	<?php } ?>
+		    	<?php } ?> -->
 
 
 
@@ -310,12 +356,37 @@ if (isset($_COOKIE['Atualizado'])) {
 
 
 
+<?php if($_SESSION["nivel"] <= 2) { ?>
+
+		<form role="form2" action="/<?php echo pastaPrincipal ?>/dashboard/follow-up/<?php echo $idlead; ?>" method="post" enctype="multipart/form-data">	
+		
+
+
+		<div class="row">
+
+			<div class="col s12 l12">
+	      	<h4>Baixar para excel os dados follow up</h4>
+	      </div>
+
+	      <div class="col s12 l2">
+	      	<p><button class="btn-floating btn-small waves-effect orange darken-1 " type="submit" name="imprimirsimples" style="padding: 0 0px!important;"><i class="material-icons ">description</i></button>
+	      	Baixar</p>
+
+	      	<p><button class="btn-floating btn-small waves-effect  red darken-3 " style="padding: 0 0px!important;" onclick="window.print()"><i class="material-icons ">picture_as_pdf</i></button>
+	      	Print dessa página</p>
+	      	
+	      </div>
 
 
 
+	      
+
+	    </div>
 
 
-
+	    </form>	
+<?php }else{ } ?>
+	     
 
 
     	<div class="input-field col s12 center-align">
@@ -328,3 +399,6 @@ if (isset($_COOKIE['Atualizado'])) {
   </div>
 
 </div>
+
+
+

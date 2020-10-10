@@ -180,6 +180,21 @@ public function saveUpdateLead($idlead){
     $log = new Logs($_SESSION["id_user"], date('Y-m-d H:i'), $acao);
 
 
+
+    $tb_lead = $sql->select("SELECT * FROM tb_lead where idlead = $idlead and fk_id_cliente = $idcliente");
+
+     $status = $sql->select("SELECT * FROM tb_status where idstatus = :statusLead", array(
+      ":statusLead"=>$this->getstatusLead()
+    ));
+
+     $acaodois = "Atualizado o status do lead <br> Nome: ". $tb_lead[0]['nome'] ."<br> status: ". $status[0]['tipostatus'];
+
+    $logdois = new Logs($_SESSION["id_user"], date('Y-m-d H:i'), $acaodois);
+
+
+
+
+
     $results2 = $sql->select("SELECT * FROM tb_obs WHERE fk_idlead = $idlead");
 
     if (count($results2) > 0) {
@@ -413,6 +428,68 @@ public function tomarPosseLead($idlead){
 
 }
 
+
+
+
+public function tomarPosseLead2($idlead){
+
+  $sql = new Sql();
+
+
+  $tb_lead = $sql->select("SELECT * FROM tb_lead where idlead = $idlead");
+
+
+  $acao = "Tomou posse do lead<br> Nome: ". $tb_lead[0]['nome'];
+
+  $log = new Logs($_SESSION["id_user"], date('Y-m-d H:i'), $acao);
+
+
+
+
+  $id = $_SESSION["id_user"];
+
+
+  $reuslt = $sql->select("UPDATE tb_lead SET fk_id_user = $id WHERE idlead = $idlead");
+
+
+
+
+  header("Location: /".pastaPrincipal."/dashboard/configurar/atribuir-lead/novo");
+    exit;
+
+}
+
+
+
+
+
+public function tomarPosseLead3($idlead){
+
+  $sql = new Sql();
+
+
+  $tb_lead = $sql->select("SELECT * FROM tb_lead where idlead = $idlead");
+
+
+  $acao = "Tomou posse do lead<br> Nome: ". $tb_lead[0]['nome'];
+
+  $log = new Logs($_SESSION["id_user"], date('Y-m-d H:i'), $acao);
+
+
+
+
+  $id = $_SESSION["id_user"];
+
+
+  $reuslt = $sql->select("UPDATE tb_lead SET fk_id_user = $id WHERE idlead = $idlead");
+
+
+
+
+  header("Location: /".pastaPrincipal."/dashboard/follow-up/$idlead");
+    exit;
+
+}
 
 
 

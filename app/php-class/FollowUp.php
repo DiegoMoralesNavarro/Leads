@@ -43,7 +43,7 @@ public $values = [];
 
 
 protected $fields = [
-	"idfollowup", "texto", "data", "idlead", "dataAtualizada", "imagem", "textofollow", "statusLead", "fileUpload", "fileUpload"
+	"idfollowup", "texto", "data", "idlead", "dataAtualizada", "imagem", "textofollow", "statusLead", "fileUpload", "fileUpload", "imprimirsimples"
 ];
 
 
@@ -60,7 +60,7 @@ public static function listFolloUp1($idlead){
 
 
  
-      return $sql->select("SELECT * FROM tb_followup left JOIN tb_arquivo on tb_followup.fk_idtarquivo = tb_arquivo.idtarquivo inner join tb_user on tb_followup.fk_id_user = tb_user.id_user WHERE idlead = $idlead and tb_user.fk_id_cliente = $idcliente ORDER BY idfollowup DESC;");
+      return $sql->select("SELECT * FROM tb_followup left JOIN tb_arquivo on tb_followup.fk_idtarquivo = tb_arquivo.idtarquivo left join tb_user on tb_followup.fk_id_user = tb_user.id_user WHERE idlead = $idlead and tb_followup.fk_id_cliente = $idcliente ORDER BY idfollowup DESC;");
  
 
 
@@ -77,7 +77,7 @@ public static function listFolloUpVazio($idlead){
   $sql = new Sql();
   $idcliente = $_SESSION['fk_id_cliente'];
 
-      return $sql->select("SELECT * FROM tb_followup WHERE idlead = $idlead and fk_id_cliente = $idcliente and fk_id_user = 0 ORDER BY idfollowup DESC");
+      return $sql->select("SELECT * FROM tb_followup left JOIN tb_arquivo on tb_followup.fk_idtarquivo = tb_arquivo.idtarquivo WHERE idlead = $idlead and tb_followup.fk_id_cliente = $idcliente and fk_id_user = 0 ORDER BY idfollowup DESC");
   
 
 
@@ -122,6 +122,36 @@ public static function selectImg($idlead){
 
 
 //pot
+
+
+
+public function tomarPosseLead3($idlead){
+
+  $sql = new Sql();
+
+
+  $tb_lead = $sql->select("SELECT * FROM tb_lead where idlead = $idlead");
+
+
+  $acao = "Tomou posse do lead<br> Nome: ". $tb_lead[0]['nome'];
+
+  $log = new Logs($_SESSION["id_user"], date('Y-m-d H:i'), $acao);
+
+
+
+
+  $id = $_SESSION["id_user"];
+
+
+  $reuslt = $sql->select("UPDATE tb_lead SET fk_id_user = $id WHERE idlead = $idlead");
+
+
+
+
+  header("Location: /".pastaPrincipal."/dashboard/follow-up/$idlead");
+    exit;
+
+}
 
 
 public function cadastrarFollowUp($idlead){
@@ -492,6 +522,16 @@ $idfollow = $this->getidfollowup();
   $nomePasta = $sql->select("SELECT * FROM tb_cliente where id_cliente = $idcliente ");
 
 
+
+  $tb_lead = $sql->select("SELECT * FROM tb_lead where idlead = $val");
+
+      $acao = "Deletado arquivo do lead <br> Nome: ". $tb_lead[0]['nome'];
+
+      $log = new Logs($_SESSION["id_user"], date('Y-m-d H:i'), $acao);
+
+
+
+
      
         $path = 'uploads/'.$nomePasta[0]['nome_pasta'].'/';
         $diretorio = dir($path);
@@ -530,6 +570,16 @@ $arquivo = $idtarquivo[0]['fk_idtarquivo'];
   $nomePasta = $sql->select("SELECT * FROM tb_cliente where id_cliente = $idcliente ");
 
 
+
+
+    $tb_lead = $sql->select("SELECT * FROM tb_lead where idlead = $val");
+
+      $acao = "Deletado arquivo do lead <br> Nome: ". $tb_lead[0]['nome'];
+
+      $log = new Logs($_SESSION["id_user"], date('Y-m-d H:i'), $acao);
+
+
+
      
         $path = 'uploads/'.$nomePasta[0]['nome_pasta'].'/';
         $diretorio = dir($path);
@@ -553,6 +603,108 @@ $arquivo = $idtarquivo[0]['fk_idtarquivo'];
    exit; 
    
 
+
+
+
+}
+
+
+
+
+
+
+
+public static function imprimirSimples($idlead){
+
+
+
+ $idcliente = $_SESSION['fk_id_cliente'];
+
+   $sql = new Sql();
+
+   $result = $sql->select("SELECT tb_followup.idlead, nome, empresa, telefone, email, tb_followup.dataAtualizada, texto FROM tb_followup inner join tb_lead ON tb_lead.idlead = tb_followup.idlead where tb_followup.idlead = $idlead and tb_followup.fk_id_cliente = $idcliente");
+
+
+// var_dump($result);
+
+  //  $start = ($page - 1) * $itemsPerPage;
+
+  // if ($val  == "") {
+     
+  //   $sql = new Sql();
+
+  //       $result = $sql->select("SELECT idlead,nome,empresa,email,telefone FROM tb_lead inner join tb_status ON tb_lead.fk_status = tb_status.idstatus inner join tb_origem_lead ON tb_lead.fk_origem_lead = tb_origem_lead.id_origem_lead where fk_status = '$idstatus' and fk_id_cliente = $idcliente ORDER BY idlead desc LIMIT $start, $itemsPerPage");
+
+   
+  //     }else{
+
+
+
+  //       $sql = new Sql();
+       
+
+  //       $result = $sql->select("SELECT SQL_CALC_FOUND_ROWS * FROM tb_lead inner join tb_status ON tb_lead.fk_status = tb_status.idstatus inner join tb_origem_lead ON tb_lead.fk_origem_lead = tb_origem_lead.id_origem_lead where fk_status = '$idstatus' AND nome and fk_id_cliente = $idcliente like '%$val%' ORDER BY idlead desc LIMIT $start, $itemsPerPage");
+       
+
+
+  //     }
+
+     
+
+
+
+    //declaramos uma variavel para monstarmos a tabela
+    $dadosXls  = "";
+    $dadosXls .= "  <table>";
+    $dadosXls .= "       <tr style='background: #CDDC39;'>";
+    $dadosXls .= "          <th style='border: 1px solid; text-align: left;'>id</th>";
+    $dadosXls .= "          <th style='border: 1px solid; text-align: left;'>nome</th>";
+    $dadosXls .= "          <th style='border: 1px solid; text-align: left;'>empresa</th>";
+    $dadosXls .= "          <th style='border: 1px solid; text-align: left;'>telefone</th>";
+    $dadosXls .= "          <th style='border: 1px solid; text-align: left;'>email</th>";
+    $dadosXls .= "          <th style='border: 1px solid; text-align: left;'>data do follow up</th>";
+    $dadosXls .= "          <th style='border: 1px solid; text-align: left;'>descritivo do follow up</th>";
+    $dadosXls .= "      </tr>";
+
+    foreach($result as $res){
+        $dadosXls .= "      <tr>";
+        $dadosXls .= "          <td style='border: 1px solid; text-align: left;'>".$res['idlead']."</td>";
+        $dadosXls .= "          <td style='border: 1px solid; text-align: left;'>".$res['nome']."</td>";
+        $dadosXls .= "          <td style='border: 1px solid; text-align: left;'>".$res['empresa']."</td>";
+        $dadosXls .= "          <td style='border: 1px solid; text-align: left;'>".$res['telefone']."</td>";
+        $dadosXls .= "          <td style='border: 1px solid; text-align: left;'>".$res['email']."</td>";
+        $dadosXls .= "          <td style='border: 1px solid; text-align: left;'>".$res['dataAtualizada']."</td>";
+        $dadosXls .= "          <td style='border: 1px solid; text-align: left;'>".$res['texto']."</td>";
+        $dadosXls .= "      </tr>";
+    }
+
+
+    $dadosXls .= "  </table>";
+
+    
+
+    // Definimos o nome do arquivo que será exportado  
+    $arquivo = "MinhaPlanilha.xls";  
+
+    header("Content-Type: text/html; charset=utf-8");
+    header("Content-Type: multipart/form-data; boundary=something");
+
+    header ("Last-Modified: " . gmdate("D,d M YH:i:s") . " GMT");
+    header ("Content-Description: form-data; leads" );
+
+    header('Content-Type: application/xls');
+    header('Content-Type: application/pkix-attr-cert');
+    header('Content-Type: application/vnd.ms-excel');
+
+    header('Content-Disposition: attachment; filename="'.$arquivo.'"');
+    header("Content-Type: application/download");
+
+    header ("Cache-Control: no-cache, must-revalidate");
+    header ("Pragma: no-cache");
+
+
+    echo $dadosXls;  
+    exit;
 
 
 

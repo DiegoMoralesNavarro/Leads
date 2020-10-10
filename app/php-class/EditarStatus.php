@@ -50,7 +50,7 @@ class EditarStatus{
 
 
 protected $fields = [
-	"idstatusEditar", "tipostatus", "tipostatusEditar"
+	"idstatusEditar", "tipostatus", "tipostatusEditar", "visibilidade", "cars"
 ];
 
 
@@ -77,10 +77,11 @@ protected $fields = [
     if ($this->gettipostatus() == "") {
       //vazio
     }else{
-       $results = $sql->select("INSERT INTO tb_status (tipostatus, fk_id_cliente) VALUES (:tipostatus, :idcliente)", array(
+       $results = $sql->select("INSERT INTO tb_status (tipostatus, fk_id_cliente, visivel) VALUES (:tipostatus, :idcliente, :visibilidade)", array(
         
             ":tipostatus"=>$this->gettipostatus(),
-            ":idcliente"=>$_SESSION["fk_id_cliente"]
+            ":idcliente"=>$_SESSION["fk_id_cliente"],
+            ":visibilidade"=>'1',
           ));
 
       $acao = "Cadastrou um status <br> Nome: ". $this->gettipostatus();
@@ -95,10 +96,11 @@ protected $fields = [
   public function saveStatusUpdate(){
     $sql = new Sql();
     
-    $results = $sql->select("UPDATE tb_status SET tipostatus = :tipostatus, fk_id_cliente = :idcliente WHERE idstatus = :idstatus and fk_id_cliente = :idcliente", array(
+    $results = $sql->select("UPDATE tb_status SET tipostatus = :tipostatus, fk_id_cliente = :idcliente, visivel = :visibilidade WHERE idstatus = :idstatus and fk_id_cliente = :idcliente", array(
        ":idstatus"=>$this->getidstatusEditar(),
         ":tipostatus"=>$this->gettipostatusEditar(),
-        ":idcliente"=>$_SESSION["fk_id_cliente"]
+        ":idcliente"=>$_SESSION["fk_id_cliente"],
+        ":visibilidade"=>$this->getvisibilidade()
       ));
 
     $acao = "Atualizou o status para o<br> Nome: ". $this->gettipostatusEditar();

@@ -71,13 +71,14 @@ public function cadastrar(){
 
 		if ($this->getsenha() == $this->getsenhaconfirmar()) {
 
-			$results = $sql->select("INSERT INTO tb_user (user, senha, nivel, dataCriado, email, fk_id_cliente) VALUES (:user, :senha, :nivel, :data, :email, :idcliente)", array(
+			$results = $sql->select("INSERT INTO tb_user (user, senha, nivel, dataCriado, email, fk_id_cliente, user_status) VALUES (:user, :senha, :nivel, :data, :email, :idcliente, :status)", array(
 		       ":user"=>$this->getuser(),
 		       ":senha"=>md5($this->getsenha()),
 		       ":nivel"=>$this->getnivel(),
 		       ":data"=>date('Y-m-d'),
 		       ":email"=>$this->getemail(),
-           ":idcliente"=>$_SESSION["fk_id_cliente"]
+           ":idcliente"=>$_SESSION["fk_id_cliente"],
+           ":status"=>"1"
 		    ));
 
        $acao = "Cadastrado usuário <br> Nome: ". $this->getuser(). "<br> Nivel: ". $this->getnivel();

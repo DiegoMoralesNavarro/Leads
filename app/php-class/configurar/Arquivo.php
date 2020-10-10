@@ -152,6 +152,13 @@ public function deleteSimples($id){
   $idcliente = $_SESSION['fk_id_cliente'];
 
 
+
+      $acao = "Deletado arquivo no Controle de arquivos";
+
+      $log = new Logs($_SESSION["id_user"], date('Y-m-d H:i'), $acao);
+
+
+
    $tb_arquivo = $sql->select("SELECT * FROM tb_arquivo where idtarquivo = $id and fk_id_cliente = $idcliente");
 
   $nomePasta = $sql->select("SELECT * FROM tb_cliente where id_cliente = $idcliente ");
@@ -194,6 +201,11 @@ public function deletar(){
   $sql = new Sql();
 
   $idcliente = $_SESSION['fk_id_cliente'];
+
+
+   $acao = "Deletado vários arquivos no Controle de arquivos";
+
+      $log = new Logs($_SESSION["id_user"], date('Y-m-d H:i'), $acao);
 
   
 

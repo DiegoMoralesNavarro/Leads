@@ -249,7 +249,7 @@ function selected( $value, $selected ){
 
     	</form>
 
-
+<?php if($_SESSION["nivel"] <= 2) { ?>
 
 <form role="form" action="/<?php echo pastaPrincipal ?>/dashboard/status-lista/<?php echo $status[0]['idstatus'] ?>" method="post">
 
@@ -260,7 +260,7 @@ function selected( $value, $selected ){
 	<div class="row">
 
 		<div class="col s12 l12">
-      	<h4>Baixar para excel os dados</h4>
+      	<h4>Baixar para excel os dados - Sem Follow Up</h4>
       </div>
 
       <div class="col s12 l2">
@@ -270,14 +270,40 @@ function selected( $value, $selected ){
 
       <div class="col s12 l2">
       	<p><button class="btn-floating btn-small waves-effect orange darken-1 " type="submit" name="imprimir" style="padding: 0 0px!important;"><i class="material-icons ">description</i></button>
-      	Esta páginação</p>
+      	Está páginação</p>
       </div>
 
     </div>
+
+    <div class="col s12 linha ">
+		
+	</div>
+
+    <div class="row">
+
+    	<div class="col s12 l12">
+      	<h4>Baixar para excel os dados - Com Follow Up</h4>
+      </div>
+
+      <div class="col s12 l2">
+      	<p><button class="btn-floating btn-small waves-effect light-green accent-3 " type="submit" name="imprimirSimplesFollowup" style="padding: 0 0px!important;"><i class="material-icons ">description</i></button>
+      	Todos</p>
+      </div>
+
+      <div class="col s12 l2">
+      	<p><button class="btn-floating btn-small waves-effect light-green accent-3 " type="submit" name="imprimirFollowup" style="padding: 0 0px!important;"><i class="material-icons ">description</i></button>
+      	Está páginação</p>
+      </div>
+
+	</div>
 	
 
 </form>
-    	
+ 
+
+<?php }else{ } ?>
+	     
+
 
 	</div>
   </div>

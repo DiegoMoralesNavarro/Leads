@@ -41,7 +41,7 @@ class AtualizarUsuarioDados{
 
 
 protected $fields = [
-	"id_user", "user", "nivel", "email", "senhaAtual", "novaSenha"
+	"id_user", "user", "nivel", "email", "senhaAtual", "novaSenha", "status"
 ];
 
 
@@ -75,10 +75,11 @@ public function atualizarDados($user){
     exit;
   }else{
 
-    $results = $sql->select("UPDATE tb_user SET user = :user, email = :email WHERE (id_user = $user) and (fk_id_cliente = :idcliente)", array(
+    $results = $sql->select("UPDATE tb_user SET user = :user, email = :email, user_status = :status WHERE (id_user = $user) and (fk_id_cliente = :idcliente)", array(
        ":user"=>$this->getuser(),
        ":email"=>$this->getemail(),
-       ":idcliente"=>$_SESSION["fk_id_cliente"]
+       ":idcliente"=>$_SESSION["fk_id_cliente"],
+       ":status"=>$this->getstatus()
     ));
 
 
@@ -157,21 +158,31 @@ public function deletarUsuario($id){
 
 
 
+  $results = $sql->select("UPDATE tb_lead SET fk_id_user = 0 WHERE fk_id_user = $id ");
 
+  $results2 = $sql->select("UPDATE tb_followup SET fk_id_user = '0' WHERE fk_id_user = '$id' and fk_id_cliente = '$idcliente'");
 
-  $results = $sql->select("UPDATE tb_lead SET fk_id_user = 0 WHERE (fk_id_user = $id) and (fk_id_cliente = $id_cliente)");
-
-  $results2 = $sql->select("UPDATE tb_followup SET fk_id_user = 0 WHERE (fk_id_user = $id) and (fk_id_cliente = $id_cliente)");
-
-  $results3 = $sql->select("UPDATE tb_obs SET fk_id_user = 0 WHERE (fk_id_user = $id) and (fk_id_cliente = $id_cliente)");
-
+  $results3 = $sql->select("UPDATE tb_obs SET fk_id_user = 0 WHERE (fk_id_user = $id) and (fk_id_cliente = $$idcliente)");
 
 
 
+  $tb_lembrete = $sql->select("SELECT * FROM tb_lembrete where autor = $id");
 
-  $results4 = $sql->select("DELETE FROM tb_user WHERE (id_user = $id) and (fk_id_cliente = $id_cliente)");
 
-  setcookie("Atualizado", "Atualizado");
+ if(count($tb_lembrete) > 0){
+
+  $results = $sql->select("DELETE FROM tb_lembrete WHERE autor = $id and fk_id_cliente = $idcliente");
+
+
+  }
+
+
+
+
+
+  // $results4 = $sql->select("DELETE FROM tb_user WHERE (id_user = $id) and (fk_id_cliente = $idcliente)");
+
+  // setcookie("Atualizado", "Atualizado");
 
 
 

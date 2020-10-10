@@ -25,6 +25,40 @@ use \App\EditarUser;
 $app->get('/dashboard/configurar', function() {
 
 	LoginUser::verifyLogin();
+
+
+
+	$totalArquivos = Arquivo::totalArquivos();
+	// $rotaPastas = EditarUser::rotaPastas();
+	$tamanho = Arquivo::arquivoTamanhoTotal();
+
+	$responsavelTotal = AtribuirLead::responsavelTotal();
+	$responsavelTotalLead = AtribuirLead::responsavelTotalLead();
+	$responsavelMeuLead = AtribuirLead::responsavelMeuLead();
+
+	//var_dump($responsavelTotalLead);
+
+
+
+	if ($tamanho[0]['sum(tamanho)'] >= 1000000) { 
+      $resultado = round($tamanho[0]['sum(tamanho)'] /1024 /1024,2) . " Mb"; 
+     
+    } else if ($tamanho[0]['sum(tamanho)'] >= 100) {
+       
+       $resultado = round($tamanho[0]['sum(tamanho)'] /1000,2) . " kb"; 
+       
+    } else { 
+    	
+
+    	if ($tamanho[0]['sum(tamanho)'] == null) {
+    		 $resultado = 0 . " bytes";
+    	}else{
+    		$resultado = $tamanho[0]['sum(tamanho)'] . " bytes";
+    		
+    	}
+
+    	 
+    }
 	
 
 	require_once('../'.pastaPrincipal.'/views/'.header);
@@ -154,6 +188,7 @@ require_once('../'.pastaPrincipal.'/views/'.header);
 	$usuarioDados = AtualizarUsuarioDados::usuarioDados($id);
 
 
+
 	
 	require_once('../'.pastaPrincipal.'/views/configurar/editandoUsuario.php');
 
@@ -173,6 +208,8 @@ $app->post('/dashboard/configurar/atualizar-usuario/:id', function($id) {
 	$user = new AtualizarUsuarioDados();
 
 	$user->setData($_POST);
+
+	var_dump($user);
 
 
 	
@@ -301,7 +338,7 @@ $app->get('/dashboard/configurar/atribuir-lead/novo', function() {
 
 	LoginUser::verifyLogin();
 
-	LoginUser::verifyNivel2();
+	//LoginUser::verifyNivel2();
 
 	//filtro dos lisd sem responsavel ou vazio  BOTÃO ATRIBUIR
 
@@ -514,7 +551,7 @@ $app->get('/dashboard/configurar/responsavel-lead', function() {
 
 	LoginUser::verifyLogin();
 
-	LoginUser::verifyNivel2();
+	//LoginUser::verifyNivel2();
 
 	if (isset($_GET['pesquisa'])) {
 		$val = $_GET['pesquisa'];
@@ -545,7 +582,10 @@ $app->get('/dashboard/configurar/responsavel-lead', function() {
 
 
 
+
 	$user = AtribuirLead::user();
+
+
 
 
 	//Responsavel por Lead, colocar no filtro nome do funcionario.
@@ -767,7 +807,84 @@ header("location: /".pastaPrincipal."/dashboard/configurar/arquivos");
 });
 
 
+/////
 
+
+
+$app->get('/dashboard/configurar/meu-lead', function() {
+
+
+	LoginUser::verifyLogin();
+
+
+
+	if (isset($_GET['pesquisa'])) {
+		$val = $_GET['pesquisa'];
+	}else{
+		$val = "";
+	}
+
+	if (isset($_GET['page'])) {
+		$page = $_GET['page'];
+	}else{
+		$page = 1;
+	}
+
+	$itemsPerPage = 20;
+
+	$users = new AtribuirLead();
+	$users->meuLead($val, $page, $itemsPerPage);
+
+	// var_dump($users);
+
+
+
+	
+
+	require_once('../'.pastaPrincipal.'/views/'.header);
+
+
+	require_once('../'.pastaPrincipal.'/views/configurar/meu-lead.php');
+
+
+
+	require_once('../'.pastaPrincipal.'/views/'.footer);
+
+
+
+	
+
+});
+
+
+
+$app->post('/dashboard/configurar/meu-lead', function() {
+
+
+	
+
+});
+
+
+
+
+
+$app->get('/dashboard/configurar/meu-lead/:id', function($id) {
+
+	
+	 $user = new EditarUser();
+
+	$user->setData($_POST);
+
+	setcookie("Atualizado", "Atualizado");
+
+	
+	$user->tomarPosseLead2($id);
+
+	
+	
+
+});
 
 
 
