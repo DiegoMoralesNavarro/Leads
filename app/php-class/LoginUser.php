@@ -118,6 +118,19 @@ protected $fields = [
 		}
 	}
 
+	
+	public static function verifyNivelMaster()
+	{
+
+		//$inadmin é uma verificação se o user poder entra por ser adm
+		if($_SESSION["nivel"] == 1 && $_SESSION["fk_id_cliente"] == 1) {
+
+		}else{
+			header("Location: /leads/dashboard");
+			exit;
+		}
+	}
+
 
 	public static function verifyNivel1()
 	{

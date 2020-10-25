@@ -490,8 +490,10 @@ function selected( $value, $selected ){
 foreach ($status as $value) {
 
 	$nome = $value['tipostatus'];
+	// echo $nome;
 
 	if (isset(array_count_values(array_column($totalStatus, 'tipostatus'))[$nome]) ) {
+		
 		 ?>
 
 		<div class="col s12 l3">

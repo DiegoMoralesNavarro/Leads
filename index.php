@@ -97,6 +97,7 @@ require_once("rota-admin.php");
 require_once("rota-leads.php");
 
 
+require_once("rota-cliente.php");
 
 
 $app->get('/dashboard/buscar', function() {

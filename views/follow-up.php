@@ -356,7 +356,7 @@ if (isset($_COOKIE['Atualizado'])) {
 
 
 
-<?php if($_SESSION["nivel"] <= 2) { ?>
+<?php if($_SESSION["nivel"] <= 1) { ?>
 
 		<form role="form2" action="/<?php echo pastaPrincipal ?>/dashboard/follow-up/<?php echo $idlead; ?>" method="post" enctype="multipart/form-data">	
 		

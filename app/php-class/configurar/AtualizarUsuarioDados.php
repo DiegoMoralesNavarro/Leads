@@ -180,9 +180,9 @@ public function deletarUsuario($id){
 
 
 
-  // $results4 = $sql->select("DELETE FROM tb_user WHERE (id_user = $id) and (fk_id_cliente = $idcliente)");
+  $results4 = $sql->select("DELETE FROM tb_user WHERE (id_user = $id) and (fk_id_cliente = $idcliente)");
 
-  // setcookie("Atualizado", "Atualizado");
+  setcookie("Atualizado", "Atualizado");
 
 
 

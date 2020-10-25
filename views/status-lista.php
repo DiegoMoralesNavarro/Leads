@@ -249,7 +249,7 @@ function selected( $value, $selected ){
 
     	</form>
 
-<?php if($_SESSION["nivel"] <= 2) { ?>
+<?php if($_SESSION["nivel"] <= 1) { ?>
 
 <form role="form" action="/<?php echo pastaPrincipal ?>/dashboard/status-lista/<?php echo $status[0]['idstatus'] ?>" method="post">
 
