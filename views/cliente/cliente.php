@@ -64,7 +64,7 @@ pegar junto o nome da empresa. -->
         <div class="card-action center-align">
 
           <a class="waves-effect light-green btn-small" 
-                 href="/<?php echo pastaPrincipal ?>/">Deletar</a>
+                 href="/<?php echo pastaPrincipal ?>/dashboard/configurar/cliente/deletar-lista/">Deletar</a>
         </div>
       </div>
     </div>

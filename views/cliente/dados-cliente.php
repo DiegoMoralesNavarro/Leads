@@ -124,7 +124,7 @@
         <div class="card-action center-align">
 
           <a class="waves-effect light-green btn-small" 
-                 href="/<?php echo pastaPrincipal ?>/dashboard/configurar/cliente">Editar </a>
+                 href="/<?php echo pastaPrincipal ?>/dashboard/configurar/cliente/editar-dados-cliente/<?php echo $nomecliente[0]['id_cliente']; ?>">Editar </a>
         </div>
       </div>
     </div>
@@ -138,7 +138,7 @@
         <div class="card-action center-align">
 
           <a class="waves-effect light-green btn-small" 
-                 href="/<?php echo pastaPrincipal ?>/dashboard/configurar/cliente">Consultar </a>
+                 href="/<?php echo pastaPrincipal ?>/dashboard/configurar/cliente/log/<?php echo $nomecliente[0]['id_cliente']; ?>">Consultar </a>
         </div>
       </div>
     </div>

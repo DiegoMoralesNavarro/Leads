@@ -15,6 +15,10 @@ use \App\cliente\Arquivos;
 
 use \App\cliente\Delete;
 
+use \App\cliente\MostrarLogsCliente;
+
+use \App\cliente\EditarDadosClientes;
+
 
 
 ////
@@ -150,11 +154,11 @@ $app->get('/dashboard/configurar/cliente/:id', function($id) {
 	$totalConsumo = ListarCliente::totalConsumo($id);
 
 	if ($totalConsumo[0]['sum(tamanho)'] >= 1000000) { 
-      $resultado = round($totalConsumo[0]['sum(tamanho)'] /1024 /1024,2) . " Mb"; 
+      $resultado = round($totalConsumo[0]['sum(tamanho)'] /1000000) . " Mb"; 
      
     } else if ($totalConsumo[0]['sum(tamanho)'] >= 100) {
        
-       $resultado = round($totalConsumo[0]['sum(tamanho)'] /1000,2) . " kb"; 
+       $resultado = round($totalConsumo[0]['sum(tamanho)'] /1000,1) . " kb"; 
        
     } else { 
     	
@@ -402,11 +406,11 @@ $app->get('/dashboard/configurar/cliente/arquivos/:id', function($id) {
 
 
 	if ($tamanho[0]['sum(tamanho)'] >= 1000000) { 
-      $resultado = round($tamanho[0]['sum(tamanho)'] /1024 /1024,2) . " Mb"; 
+      $resultado = round($tamanho[0]['sum(tamanho)'] /1000000) . " Mb"; 
      
     } else if ($tamanho[0]['sum(tamanho)'] >= 100) {
        
-       $resultado = round($tamanho[0]['sum(tamanho)'] /1000,2) . " kb"; 
+       $resultado = round($tamanho[0]['sum(tamanho)'] /1000,1) . " kb"; 
        
     } else { 
     	
@@ -494,6 +498,252 @@ $app->get('/dashboard/configurar/cliente/arquivos/:ididarquivo/delete/:id', func
 });
 
 
+//
+
+
+
+$app->get('/dashboard/configurar/cliente/log/:id', function($id) {
+
+	LoginUser::verifyLogin();
+
+	LoginUser::verifyNivel1();
+	LoginUser::verifyNivelMaster();
+
+
+
+
+	if (isset($_GET['page'])) {
+		$page = $_GET['page'];
+	}else{
+		$page = 1;
+	}
+
+
+	if (isset($_GET['responsavel'])) {
+		$responsavel = $_GET['responsavel'];
+	}else{
+		$responsavel = 0;
+	}
+
+
+
+
+	$itemsPerPage = 22;
+
+	$users = new MostrarLogsCliente();
+	$users->atribuirResponsavel($page, $itemsPerPage, $responsavel, $id);
+
+
+	$user = MostrarLogsCliente::user($id);
+
+	$nomecliente = VerCliente::nomecliente($id);
+
+
+
+	require_once('../'.pastaPrincipal.'/views/'.header);
+
+
+	require_once('../'.pastaPrincipal.'/views/cliente/logs-cliente.php');
+
+
+	require_once('../'.pastaPrincipal.'/views/'.footer);
+
+});
+
+
+
+
+
+
+$app->post('/dashboard/configurar/cliente/log/:id', function($id) {
+
+
+
+     // header("location: /".pastaPrincipal."/dashboard/configurar/cliente/log/$id");
+     // exit;
+
+});
+
+
+
+
+///
+
+$app->get('/dashboard/configurar/cliente/editar-dados-cliente/:id', function($id) {
+
+	LoginUser::verifyLogin();
+
+	LoginUser::verifyNivel1();
+	LoginUser::verifyNivelMaster();
+
+
+
+	$nomecliente = VerCliente::nomecliente($id);
+
+	$limiteConsumo = EditarDadosClientes::limiteConsumo($id);
+
+	$resultado = round($limiteConsumo[0]['consumo'] /1000000); 
+
+
+
+
+
+
+	require_once('../'.pastaPrincipal.'/views/'.header);
+
+
+	require_once('../'.pastaPrincipal.'/views/cliente/editar-dados-cliente.php');
+
+
+	require_once('../'.pastaPrincipal.'/views/'.footer);
+
+});
+
+
+
+
+
+
+$app->post('/dashboard/configurar/cliente/editar-dados-cliente/:id', function($id) {
+
+
+	$clientedados = new EditarDadosClientes();
+	$clientedados->setData($_POST);
+
+	$clientedados->atualizarDadosCliente($id);
+	setcookie("Atualizado", "Atualizado");
+
+
+
+     header("location: /".pastaPrincipal."/dashboard/configurar/cliente/editar-dados-cliente/$id");
+     exit;
+
+});
+
+////
+
+
+
+///
+
+$app->get('/dashboard/configurar/cliente/deletar-lista/', function() {
+
+	LoginUser::verifyLogin();
+
+	LoginUser::verifyNivel1();
+	LoginUser::verifyNivelMaster();
+
+
+
+	if (isset($_GET['page'])) {
+		$page = $_GET['page'];
+	}else{
+		$page = 1;
+	}
+
+	$itemsPerPage = 20;
+
+	$users = new Delete();
+	$users->listCliente($page, $itemsPerPage);
+
+	
+
+
+
+
+
+	require_once('../'.pastaPrincipal.'/views/'.header);
+
+
+	require_once('../'.pastaPrincipal.'/views/cliente/deletar-lista.php');
+
+
+	require_once('../'.pastaPrincipal.'/views/'.footer);
+
+});
+
+
+
+
+
+
+$app->post('/dashboard/configurar/cliente/deletar-lista/', function() {
+
+
+
+     // header("location: /".pastaPrincipal."/dashboard/configurar/cliente/editar-dados-cliente/$id");
+     // exit;
+
+});
+
+////
+
+
+$app->get('/dashboard/configurar/cliente/delete/:id', function($id) {
+
+	LoginUser::verifyLogin();
+
+	LoginUser::verifyNivel1();
+	LoginUser::verifyNivelMaster();
+
+
+$nomecliente = VerCliente::nomecliente($id);
+
+
+
+	require_once('../'.pastaPrincipal.'/views/'.header);
+
+
+	require_once('../'.pastaPrincipal.'/views/cliente/deletar-confirmar.php');
+
+
+	require_once('../'.pastaPrincipal.'/views/'.footer);
+
+});
+
+
+
+$app->post('/dashboard/configurar/cliente/delete/:id', function($id) {
+
+
+
+     // header("location: /".pastaPrincipal."/dashboard/configurar/cliente/editar-dados-cliente/$id");
+     // exit;
+
+});
+
+/////
+
+
+
+$app->get('/dashboard/configurar/cliente/delete-definitivo/:id', function($id) {
+
+	LoginUser::verifyLogin();
+
+	LoginUser::verifyNivel1();
+	LoginUser::verifyNivelMaster();
+
+
+	$deletarTudoCliente = new Delete();
+
+	$deletarTudoCliente->deletarTudoCliente($id);
+
+
+
+});
+
+
+
+$app->post('/dashboard/configurar/cliente/delete-definitivo/:id', function($id) {
+
+
+
+     // header("location: /".pastaPrincipal."/dashboard/configurar/cliente/editar-dados-cliente/$id");
+     // exit;
+
+});
+
+////
 
 
 

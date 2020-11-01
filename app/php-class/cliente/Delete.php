@@ -101,8 +101,140 @@ $nomecliente = $sql->select("SELECT nome_cliente FROM tb_cliente where id_client
 
 
 
+}
 
 
+
+
+public function listCliente($page, $itemsPerPage){
+
+  $start = ($page - 1) * $itemsPerPage;
+
+
+     
+    $sql = new Sql();
+
+        $results = $sql->select("SELECT SQL_CALC_FOUND_ROWS * FROM tb_cliente where id_cliente not like '1' ORDER BY nome_cliente LIMIT $start, $itemsPerPage");
+
+        $this->setData($results);
+
+
+         $results2 = $sql->select("SELECT * FROM tb_cliente where id_cliente not like '1' ");
+
+        $_SESSION["paginas"] = count($results2);
+
+
+
+
+
+}
+
+
+
+
+
+public function deletarTudoCliente($id){
+
+  $sql = new Sql();
+
+
+  $verifica = $sql->select("SELECT count(fk_id_cliente) FROM tb_lead where fk_id_cliente = $id");
+
+  if ($verifica[0]['count(fk_id_cliente)'] > '0') {
+      $delete = $sql->select("DELETE FROM tb_lead where fk_id_cliente = $id ");
+  }
+
+
+  $verifica1 = $sql->select("SELECT count(fk_id_cliente) FROM tb_followup where fk_id_cliente = $id");
+
+  if ($verifica1[0]['count(fk_id_cliente)'] > '0') {
+      $delete1 = $sql->select("DELETE FROM tb_followup where fk_id_cliente = $id ");
+  }
+
+
+   $verifica2 = $sql->select("SELECT count(fk_id_cliente) FROM tb_status where fk_id_cliente = $id");
+
+  if ($verifica2[0]['count(fk_id_cliente)'] > '0') {
+      $delete2 = $sql->select("DELETE FROM tb_status where fk_id_cliente = $id ");
+  }
+
+
+  
+  $verifica3 = $sql->select("SELECT count(id_cliente) FROM tb_categoria where id_cliente = $id");
+
+  if ($verifica3[0]['count(id_cliente)'] > '0') {
+      $delete3 = $sql->select("DELETE FROM tb_categoria where id_cliente = $id ");
+  }
+
+
+  $verifica4 = $sql->select("SELECT count(fk_id_cliente) FROM tb_servico where fk_id_cliente = $id");
+
+  if ($verifica4[0]['count(fk_id_cliente)'] > '0') {
+      $delete4 = $sql->select("DELETE FROM tb_servico where fk_id_cliente = $id ");
+  }
+
+
+  $verifica5 = $sql->select("SELECT count(fk_id_cliente) FROM tb_lembrete where fk_id_cliente = $id");
+
+  if ($verifica5[0]['count(fk_id_cliente)'] > '0') {
+      $delete5 = $sql->select("DELETE FROM tb_lembrete where fk_id_cliente = $id ");
+  }
+
+
+  $verifica6 = $sql->select("SELECT count(fk_id_cliente) FROM tb_obs where fk_id_cliente = $id");
+
+  if ($verifica6[0]['count(fk_id_cliente)'] > '0') {
+      $delete6 = $sql->select("DELETE FROM tb_obs where fk_id_cliente = $id ");
+  }
+
+
+  $verifica7 = $sql->select("SELECT count(fk_id_cliente) FROM tb_logs where fk_id_cliente = $id");
+
+  if ($verifica7[0]['count(fk_id_cliente)'] > '0') {
+      $delete7 = $sql->select("DELETE FROM tb_logs where fk_id_cliente = $id ");
+  }
+
+
+
+   $tb_arquivo = $sql->select("SELECT * FROM tb_arquivo where fk_id_cliente = $id");
+
+
+
+
+  if(count($tb_arquivo) > 0){
+
+     $nomePasta = $sql->select("SELECT * FROM tb_cliente where id_cliente = $id ");
+
+  
+
+       for ($i=0; $i < count($tb_arquivo) ; $i++) { 
+
+
+           $path = 'uploads/'.$nomePasta[0]['nome_pasta'].'/';
+            $diretorio = dir($path);
+
+
+             
+            unlink($path.$tb_arquivo[$i]['arquivo']); 
+
+       }
+
+       $path = 'uploads/'.$nomePasta[0]['nome_pasta'];
+
+       rmdir($path);
+       
+  }
+
+
+  if (count($tb_arquivo) > 0) {
+
+    $results = $sql->select("DELETE FROM tb_arquivo WHERE fk_id_cliente = $idlead");
+    
+  }
+
+
+
+  
 
 }
 

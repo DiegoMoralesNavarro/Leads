@@ -113,11 +113,11 @@
 							<?php 
 
 							if ($value[$i]['tamanho'] >= 1000000) { 
-							      $resultado = round($value[$i]['tamanho'] /1024 /1024,2) . " Mb"; 
+							      $resultado = round($value[$i]['tamanho'] /1000000) . " Mb"; 
 							      echo $resultado;
 							    } else if ($value[$i]['tamanho'] >= 100) {
 							       
-							       $resultado = round($value[$i]['tamanho'] /1000,2) . " kb"; 
+							       $resultado = round($value[$i]['tamanho'] /1000,1) . " kb"; 
 							        echo $resultado;
 							    } else { 
 							    	$resultado = $value[$i]['tamanho'] . " bytes"; 

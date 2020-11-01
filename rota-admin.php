@@ -41,11 +41,11 @@ $app->get('/dashboard/configurar', function() {
 
 
 	if ($tamanho[0]['sum(tamanho)'] >= 1000000) { 
-      $resultado = round($tamanho[0]['sum(tamanho)'] /1024 /1024,2) . " Mb"; 
+      $resultado = round($tamanho[0]['sum(tamanho)'] /1000000) . " Mb"; 
      
     } else if ($tamanho[0]['sum(tamanho)'] >= 100) {
        
-       $resultado = round($tamanho[0]['sum(tamanho)'] /1000,2) . " kb"; 
+       $resultado = round($tamanho[0]['sum(tamanho)'] /1000,1) . " kb"; 
        
     } else { 
     	
@@ -730,11 +730,11 @@ $app->get('/dashboard/configurar/arquivos', function() {
 
 
 	if ($tamanho[0]['sum(tamanho)'] >= 1000000) { 
-      $resultado = round($tamanho[0]['sum(tamanho)'] /1024 /1024,2) . " Mb"; 
+      $resultado = round($tamanho[0]['sum(tamanho)'] /1000000) . " Mb"; 
      
     } else if ($tamanho[0]['sum(tamanho)'] >= 100) {
        
-       $resultado = round($tamanho[0]['sum(tamanho)'] /1000,2) . " kb"; 
+       $resultado = round($tamanho[0]['sum(tamanho)'] /1000,1) . " kb"; 
        
     } else { 
     	

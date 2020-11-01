@@ -64,13 +64,19 @@ protected $fields = [
 		$results = $sql->select("SELECT * FROM tb_user WHERE user = :user", array(
 			":user"=>$login
 		));
+
+		$cliente = $results[0]['fk_id_cliente'];
+
+		$results2 = $sql->select("SELECT * FROM tb_cliente WHERE id_cliente = $cliente");
+
+
 		if(count($results) === 0) {
 			header("Location: /leads/?login=invalido");
 			exit;
 			
 		}
 
-		if($results[0]['user_status'] === "2") {
+		if($results[0]['user_status'] === "2" || $results2[0]['status_cliente'] === "2") {
 			header("Location: /leads/?login=bloqueado");
 			exit;
 			

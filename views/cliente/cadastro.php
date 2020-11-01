@@ -29,7 +29,7 @@ if (isset($_COOKIE['Atualizado'])) {
 
   <div class="row">
     <div class="col s12">
-      <h1>Cadastrar cliente</h1>
+      <h1>Cadastrar cliente / empresa</h1>
       
       
      </div>
@@ -72,8 +72,14 @@ if (isset($_COOKIE['Atualizado'])) {
 
 		      	<div class="input-field col s12 l6">
 					<i class="material-icons prefix">business</i>
-			          <input type="text" id="nomecliente" class="autocomplete" name="nomecliente" maxlength="95" class="validate" required="">
-			          <label for="nomecliente">Nome do cliente</label>
+			          <input type="text" id="nomecliente" class="autocomplete" name="nomecliente" maxlength="95" class="validate" required="" >
+			          <label for="nomecliente">Nome do cliente / empresa</label>
+				</div>
+
+				<div class="input-field col s12 l6">
+					<i class="material-icons prefix">burst_mode</i>
+			          <input type="number" id="consumo" class="autocomplete" name="consumo" max="900" class="validate" required="" value="100">
+			          <label for="consumo">Comsumo máximo para arquivos em MB</label>
 				</div>
 
 		    </div> <!-- coluna 1 -->	

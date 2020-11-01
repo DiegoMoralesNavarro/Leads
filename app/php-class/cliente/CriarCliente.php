@@ -45,7 +45,7 @@ class CriarCliente{
 
 
 protected $fields = [
-	"nomecliente", "usuarioadm", "senha", "confirmarsenha", "email"
+	"nomecliente", "usuarioadm", "senha", "confirmarsenha", "email", "consumo"
 ];
 
 
@@ -101,10 +101,10 @@ public function cadastar(){
     ));
 
 
-    if ($nomeempresa == null || $nomeempresa == "") {
+    if ($nomeempresa == $this->getnomecliente() || $nomeempresa == "") {
       
         
-        if ($nomeusuario == null || $nomeusuario == "") {
+        if ($nomeusuario == $this->getusuarioadm() || $nomeusuario == "") {
           
             if ($this->getsenha() == $this->getconfirmarsenha()){
 
@@ -112,10 +112,15 @@ public function cadastar(){
               $pasta = str_replace('.', '', $pasta);
               $pasta = str_replace(" ","",preg_replace("/&([a-z])[a-z]+;/i", "$1", htmlentities(trim($pasta))));
 
-              $results = $sql->select("INSERT INTO tb_cliente (nome_cliente, nome_pasta, status_cliente, cliente_data) VALUES (:cliente, :pasta, :status, :data)", array(
+              $val = $this->getconsumo();
+              $v1 = ($val*1000)/1;
+              $v2 = ($v1*1000)/1;
+
+              $results = $sql->select("INSERT INTO tb_cliente (nome_cliente, nome_pasta, status_cliente, cliente_data, consumo) VALUES (:cliente, :pasta, :status, :data, :consumo)", array(
                  ":cliente"=>$this->getnomecliente(),
                  ":pasta"=>$pasta,
                  ":status"=>"1",
+                 ":consumo"=>$v2,
                  ":data"=>date('Y-m-d')
                  
               ));
@@ -124,7 +129,7 @@ public function cadastar(){
               $id =  $sql->select("SELECT LAST_INSERT_ID()");
               $idlead = $id[0]['LAST_INSERT_ID()'];
 
-              var_dump($idlead);
+              // var_dump($idlead);
 
 
               $results = $sql->select("INSERT INTO tb_user (user, senha, nivel, dataCriado, email, fk_id_cliente, user_status) VALUES (:user, :senha, :nivel, :dataCriado, :email, :cliente, :status)", array(
