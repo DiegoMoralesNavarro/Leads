@@ -97,7 +97,7 @@ if (isset($_GET['page'])) {
 					  	?>
 
 						<tr>
-							<td style="overflow: hidden; max-width: 150px;" ><?php echo $value[$i]['nome']; ?></td>
+							<td class="tooltipped" data-position="right" data-tooltip="Cadastrado: <?php echo date('d/m/Y', strtotime($value[$i]['data'])); ?>" style="overflow: hidden; max-width: 150px;" ><?php echo $value[$i]['nome']; ?></td>
 							<td style="overflow: hidden; max-width: 150px;" ><?php echo $value[$i]['empresa']; ?></td>
 							
 							<td><?php
