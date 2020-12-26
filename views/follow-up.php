@@ -186,6 +186,13 @@ if (isset($_COOKIE['Atualizado'])) {
 				<div class=" input-field col s12 l9" style="margin-top: -1rem; margin-bottom: 0px;">
 			        	<?php if ($value['arquivo'] == null || $value['arquivo'] == '') {
 			        		?>
+
+
+			        		<?php if ($listArquivoTotal[0]['sum(tamanho)'] > $listCliente[0]['consumo']) { ?>
+
+			        			<p><strong>Atenção:</strong> O limite de memória foi atingido, para adicionar mais arquivos apague o arquivo mais antigo <br> ou solicite mais espaço em disco. </p>
+
+			        		<?php }else{ ?>
 			        		<div class="file-field input-field ">
 					            <div class="btn">
 					              <span>File</span>
@@ -195,6 +202,10 @@ if (isset($_COOKIE['Atualizado'])) {
 					              <input class="file-path validate" type="text" accept=".png, .jpg, .jpeg" placeholder="Carregue sua imagem">
 					            </div>
 				            </div>
+
+				        <?php }?>
+
+
 
 
 			        		<?php
@@ -256,99 +267,6 @@ if (isset($_COOKIE['Atualizado'])) {
     	<?php } ?>
 
 
-
-
-
-    	<!-- CRIAR UMA REGRA PARA ESCONDER O STATUS NOVO -->
-
-<!-- 
-
-    	<?php foreach ($followUpVazio as $value) { ?>
-
-
-
-		    	<form role="form" action="/<?php echo pastaPrincipal ?>/dashboard/follow-up/<?php echo $idlead; ?>" method="post" enctype="multipart/form-data">
-
-		    		<div class="col s12 linha">
-		    			<div class="col s12 l3">
-		    				<p>Criado em: <?php echo date('d/m/Y', strtotime($value['dataf'])); ?></p>
-						</div>
-						<div class="col s12 l9">
-						<p>Ultima atualização: <?php echo date('d/m/Y H:i', strtotime($value['dataAtualizada']));?> - <strong><?php echo "vazio";?> </strong>
-						</p>
-						</div>
-
-		    			<div class="col s12 l9">
-
-		    				
-		    				<input type="hidden" id="idfollowup" name="idfollowup" value="<?php echo $value['idfollowup'] ?>">
-		    				<div class="input-field col s12">
-					          <i class="material-icons prefix">mode_edit</i>
-					          <label for="obs">Follow Up</label>
-					          <textarea id="obs" name="texto" required="" class="materialize-textarea" maxlength="200"><?php echo $value['texto'] ?></textarea>
-					        </div>
-
-						</div>
-
-						<div class="col s12 l3">
-
-							<button class="waves-effect waves-light btn-small" type="submit" >Salvar
-							</button>
-
-							<a class=" red accent-4 btn-small"
-							 href="<?php echo $value['idfollowup'] ?>/delete/?id=<?php echo $lead[0]['idlead']; ?>" 
-							 onclick="return confirm('Deseja realmente excluir o Serviço')" >Excluir</a>
-
-						</div>
-
-						<div class=" input-field col s12 l9" style="margin-top: -1rem;">
-					        	<?php if ($value['arquivo'] == null || $value['arquivo'] == '') {
-					        		?>
-					        		<div class="file-field input-field ">
-							            <div class="btn">
-							              <span>File</span>
-							              <input type="file" name="fileUpload" accept=".png, .jpg, .jpeg">
-							            </div>
-							            <div class="file-path-wrapper">
-							              <input class="file-path validate" type="text" accept=".png, .jpg, .jpeg" placeholder="Carregue sua imagem">
-							            </div>
-						            </div>
-
-
-					        		<?php
-					        	}else{
-					        		?>
-
-					        		<table class="highlight ">
-
-					        		<tbody>
-											<tr>
-												<td>
-													<?php echo $value['arquivo']; ?>
-												</td>
-
-												<td>
-
-													<a class="waves-effect waves-light btn-small" 
-								 href="<?php echo URLestilo ?>/<?php echo $path . $value['arquivo'] ?>" target="_blank">Ver</a>
-
-								 			<a class=" red accent-4 btn-small" 
-								 href="<?php echo $value['idfollowup'] ?>/delete-img/?id=<?php echo $lead[0]['idlead']; ?>" onclick="return confirm('Deseja realmente excluir este Arquivo?')" >Excluir</a>
-
-												</td>
-											</tr>
-							        </tbody>
-							        </table>
-					        		<?php
-					        	} ?>
-					    </div>
-
-					</div>
-
-		    	</form>
-
-
-		    	<?php } ?> -->
 
 
 

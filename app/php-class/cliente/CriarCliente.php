@@ -101,10 +101,10 @@ public function cadastar(){
     ));
 
 
-    if ($nomeempresa == $this->getnomecliente() || $nomeempresa == "") {
+    if (!$nomeempresa == $this->getnomecliente() || !$nomeempresa == "") {
       
         
-        if ($nomeusuario == $this->getusuarioadm() || $nomeusuario == "") {
+        if (!$nomeusuario == $this->getusuarioadm() || !$nomeusuario == "") {
           
             if ($this->getsenha() == $this->getconfirmarsenha()){
 
@@ -149,7 +149,7 @@ public function cadastar(){
 
               setcookie("Atualizado", "Atualizado");
 
-              header("Location: /".pastaPrincipal."/dashboard/configurar/cliente/cadastro");
+              header("Location: /".pastaPrincipal."/dashboard/configurar/cliente");
               exit;
 
 

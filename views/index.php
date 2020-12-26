@@ -1,7 +1,5 @@
 
 
-
-
 <?php
 
 
@@ -75,7 +73,7 @@
   <div class="row">
     <div class="col s12">
 
-      	<div class="col s11 l9"> <h1>Dashboard</h1> </div>
+      	<div class="col s11 l9"> <h1>Dashboard - <?php echo $listCliente[0]['nome_cliente']; ?></h1> </div>
 
       	<?php if (count($followMinhaLista) >= 1) { ?>
 
@@ -277,7 +275,6 @@ if (isset($_GET['followup'])) {
 			</button>
 		</div>
 	</div>
-	
 
 <table class="striped centered responsive-table">
 	<thead>
@@ -305,7 +302,9 @@ if (isset($_GET['followup'])) {
 
 			<tr>
 				
-				<td style="overflow: hidden; max-width: 150px;" ><?php echo $value[$i]['nome']; ?></td>
+     
+				<td class="tooltipped" data-position="right" data-tooltip="Cadastrado: <?php echo date('d/m/Y', strtotime($value[$i]['data'])); ?>"
+				 style="overflow: hidden; max-width: 150px;" ><?php echo $value[$i]['nome']; ?></td>
 				<td style="overflow: hidden; max-width: 150px;" ><?php echo $value[$i]['empresa']; ?></td>
 
 				<td><?php
@@ -690,3 +689,6 @@ foreach ($status as $value) {
 </div>  	
 
 <br><br><br><br>
+
+
+

@@ -121,6 +121,25 @@ public static function selectImg($idlead){
 
 
 
+public static function listCliente()
+{
+  $sql = new Sql();
+  $idcliente = $_SESSION['fk_id_cliente'];
+  return $sql->select("SELECT * FROM tb_cliente where id_cliente = $idcliente");
+}
+
+
+public static function listArquivoTotal()
+{
+  $sql = new Sql();
+  $idcliente = $_SESSION['fk_id_cliente'];
+  return $sql->select("SELECT sum(tamanho) FROM tb_arquivo where fk_id_cliente = $idcliente");
+}
+
+
+
+
+
 //pot
 
 

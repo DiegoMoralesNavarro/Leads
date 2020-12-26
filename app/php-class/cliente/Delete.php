@@ -228,9 +228,45 @@ public function deletarTudoCliente($id){
 
   if (count($tb_arquivo) > 0) {
 
-    $results = $sql->select("DELETE FROM tb_arquivo WHERE fk_id_cliente = $idlead");
+    $results = $sql->select("DELETE FROM tb_arquivo WHERE fk_id_cliente = $id");
     
   }
+
+
+  $cliente = $sql->select("SELECT * FROM tb_cliente where id_cliente = $id");
+
+
+  $acao = "Deletado tudo do Cliente: <br>". $cliente[0]['nome_cliente'];
+
+    $log = new Logs($_SESSION["id_user"], date('Y-m-d H:i'), $acao);
+
+
+
+
+  $verifica8 = $sql->select("SELECT count(fk_id_cliente) FROM tb_user where fk_id_cliente = $id");
+
+  if ($verifica8[0]['count(fk_id_cliente)'] > '0') {
+      $delete8 = $sql->select("DELETE FROM tb_user where fk_id_cliente = $id ");
+  }
+
+
+
+  $verifica9 = $sql->select("SELECT count(id_cliente) FROM tb_cliente where id_cliente = $id");
+
+  if ($verifica9[0]['count(id_cliente)'] > '0') {
+      $delete8 = $sql->select("DELETE FROM tb_cliente where id_cliente = $id ");
+  }
+
+
+
+
+  
+
+
+  header("location: /".pastaPrincipal."/dashboard/configurar/cliente/deletar-lista/");
+     exit;
+
+
 
 
 

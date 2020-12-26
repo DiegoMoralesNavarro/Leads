@@ -39,8 +39,11 @@
   <?php if (isset($_GET["login"])) { ?>
 		<p class="aviso" style="margin-bottom: 0px;">Usuário ou senha inválido</p>
 	<?php } ?>
+  <?php if (isset($_GET["recaptcha"])) { ?>
+    <p class="aviso" style="margin-bottom: 0px;">reCAPTCHA inválido</p>
+  <?php } ?>
 
-	<div style="margin: 0 10px;">
+	<div class="row" style="margin: 0 10px;">
 
 	<div class="input-field col s12">
       <input id="user" type="text" class="validate" name="user" required="">
@@ -54,6 +57,22 @@
       <label for="password">Senha</label>
     </div>
 
+   
+
+      <div class="input-field col s4 math">
+        <h3 id="valor1i" ></h3>
+        <input id="valor1" type="hidden" class="validate" name="valor1" required="">
+        <h3> + </h3>
+        <h3 id="valor2i" ></h3>
+        <input id="valor2" type="hidden" class="validate" name="valor2" required="">
+      </div>
+      
+      <div class="input-field col s6">
+        <input id="totalvalores" type="text" class="validate" name="totalvalores" required="">
+        <label for="totalvalores">reCAPTCHA</label>
+      </div>
+      
+
   
     </div>
 
@@ -64,3 +83,37 @@
   
   
 </form>
+
+
+<style type="text/css">
+  .math {
+  display: flex;
+  justify-content: center;
+}
+</style>
+
+
+<script type="text/javascript">
+var valor1 = Math.floor((Math.random() * 10) + 1); 
+var valor2 = Math.floor((Math.random() * 10) + 1);
+
+document.getElementById("valor1i").innerHTML = valor1;
+document.getElementById("valor2i").innerHTML = valor2;
+document.getElementById("valor1").value = valor1;
+document.getElementById("valor2").value = valor2;
+
+                                                    
+$( "#submit" ).click(function(e) {
+  e.preventDefault();
+});                  
+  
+function handleClick(ui) {
+ var sadsad = document.getElementById("userInput").value;
+  if (sadsad == jkfd394209834dekls) {
+    console.log('cool!');
+   } else {
+     console.log('boo!');
+     document.getElementById("captcha").reset();
+   }
+}
+</script>

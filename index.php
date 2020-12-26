@@ -65,12 +65,18 @@ $app->get('/', function() {
 $app->post('/', function() {
 
 
-	LoginUser::login($_POST["user"],$_POST["senha"]);
+	if ( ($_POST["valor1"] + $_POST["valor2"]) == $_POST["totalvalores"]) {
+		LoginUser::login($_POST["user"],$_POST["senha"]);
+
+		header("Location: /leads/dashboard/");
+		exit;
+	}else{
+		header("Location: /leads/?recaptcha=invalido");
+			exit;
+	}
+
 
 	
-
-	header("Location: /leads/dashboard/");
-	exit;
 	
 });	
 

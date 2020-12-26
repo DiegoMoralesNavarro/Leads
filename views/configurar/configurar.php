@@ -176,10 +176,30 @@
     </div>
 
     <?php }else{ } ?>
+
+
+
+    <?php if($_SESSION["nivel"] <= 1 && $_SESSION['fk_id_cliente'] == '1') { ?>
+
+    <div class="col s12 m4 ">
+      <div class="card form">
+        <div class="card-content center-align">
+          <i class="material-icons prefix " style="font-size: 50px;">business</i>
+          <h4>Controle de clientes</h4>
+          <p><br></p>
+        </div>
+        <div class="card-action center-align">
+
+          <a class="waves-effect light-green btn-small" 
+                 href="/<?php echo pastaPrincipal ?>/dashboard/configurar/cliente">Editar</a>
+        </div>
+      </div>
+    </div>
+
+    <?php }else{ } ?>
+
+
    
-
-
-
 
 
   </div>

@@ -180,6 +180,15 @@ if (isset($_COOKIE['Atualizado'])) {
 
 				<?php if ($nomeArquivo == null) { ?>
 
+
+
+					<?php if ($listArquivoTotal[0]['sum(tamanho)'] > $listCliente[0]['consumo']) { ?>
+
+	        			<p><strong>Atenção:</strong> O limite de memória foi atingido, para adicionar mais arquivos apague o arquivo mais antigo <br> ou solicite mais espaço em disco. </p>
+
+	        		<?php }else{ ?>
+
+
 					<div class="file-field">
 						<div class="btn">
 				            <span>File</span>
@@ -189,6 +198,11 @@ if (isset($_COOKIE['Atualizado'])) {
 				            <input class="file-path validate" type="text" placeholder="Carregue seu PDF" >
 		            	</div>
 	            	</div>
+
+	            	<?php }?>
+
+
+
 
 					<?php }else{ ?>	
 

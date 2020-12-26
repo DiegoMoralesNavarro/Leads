@@ -23,7 +23,13 @@ $app->get('/dashboard/', function() {
 
 	LoginUser::verifyLogin();
 
-	require_once('../'.pastaPrincipal.'/views/'.header);
+
+	$listCliente = FollowUp::listCliente();
+
+
+
+
+ 	require_once('../'.pastaPrincipal.'/views/'.header);
 
 
 if (isset($_GET['pesquisa'])) {
@@ -51,8 +57,6 @@ if (isset($_GET['followup'])) {
 
 	$users = new VerLeads();
 	$users->listAll($val, $page, $itemsPerPage, $FollowUP);
-
-
 
 
 	$user = EditarUser::listAll(); ///
@@ -94,7 +98,7 @@ if (isset($_GET['followup'])) {
 	require_once('../'.pastaPrincipal.'/views/index.php');
 
 
-	require_once('../'.pastaPrincipal.'/views/'.footer);
+ 	require_once('../'.pastaPrincipal.'/views/'.footer);
 
 });
 
@@ -189,6 +193,15 @@ $app->get('/dashboard/editar/:idlead', function($idlead) {
 	require_once('../'.pastaPrincipal.'/views/'.header);
 
 
+
+
+	$listCliente = FollowUp::listCliente();
+
+	$listArquivoTotal = FollowUp::listArquivoTotal();
+	
+
+
+
 	$userlistId = EditarUser::listId($idlead);
 	$userlistIdOrigem = EditarUser::listIdOrigem($idlead);
 
@@ -281,6 +294,11 @@ $app->get('/dashboard/follow-up/:idlead', function($idlead){
 	
 
 	$followUpVazio = FollowUp::listFolloUpVazio($idlead);
+
+
+	$listCliente = FollowUp::listCliente();
+
+	$listArquivoTotal = FollowUp::listArquivoTotal();
 
 
 

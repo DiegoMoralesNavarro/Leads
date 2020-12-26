@@ -50,7 +50,7 @@ class LoginUser{
 
 
 protected $fields = [
-	"user", "senha"
+	"user", "senha", "valor1", "valor2", "totalvalores"
 ];
 
 
@@ -65,9 +65,23 @@ protected $fields = [
 			":user"=>$login
 		));
 
+		// var_dump($results);
+
+
+		if ($results == null) {
+			header("Location: /leads/?login=nulo");
+			exit;
+		}else{
+			$cliente = $results[0]['fk_id_cliente'];
+			$results2 = $sql->select("SELECT * FROM tb_cliente WHERE id_cliente = $cliente");
+		}
+
 		$cliente = $results[0]['fk_id_cliente'];
 
-		$results2 = $sql->select("SELECT * FROM tb_cliente WHERE id_cliente = $cliente");
+
+		
+
+
 
 
 		if(count($results) === 0) {

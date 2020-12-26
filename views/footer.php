@@ -7,8 +7,8 @@
 
 <footer class="page-footer">
   <div class="footer-copyright">
-    <div class="container">
-    © 2020 Copyright EU QUE FIZ :)
+    <div class="container" style="color: #fff;">
+    © <?php echo date('Y'); ?> Leads - <a style="color: #fff;" href="https://github.com/DiegoMoralesNavarro">Criado por Diego Navarro</a> 
     <a class="grey-text text-lighten-4 right" href="/<?php echo pastaPrincipal ?>/dashboard">Dashboard</a>
     </div>
   </div>
@@ -26,6 +26,12 @@
   <script src="<?php echo URLestilo; ?>/materialize/js/materialize.js"></script>
   <script src="<?php echo URLestilo; ?>/materialize/js/init.js"></script>
 
+<script type="text/javascript">
+	
+  $(document).ready(function(){
+    $('.tooltipped').tooltip();
+  });
+</script>
 
 
 
