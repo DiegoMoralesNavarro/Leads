@@ -1,0 +1,41 @@
+CREATE DEFINER=`root`@`localhost` PROCEDURE `insert_lead`(pnome varchar(45), pempresa varchar(45), ptelefone varchar(45), fk_status int, pemail varchar(45), psite varchar(45), porigemLead int, pidcliente int)
+BEGIN
+
+insert into tb_lead (nome,empresa,telefone,fk_status,data,email,site,dataAtualizada,fk_origem_lead,fk_id_user,fk_id_user_atualiza, ultimo_followup, fk_id_cliente) VALUES (pnome, pempresa, ptelefone, fk_status, CURRENT_TIMESTAMP(), pemail, psite, CURRENT_TIMESTAMP(), porigemLead, 0, 0, 'vazio', pidcliente);
+
+
+END
+
+
+
+
+
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `servico_ativo`(pidlead int, pcliente int)
+BEGIN
+
+SELECT * FROM tb_servico WHERE idservico IN(
+					SELECT a.idservico
+					FROM tb_servico a
+					INNER JOIN tb_categoria b ON a.idservico = b.idservico
+					WHERE b.idlead = pidlead and a.fk_id_cliente = pcliente
+				);
+
+END
+
+
+
+
+
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `servico_inativo`(pidlead int, pcliente int)
+BEGIN
+
+SELECT * FROM tb_servico WHERE idservico not IN(
+					SELECT a.idservico
+					FROM tb_servico a
+					INNER JOIN tb_categoria b ON a.idservico = b.idservico
+					WHERE b.idlead = pidlead and a.fk_id_cliente = pcliente
+				);
+
+END
