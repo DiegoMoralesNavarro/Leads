@@ -31,7 +31,7 @@
 </div>
 
 
-<form action="http://localhost/leads/" method="post" class="form">
+<form action="/leads/" method="post" class="form">
   <div class="hand"></div>
   <div class="hand rgt"></div>
   <h2>Login Leads</h2>
@@ -64,6 +64,7 @@
         <input id="valor1" type="hidden" class="validate" name="valor1" required="">
         <h3> + </h3>
         <h3 id="valor2i" ></h3>
+        <h3> = </h3>
         <input id="valor2" type="hidden" class="validate" name="valor2" required="">
       </div>
       
@@ -103,17 +104,4 @@ document.getElementById("valor1").value = valor1;
 document.getElementById("valor2").value = valor2;
 
                                                     
-$( "#submit" ).click(function(e) {
-  e.preventDefault();
-});                  
-  
-function handleClick(ui) {
- var sadsad = document.getElementById("userInput").value;
-  if (sadsad == jkfd394209834dekls) {
-    console.log('cool!');
-   } else {
-     console.log('boo!');
-     document.getElementById("captcha").reset();
-   }
-}
 </script>
